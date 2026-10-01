@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
+		"commit": "cz",
 		"dev": "vite",
 		"format": "biome check --write .",
 		"lint": "biome check .",
@@ -12,7 +13,8 @@
 		"preview": "vite preview",
 		"test": "vitest",
 		"test:coverage": "vitest run --coverage",
-		"test:run": "vitest run"
+		"test:run": "vitest run",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"react": "^19.2.8",
@@ -20,6 +22,8 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.14",
+		"@commitlint/cli": "^21.2.3",
+		"@commitlint/config-conventional": "^21.2.3",
 		"@testing-library/dom": "^10.4.2",
 		"@testing-library/jest-dom": "^7.0.1",
 		"@testing-library/react": "^16.3.3",
@@ -28,9 +32,22 @@
 		"@types/react-dom": "^19.2.7",
 		"@vitejs/plugin-react": "^6.1.1",
 		"@vitest/coverage-v8": "^5.0.2",
+		"commitizen": "^4.3.2",
+		"cz-conventional-changelog": "^3.3.0",
+		"husky": "^9.1.7",
 		"jsdom": "^30.1.1",
+		"lint-staged": "^17.6.0",
 		"vite": "^8.3.0",
 		"vitest": "^5.0.2"
+	},
+	"lint-staged": {
+		"*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
+		"*.{js,jsx}": "vitest related --run --passWithNoTests"
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		}
 	},
 	"engines": {
 		"node": ">=24"
