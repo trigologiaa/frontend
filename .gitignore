@@ -23,3 +23,8 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+.env*
+!.env.example
+playwright.report
+test-results
+blob-report
