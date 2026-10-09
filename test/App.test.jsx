@@ -2,6 +2,7 @@ import { screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { renderWithProviders } from "./renderWithProviders.jsx";
 import { App } from "../src/App.jsx";
+import userEvent from "@testing-library/user-event";
 
 describe("App routes", () => {
   it("shows the home page inside the layuot at '/'", () => {
@@ -28,5 +29,12 @@ describe("App routes", () => {
   it("shows the cart page at '/carrito'", () => {
     renderWithProviders(<App />, { route: "/carrito" });
     expect(screen.getByRole("heading", { level: 1, name: "Carrito" })).toBeInTheDocument();
+  });
+
+  it("changes the page when a navigation link is followed", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<App />, { route: "/" });
+    await user.click(screen.getByRole("link", { name: "Servicios" }));
+    expect(screen.getByRole("heading", { level: 1, name: "Servicios" })).toBeInTheDocument();
   });
 });
