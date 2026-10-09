@@ -1,10 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { renderWithProviders } from "./renderWithProviders.jsx";
 import { App } from "../src/App.jsx";
 
-describe("App", () => {
-  it("renders the brand name as the main heading", () => {
-    render(<App />);
-    expect(screen.getByRole("heading", { level: 1, name: "Trigologiaa Dev" })).toBeInTheDocument();
+describe("App routes", () => {
+  it("shows the home page inside the layuot at '/'", () => {
+    renderWithProviders(<App />, { route: "/" });
+    expect(screen.getByRole("heading", { level: 1, name: "Inicio" })).toBeInTheDocument();
+    expect(within(screen.getByRole("banner")).getByText("Trigologiaa Dev")).toBeInTheDocument();
   });
 });
