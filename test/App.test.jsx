@@ -24,4 +24,9 @@ describe("App routes", () => {
     renderWithProviders(<App />, { route: "/producto/landing-page" });
     expect(screen.getByText("landing-page")).toBeInTheDocument();
   });
+
+  it("shows the cart page at '/carrito'", () => {
+    renderWithProviders(<App />, { route: "/carrito" });
+    expect(screen.getByRole("heading", { level: 1, name: "Carrito" })).toBeInTheDocument();
+  });
 });
