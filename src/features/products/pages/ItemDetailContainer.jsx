@@ -1,3 +1,11 @@
+import { useParams } from "react-router-dom";
+
 export function ItemDetailContainer() {
-  return <h1>Detalle del servicio</h1>;
+  const { id } = useParams();
+  return (
+    <>
+      <h1>Detalle del servicio</h1>
+      <p>{id}</p>
+    </>
+  );
 }

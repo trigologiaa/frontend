@@ -19,4 +19,9 @@ describe("App routes", () => {
     renderWithProviders(<App />, { route: "/producto/landing-page" });
     expect(screen.getByRole("heading", { level: 1, name: "Detalle del servicio" })).toBeInTheDocument();
   });
+
+  it("gives the detail page the id from the URL", () => {
+    renderWithProviders(<App />, { route: "/producto/landing-page" });
+    expect(screen.getByText("landing-page")).toBeInTheDocument();
+  });
 });
