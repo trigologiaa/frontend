@@ -8,4 +8,11 @@ describe("NavBar", () => {
     renderWithProviders(<NavBar />);
     expect(screen.getByRole("navigation", { name: "Navegación principal" })).toBeInTheDocument();
   });
+
+  it("links to home, services and cart", () => {
+    renderWithProviders(<NavBar />);
+    expect(screen.getByRole("link", { name: "Inicio" })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: "Servicios" })).toHaveAttribute("href", "/productos");
+    expect(screen.getByRole("link", { name: "Carrito" })).toHaveAttribute("href", "/carrito");
+  });
 });
