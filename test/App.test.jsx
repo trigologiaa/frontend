@@ -9,4 +9,9 @@ describe("App routes", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Inicio" })).toBeInTheDocument();
     expect(within(screen.getByRole("banner")).getByText("Trigologiaa Dev")).toBeInTheDocument();
   });
+
+  it("shows the catalog page at /productos", () => {
+    renderWithProviders(<App />, { route: "/productos" });
+    expect(screen.getByRole("heading", { level: 1, name: "Servicios" })).toBeInTheDocument();
+  });
 });
