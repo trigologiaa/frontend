@@ -10,8 +10,8 @@ export function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/productos" element={<ItemListContainer />} />
-        <Route path="/producto/:id" element={<ItemDetailContainer />} />
+        <Route path="/servicios" element={<ItemListContainer />} />
+        <Route path="/servicio/:id" element={<ItemDetailContainer />} />
         <Route path="/carrito" element={<CartPage />} />
       </Route>
     </Routes>

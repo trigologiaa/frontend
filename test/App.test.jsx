@@ -11,18 +11,18 @@ describe("App routes", () => {
     expect(within(screen.getByRole("banner")).getByText("Trigologiaa Dev")).toBeInTheDocument();
   });
 
-  it("shows the catalog page at /productos", () => {
-    renderWithProviders(<App />, { route: "/productos" });
+  it("shows the catalog page at /servicios", () => {
+    renderWithProviders(<App />, { route: "/servicios" });
     expect(screen.getByRole("heading", { level: 1, name: "Servicios" })).toBeInTheDocument();
   });
 
-  it("shows the detail page at '/producto/:id'", () => {
-    renderWithProviders(<App />, { route: "/producto/landing-page" });
+  it("shows the detail page at '/servicio/:id'", () => {
+    renderWithProviders(<App />, { route: "/servicio/landing-page" });
     expect(screen.getByRole("heading", { level: 1, name: "Detalle del servicio" })).toBeInTheDocument();
   });
 
   it("gives the detail page the id from the URL", () => {
-    renderWithProviders(<App />, { route: "/producto/landing-page" });
+    renderWithProviders(<App />, { route: "/servicio/landing-page" });
     expect(screen.getByText("landing-page")).toBeInTheDocument();
   });
 
