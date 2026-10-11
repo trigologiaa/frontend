@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export function NavBar() {
   return (
     <nav aria-label="Navegación principal">
-      <Link to="/">Inicio</Link>
-      <Link to="/servicios">Servicios</Link>
-      <Link to="/carrito">Carrito</Link>
+      <NavLink to="/">Inicio</NavLink>
+      <NavLink to="/servicios">Servicios</NavLink>
+      <NavLink to="/carrito">Carrito</NavLink>
     </nav>
   );
 }
