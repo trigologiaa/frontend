@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./features/home/pages/Home";
 import { Layout } from "./layout/Layout";
-import { ItemListContainer } from "./features/products/pages/ItemListContainer";
-import { ItemDetailContainer } from "./features/products/pages/ItemDetailContainer";
+import { ItemListContainer } from "./features/services/pages/ItemListContainer";
+import { ItemDetailContainer } from "./features/services/pages/ItemDetailContainer";
 import { CartPage } from "./features/cart/pages/CartPage";
 
 export function App() {
