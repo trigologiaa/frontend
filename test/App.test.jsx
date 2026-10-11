@@ -46,4 +46,9 @@ describe("App routes", () => {
     expect(screen.getByRole("link", { name: "Carrito" })).toHaveAttribute("aria-current", "page");
     expect(screen.getByRole("link", { name: "Inicio" })).not.toHaveAttribute("aria-current");
   });
+
+  it("keeps the services section marked on a service detail", () => {
+    renderWithProviders(<NavBar />, { route: "/servicio/landing-page" });
+    expect(screen.getByRole("link", { name: "Servicios" })).toHaveAttribute("aria-current", "page");
+  });
 });
