@@ -56,4 +56,9 @@ describe("App routes", () => {
     renderWithProviders(<App />, { route: "/esto-no-existe" });
     expect(screen.getByRole("heading", { level: 1, name: /No encontramos esa página/ })).toBeInTheDocument();
   });
+
+  it("keeps the navigation on the not-found page", () => {
+    renderWithProviders(<App />, { route: "/esto-no-existe" });
+    expect(screen.getByRole("navigation", { name: "Navegación principal" })).toBeInTheDocument();
+  });
 });

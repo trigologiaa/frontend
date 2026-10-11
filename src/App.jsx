@@ -9,8 +9,8 @@ import { NotFound } from "./features/not-found/pages/NotFound";
 export function App() {
   return (
     <Routes>
-      <Route path="*" element={<NotFound />} />
       <Route element={<Layout />}>
+        <Route path="*" element={<NotFound />} />
         <Route index element={<Home />} />
         <Route path="/servicios" element={<ItemListContainer />} />
         <Route path="/servicio/:id" element={<ItemDetailContainer />} />
