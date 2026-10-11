@@ -51,4 +51,9 @@ describe("App routes", () => {
     renderWithProviders(<NavBar />, { route: "/servicio/landing-page" });
     expect(screen.getByRole("link", { name: "Servicios" })).toHaveAttribute("aria-current", "page");
   });
+
+  it("shows a not-found message for an unknown address", () => {
+    renderWithProviders(<App />, { route: "/esto-no-existe" });
+    expect(screen.getByRole("heading", { level: 1, name: /No encontramos esa página/ })).toBeInTheDocument();
+  });
 });
