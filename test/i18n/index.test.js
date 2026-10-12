@@ -22,4 +22,9 @@ describe("createI18n", () => {
     browserLanguage("en-US");
     expect(createI18n().resolvedLanguage).toBe("en");
   });
+
+  it("maps a regional Spanish browser to Spanish", () => {
+    browserLanguage("es-AR");
+    expect(createI18n().resolvedLanguage).toBe("es");
+  });
 });
