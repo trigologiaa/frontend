@@ -15,4 +15,15 @@ describe("NavBar", () => {
     expect(screen.getByRole("link", { name: "Servicios" })).toHaveAttribute("href", "/servicios");
     expect(screen.getByRole("link", { name: "Carrito" })).toHaveAttribute("href", "/carrito");
   });
+
+  it("marks the current section as the current page", () => {
+    renderWithProviders(<NavBar />, { route: "/servicios" });
+    expect(screen.getByRole("link", { name: "Servicios" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("does not mark the other sections", () => {
+    renderWithProviders(<NavBar />, { route: "/servicios" });
+    expect(screen.getByRole("link", { name: "Inicio" })).not.toHaveAttribute("aria-current");
+    expect(screen.getByRole("link", { name: "Carrito" })).not.toHaveAttribute("aria-current");
+  });
 });

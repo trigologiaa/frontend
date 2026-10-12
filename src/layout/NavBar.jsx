@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import { NavItem } from "./NavItem";
 
 export function NavBar() {
   return (
     <nav aria-label="Navegación principal">
-      <Link to="/">Inicio</Link>
-      <Link to="/servicios">Servicios</Link>
-      <Link to="/carrito">Carrito</Link>
+      <NavItem to="/">Inicio</NavItem>
+      <NavItem to="/servicios" activeFor={["/servicio/:id"]}>Servicios</NavItem>
+      <NavItem to="/carrito">Carrito</NavItem>
     </nav>
   );
 }

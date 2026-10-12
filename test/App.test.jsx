@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { renderWithProviders } from "./renderWithProviders.jsx";
 import { App } from "../src/App.jsx";
 import userEvent from "@testing-library/user-event";
+import { NavBar } from "../src/layout/NavBar.jsx";
 
 describe("App routes", () => {
   it("shows the home page inside the layuot at '/'", () => {
@@ -36,5 +37,28 @@ describe("App routes", () => {
     renderWithProviders(<App />, { route: "/" });
     await user.click(screen.getByRole("link", { name: "Servicios" }));
     expect(screen.getByRole("heading", { level: 1, name: "Servicios" })).toBeInTheDocument();
+  });
+
+  it("moves the mark when section is followed", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<NavBar />, { route: "/" });
+    await user.click(screen.getByRole("link", { name: "Carrito" }));
+    expect(screen.getByRole("link", { name: "Carrito" })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "Inicio" })).not.toHaveAttribute("aria-current");
+  });
+
+  it("keeps the services section marked on a service detail", () => {
+    renderWithProviders(<NavBar />, { route: "/servicio/landing-page" });
+    expect(screen.getByRole("link", { name: "Servicios" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("shows a not-found message for an unknown address", () => {
+    renderWithProviders(<App />, { route: "/esto-no-existe" });
+    expect(screen.getByRole("heading", { level: 1, name: /No encontramos esa página/ })).toBeInTheDocument();
+  });
+
+  it("keeps the navigation on the not-found page", () => {
+    renderWithProviders(<App />, { route: "/esto-no-existe" });
+    expect(screen.getByRole("navigation", { name: "Navegación principal" })).toBeInTheDocument();
   });
 });
