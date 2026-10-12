@@ -4,6 +4,7 @@ import { renderWithProviders } from "./renderWithProviders.jsx";
 import { App } from "../src/App.jsx";
 import userEvent from "@testing-library/user-event";
 import { NavBar } from "../src/layout/NavBar.jsx";
+import { i18n } from "../src/i18n/index.js";
 
 describe("App routes", () => {
   it("shows the home page inside the layuot at '/'", () => {
@@ -68,5 +69,11 @@ describe("App routes", () => {
     expect(document.documentElement.lang).toBe("es");
     await user.click(screen.getByRole("button", { name: "EN" }));
     expect(document.documentElement.lang).toBe("en");
+  });
+
+  it("translates the not-found page", async () => {
+    await i18n.changeLanguage("en");
+    renderWithProviders(<App />, { route: "/nope" });
+    expect(screen.getByRole("heading", { level: 1, name: /We couldn't find that page/ })).toBeInTheDocument();
   });
 });
