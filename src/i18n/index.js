@@ -22,6 +22,10 @@ export function createI18n() {
 		initAsync: false,
 		supportedLngs: ["es", "en"],
 		load: "languageOnly",
+		detection: {
+			order: ["localStorage", "navigator"],
+			caches: ["localStorage"],
+		},
 	});
 	return instance;
 }

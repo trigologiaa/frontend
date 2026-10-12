@@ -27,4 +27,10 @@ describe("createI18n", () => {
     browserLanguage("es-AR");
     expect(createI18n().resolvedLanguage).toBe("es");
   });
+
+  it("prefers the saved language over the browser language", () => {
+    browserLanguage("es-AR");
+    localStorage.setItem("i18nextLng", "en");
+    expect(createI18n().resolvedLanguage).toBe("en");
+  });
 });
