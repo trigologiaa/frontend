@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import en from "../../src/i18n/locales/en.json";
-import es from "../../src/i18n/locales/es.json";
+import en from "../../../src/i18n/locales/en.json";
+import es from "../../../src/i18n/locales/es.json";
 
 function flatten(object, prefix = "") {
   return Object.entries(object).flatMap(([key, value]) => {
