@@ -3,6 +3,9 @@
   "ignoreDependencies": [
     "@testing-library/dom",
     "@testing-library/jest-dom",
-    "@testing-library/user-event"
+    "@testing-library/user-event",
+    "i18next",
+    "i18next-browser-languagedetector",
+    "react-i18next"
   ]
 }
