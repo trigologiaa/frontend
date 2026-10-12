@@ -4,9 +4,11 @@ import { Home } from "./features/home/pages/Home";
 import { NotFound } from "./features/not-found/pages/NotFound";
 import { ItemDetailContainer } from "./features/services/pages/ItemDetailContainer";
 import { ItemListContainer } from "./features/services/pages/ItemListContainer";
+import { useDocumentLanguage } from "./i18n/useDocumentLanguage";
 import { Layout } from "./layout/Layout";
 
 export function App() {
+	useDocumentLanguage();
 	return (
 		<Routes>
 			<Route element={<Layout />}>

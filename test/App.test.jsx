@@ -61,4 +61,12 @@ describe("App routes", () => {
     renderWithProviders(<App />, { route: "/esto-no-existe" });
     expect(screen.getByRole("navigation", { name: "Navegación principal" })).toBeInTheDocument();
   });
+
+  it("keeps the document language in sync with the active language", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<App />);
+    expect(document.documentElement.lang).toBe("es");
+    await user.click(screen.getByRole("button", { name: "EN" }));
+    expect(document.documentElement.lang).toBe("en");
+  });
 });
