@@ -1,24 +1,24 @@
 {
-  "nav": {
-    "home": "Home",
-    "services": "Services",
-    "cart": "Cart",
-    "label": "Main navigation"
-  },
-  "pages": {
-    "detail": {
-      "title": "Service details"
-    }
-  },
-  "notFound": {
-    "title": "404 - We couldn't find that page",
-    "hint": "The link may be misspelled, or the page may no longer exist.",
-    "back": "Back to home"
-  },
-  "language": {
-    "label": "Language"
-  },
-  "footer": {
-    "rights": "© Trigologia Dev"
-  }
+	"nav": {
+		"home": "Home",
+		"services": "Services",
+		"cart": "Cart",
+		"label": "Main navigation"
+	},
+	"pages": {
+		"detail": {
+			"title": "Service details"
+		}
+	},
+	"notFound": {
+		"title": "404 - We couldn't find that page",
+		"hint": "The link may be misspelled, or the page may no longer exist.",
+		"back": "Back to home"
+	},
+	"language": {
+		"label": "Language"
+	},
+	"footer": {
+		"rights": "© Trigologia Dev"
+	}
 }
