@@ -29,3 +29,5 @@ export function createI18n() {
 	});
 	return instance;
 }
+
+export const i18n = createI18n();
