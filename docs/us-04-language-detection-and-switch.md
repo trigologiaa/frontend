@@ -91,7 +91,7 @@ Feature: Language detection and switch
 | `nav.cart`           | Carrito                                                           | Cart                                                         |
 | `nav.label`          | Navegación principal                                              | Main navigation                                              |
 | `pages.detail.title` | Detalle del servicio                                              | Service details                                              |
-| `notFound.title`     | 404 — No encontramos esa página                                   | 404 — We couldn't find that page                             |
+| `notFound.title`     | 404 - No encontramos esa página                                   | 404 - We couldn't find that page                             |
 | `notFound.hint`      | Puede que el link esté mal escrito, o que la página ya no exista. | The link may be misspelled, or the page may no longer exist. |
 | `notFound.back`      | Volver al inicio                                                  | Back to home                                                 |
 | `language.label`     | Idioma                                                            | Language                                                     |

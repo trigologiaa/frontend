@@ -64,7 +64,7 @@ Feature: Active section and page not found
 
 ### Content (Spanish, provisional until US-04)
 
-> **404 — No encontramos esa página**
+> **404 - No encontramos esa página**
 >
 > Puede que el link esté mal escrito, o que la página ya no exista.
 >

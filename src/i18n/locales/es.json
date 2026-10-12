@@ -1,5 +1,24 @@
 {
   "nav": {
-    "home": "Inicio"
+    "home": "Inicio",
+    "services": "Servicios",
+    "cart": "Carrito",
+    "label": "Navegación principal"
+  },
+  "pages": {
+    "detail": {
+      "title": "Detalle del servicio"
+    }
+  },
+  "notFound": {
+    "title": "404 - No encontramos esa página",
+    "hint": "Puede que el link esté mal escrito, o que la página ya no exista.",
+    "back": "Volver al inicio"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "footer": {
+    "rights": "© Trigologia Dev"
   }
 }
