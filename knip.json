@@ -1,11 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
-  "ignoreDependencies": [
-    "@testing-library/dom",
-    "@testing-library/jest-dom",
-    "@testing-library/user-event",
-    "i18next",
-    "i18next-browser-languagedetector",
-    "react-i18next"
-  ]
+  "ignoreDependencies": []
 }
