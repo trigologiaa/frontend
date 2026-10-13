@@ -9,4 +9,9 @@ describe("TeamCard", () => {
     expect(screen.getByText("Backend")).toBeInTheDocument();
     expect(screen.getByText("Builds APIs.")).toBeInTheDocument();
   });
+
+  it("shows the photo with the name as its alternative text", () => {
+    render(<TeamCard name="Ada" role="Backend" bio="Builds APIs." photo="/images/ada.jpg" />);
+    expect(screen.getByRole("img", { name: "Ada" })).toHaveAttribute("src", "/images/ada.jpg");
+  });
 });
