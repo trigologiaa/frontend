@@ -14,4 +14,9 @@ describe("TeamCard", () => {
     render(<TeamCard name="Ada" role="Backend" bio="Builds APIs." photo="/images/ada.jpg" />);
     expect(screen.getByRole("img", { name: "Ada" })).toHaveAttribute("src", "/images/ada.jpg");
   });
+
+  it("falls back to the placeholder avatar when there is no photo", () => {
+    render(<TeamCard name="Ada" role="Backend" bio="Builds APIs." />);
+    expect(screen.getByRole("img", { name: "Ada" })).toHaveAttribute("src", "/images/avatar-placeholder.svg");
+  });
 });

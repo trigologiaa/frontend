@@ -1,4 +1,9 @@
-export function TeamCard({ name, role, bio, photo }) {
+export function TeamCard({
+	name,
+	role,
+	bio,
+	photo = "/images/avatar-placeholder.svg",
+}) {
 	return (
 		<article>
 			<img src={photo} alt={name} />
