@@ -1,0 +1,28 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	line-height: 1.5;
+	color: var(--color-text);
+	background: var(--color-background);
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+	color: var(--color-primary);
+}
+
+:focus-visible {
+	outline: 3px solid var(--color-primary);
+	outline-offset: 2px;
+}
