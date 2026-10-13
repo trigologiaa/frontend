@@ -1,8 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
-  "ignoreDependencies": [
-    "@testing-library/dom",
-    "@testing-library/jest-dom",
-    "@testing-library/user-event"
-  ]
+  "ignoreDependencies": []
 }

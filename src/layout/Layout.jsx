@@ -4,14 +4,14 @@ import { Header } from "./Header";
 import { NavBar } from "./NavBar";
 
 export function Layout() {
-  return (
-    <>
-      <Header />
-      <NavBar />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
-  );
+	return (
+		<>
+			<Header />
+			<NavBar />
+			<main>
+				<Outlet />
+			</main>
+			<Footer />
+		</>
+	);
 }

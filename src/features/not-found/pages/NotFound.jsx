@@ -1,11 +1,13 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export function NotFound() {
-  return (
-    <>
-      <h1>404 - No encontramos esa página</h1>
-      <p>Puede que el link esté mal escrito, o que la página ya no exista.</p>
-      <Link to="/">Volver al inicio</Link>
-    </>
-  );
+	const { t } = useTranslation();
+	return (
+		<>
+			<h1>{t("notFound.title")}</h1>
+			<p>{t("notFound.hint")}</p>
+			<Link to="/">{t("notFound.back")}</Link>
+		</>
+	);
 }

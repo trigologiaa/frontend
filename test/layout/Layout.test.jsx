@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { renderWithProviders } from "../renderWithProviders";
 import { Layout } from "../../src/layout/Layout";
 import { Route, Routes } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 describe("Layout", () => {
   it("shows header, navigation and footer", () => {
@@ -21,5 +22,14 @@ describe("Layout", () => {
       </Routes>
     );
     expect(screen.getByRole("main")).toHaveTextContent("page content");
+  });
+
+  it("switches the navigation to English", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<Layout />);
+    await user.click(screen.getByRole("button", { name: "EN" }));
+    expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Services" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Cart" })).toBeInTheDocument();
   });
 });

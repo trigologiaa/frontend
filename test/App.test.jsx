@@ -4,6 +4,7 @@ import { renderWithProviders } from "./renderWithProviders.jsx";
 import { App } from "../src/App.jsx";
 import userEvent from "@testing-library/user-event";
 import { NavBar } from "../src/layout/NavBar.jsx";
+import { i18n } from "../src/i18n/index.js";
 
 describe("App routes", () => {
   it("shows the home page inside the layuot at '/'", () => {
@@ -60,5 +61,19 @@ describe("App routes", () => {
   it("keeps the navigation on the not-found page", () => {
     renderWithProviders(<App />, { route: "/esto-no-existe" });
     expect(screen.getByRole("navigation", { name: "Navegación principal" })).toBeInTheDocument();
+  });
+
+  it("keeps the document language in sync with the active language", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<App />);
+    expect(document.documentElement.lang).toBe("es");
+    await user.click(screen.getByRole("button", { name: "EN" }));
+    expect(document.documentElement.lang).toBe("en");
+  });
+
+  it("translates the not-found page", async () => {
+    await i18n.changeLanguage("en");
+    renderWithProviders(<App />, { route: "/nope" });
+    expect(screen.getByRole("heading", { level: 1, name: /We couldn't find that page/ })).toBeInTheDocument();
   });
 });
