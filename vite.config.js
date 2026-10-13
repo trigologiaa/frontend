@@ -4,6 +4,9 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [react()],
   test: {
+    css: {
+      include: [/.+/],
+    },
     environment: "jsdom",
     pool: "vmThreads",
     setupFiles: "test/setup.js",
