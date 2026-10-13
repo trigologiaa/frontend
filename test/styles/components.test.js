@@ -1,0 +1,52 @@
+import { describe, expect, it } from "vitest";
+
+const pending = [
+  "src/layout/Layout.jsx",
+  "src/layout/Header.jsx",
+  "src/layout/LanguageSwitcher.jsx",
+  "src/layout/NavBar.jsx",
+  "src/layout/NavItem.jsx",
+  "src/layout/Footer.jsx",
+  "src/features/not-found/pages/NotFound.jsx",
+  "src/features/team/components/TeamCard.jsx",
+  "src/features/team/components/TeamList.jsx",
+  "src/features/team/components/TeamSection.jsx",
+  "src/features/home/pages/Home.jsx",
+  "src/features/services/pages/ItemListContainer.jsx",
+  "src/features/services/pages/ItemDetailContainer.jsx",
+  "src/features/cart/pages/CartPage.jsx",
+];
+
+const components = Object.keys(
+  import.meta.glob([
+    "../../src/layout/*.jsx",
+    "../../src/features/*/components/*.jsx",
+    "../../src/features/*/pages/*.jsx",
+  ]),
+).map((path) => path.replace("../../", ""));
+
+const modules = import.meta.glob("../../src/**/*.module.css", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+const hasStyles = (component) => {
+  Boolean(
+    modules[`../../${component.replace(/\.jsx$/, ".module.css")}`]?.trim(),
+  );
+};
+
+describe("component styles", () => {
+  it("gives every component outside the pending list its own CSS module", () => {
+    const unstyled = components.filter(
+      (component) => !pending.includes(component) && !hasStyles(component),
+    );
+    expect(unstyled).toEqual([]);
+  });
+
+  it("removes a component from the pending list once it is styled", () => {
+    const stale = pending.filter((component) => hasStyles(component));
+    expect(stale).toEqual([]);
+  });
+});
