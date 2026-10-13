@@ -19,6 +19,23 @@
 		"label": "Language"
 	},
 	"footer": {
-		"rights": "© Trigologia Dev"
+		"rights": "© Trigologia Dev",
+		"team": {
+			"title": "Our team"
+		}
+	},
+	"team": {
+		"person1": {
+			"role": "Developer",
+			"bio": "Builds and maintains the product."
+		},
+		"person2": {
+			"role": "Designer",
+			"bio": "Designs the user experience."
+		},
+		"person3": {
+			"role": "Product owner",
+			"bio": "Sets the product priorities."
+		}
 	}
 }
