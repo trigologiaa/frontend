@@ -20,6 +20,10 @@
 	},
 	"footer": {
 		"rights": "© Trigologia Dev",
+		"company": {
+			"about": "Custom software development services."
+		},
+		"contact": "Contact",
 		"team": {
 			"title": "Our team"
 		}
