@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 const pending = [
-  "src/layout/Layout.jsx",
   "src/layout/Header.jsx",
   "src/layout/LanguageSwitcher.jsx",
   "src/layout/NavBar.jsx",
@@ -31,11 +30,10 @@ const modules = import.meta.glob("../../src/**/*.module.css", {
   eager: true,
 });
 
-const hasStyles = (component) => {
+const hasStyles = (component) =>
   Boolean(
     modules[`../../${component.replace(/\.jsx$/, ".module.css")}`]?.trim(),
   );
-};
 
 describe("component styles", () => {
   it("gives every component outside the pending list its own CSS module", () => {
