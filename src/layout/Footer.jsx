@@ -1,6 +1,12 @@
 import { useTranslation } from "react-i18next";
+import { TeamSection } from "../features/team/components/TeamSection";
 
 export function Footer() {
 	const { t } = useTranslation();
-	return <footer>{t("footer.rights")}</footer>;
+	return (
+		<footer>
+			<TeamSection />
+			<p>{t("footer.rights")}</p>
+		</footer>
+	);
 }
