@@ -1,0 +1,29 @@
+.footer {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6);
+	padding: var(--space-6) var(--space-4);
+	text-align: center;
+	color: var(--color-muted);
+	background: var(--color-surface);
+	border-top: 1px solid var(--color-border);
+}
+
+.about {
+	margin: 0;
+}
+
+.contact {
+	font-weight: 600;
+}
+
+.rights {
+	margin: 0;
+	font-size: 0.875rem;
+}
+
+@media (min-width: 48rem) {
+	.footer {
+		padding: var(--space-8) var(--space-6);
+	}
+}
