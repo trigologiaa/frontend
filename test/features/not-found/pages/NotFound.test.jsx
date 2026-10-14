@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { renderWithProviders } from "../../../renderWithProviders.jsx";
 import userEvent from "@testing-library/user-event";
+import es from "../../../../src/i18n/locales/es.json";
 import { App } from "../../../../src/App.jsx";
 
 describe("NotFound", () => {
@@ -9,6 +10,6 @@ describe("NotFound", () => {
     const user = userEvent.setup();
     renderWithProviders(<App />, { route: "/esto-no-existe" });
     await user.click(screen.getByRole("link", { name: "Volver al inicio" }));
-    expect(screen.getByRole("heading", { level: 1, name: "Inicio" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: es.home.title })).toBeInTheDocument();
   });
 });
