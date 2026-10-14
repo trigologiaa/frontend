@@ -3,8 +3,6 @@ import { describe, expect, it } from "vitest";
 const pending = [
   "src/layout/Footer.jsx",
   "src/features/not-found/pages/NotFound.jsx",
-  "src/features/team/components/TeamList.jsx",
-  "src/features/team/components/TeamSection.jsx",
   "src/features/home/pages/Home.jsx",
   "src/features/services/pages/ItemListContainer.jsx",
   "src/features/services/pages/ItemDetailContainer.jsx",
