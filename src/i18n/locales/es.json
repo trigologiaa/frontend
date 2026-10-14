@@ -1,6 +1,7 @@
 {
 	"home": {
-		"title": "Software a tu medida, sin vueltas"
+		"title": "Software a tu medida, sin vueltas",
+		"pitch": "Sitios web, APIs y mentoría técnica..."
 	},
 	"nav": {
 		"home": "Inicio",

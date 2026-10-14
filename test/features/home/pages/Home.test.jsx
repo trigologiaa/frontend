@@ -9,4 +9,9 @@ describe("Home", () => {
     renderWithProviders(<Home />);
     expect(screen.getByRole("heading", { level: 1, name: es.home.title })).toBeInTheDocument();
   });
+
+  it("shows the value proposition", () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByText(es.home.pitch)).toBeInTheDocument();
+  });
 });
