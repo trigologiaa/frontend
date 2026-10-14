@@ -7,3 +7,8 @@ export async function getProducts() {
 	}
 	return response.json();
 }
+
+export async function getProductById(id) {
+	const products = await getProducts();
+	return products.find((product) => product.id === id);
+}

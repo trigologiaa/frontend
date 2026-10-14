@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { getProducts } from "../../../../src/features/products/services/productsApi";
+import {
+  getProductById,
+  getProducts,
+} from "../../../../src/features/products/services/productsApi";
 import {
   failingProductsHandler,
   makeProduct,
@@ -19,5 +22,13 @@ describe("getProducts", () => {
   it("rejects when the server answers with an error", async () => {
     server.use(failingProductsHandler());
     await expect(getProducts()).rejects.toThrow();
+  });
+});
+
+describe("getProductsById", () => {
+  it("returns the product with that id", async () => {
+    server.use(productsHandler([makeProduct(1), makeProduct(2)]));
+    const product = await getProductById("service-2");
+    expect(product).toEqual(makeProduct(2));
   });
 });
