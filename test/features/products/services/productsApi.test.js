@@ -31,4 +31,9 @@ describe("getProductsById", () => {
     const product = await getProductById("service-2");
     expect(product).toEqual(makeProduct(2));
   });
+
+  it("returns null when no product has that id", async () => {
+    server.use(productsHandler([makeProduct(1)]));
+    expect(await getProductById("does-not-exist")).toBeNull();
+  });
 });
