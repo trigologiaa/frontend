@@ -1,7 +1,8 @@
 {
 	"home": {
 		"title": "Custom software, no runaround",
-		"pitch": "Websites, APIs and technical mentoring..."
+		"pitch": "Websites, APIs and technical mentoring...",
+		"cta": "See services"
 	},
 	"nav": {
 		"home": "Home",

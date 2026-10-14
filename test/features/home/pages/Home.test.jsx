@@ -14,4 +14,9 @@ describe("Home", () => {
     renderWithProviders(<Home />);
     expect(screen.getByText(es.home.pitch)).toBeInTheDocument();
   });
+
+  it("offers a call to action that links to the catalog", () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByRole("link", { name: es.home.cta })).toHaveAttribute("href", "/servicios");
+  });
 });
