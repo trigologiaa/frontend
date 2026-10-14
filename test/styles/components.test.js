@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 const pending = [
-  "src/features/not-found/pages/NotFound.jsx",
   "src/features/home/pages/Home.jsx",
   "src/features/services/pages/ItemListContainer.jsx",
   "src/features/services/pages/ItemDetailContainer.jsx",
