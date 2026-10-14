@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { getProducts } from "../../../../src/features/products/services/productsApi";
-import { makeProduct, productsHandler } from "../../../handlers";
+import {
+  failingProductsHandler,
+  makeProduct,
+  productsHandler,
+} from "../../../handlers";
 import { server } from "../../../server";
 
 describe("getProducts", () => {
@@ -10,5 +14,10 @@ describe("getProducts", () => {
     );
     const products = await getProducts();
     expect(products).toHaveLength(3);
+  });
+
+  it("rejects when the server answers with an error", async () => {
+    server.use(failingProductsHandler());
+    await expect(getProducts()).rejects.toThrow();
   });
 });
