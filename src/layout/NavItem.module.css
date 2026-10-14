@@ -1,0 +1,20 @@
+.link {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+	padding: 0 var(--space-3);
+	border-radius: var(--radius);
+	color: var(--color-text);
+	text-decoration: none;
+}
+
+.link:hover {
+	background: var(--color-surface);
+}
+
+.link[aria-current="page"] {
+	font-weight: 700;
+	color: var(--color-primary);
+	text-decoration: underline;
+	text-underline-offset: 0.35em;
+}

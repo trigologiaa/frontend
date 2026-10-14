@@ -4,7 +4,7 @@ import es from "../../../src/i18n/locales/es.json";
 
 function flatten(object, prefix = "") {
   return Object.entries(object).flatMap(([key, value]) => {
-    typeof value === "object"
+    return typeof value === "object"
       ? flatten(value, `${prefix}${key}.`)
       : [`${prefix}${key}`];
   });

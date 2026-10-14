@@ -1,3 +1,5 @@
+import "./styles/tokens.css";
+import "./styles/global.css";
 import { Route, Routes } from "react-router-dom";
 import { CartPage } from "./features/cart/pages/CartPage";
 import { Home } from "./features/home/pages/Home";
