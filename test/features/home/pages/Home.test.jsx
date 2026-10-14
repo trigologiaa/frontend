@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import es from "../../../../src/i18n/locales/es.json";
 import { renderWithProviders } from "../../../renderWithProviders";
@@ -18,5 +18,11 @@ describe("Home", () => {
   it("offers a call to action that links to the catalog", () => {
     renderWithProviders(<Home />);
     expect(screen.getByRole("link", { name: es.home.cta })).toHaveAttribute("href", "/servicios");
+  });
+
+  it("shows three highlights under their own heading", () => {
+    renderWithProviders(<Home />);
+    const section = screen.getByRole("region", { name: es.home.highlights.title });
+    expect(within(section).getAllByRole("listitem")).toHaveLength(3);
   });
 });

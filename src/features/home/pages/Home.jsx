@@ -8,6 +8,14 @@ export function Home() {
 			<h1>{t("home.title")}</h1>
 			<p>{t("home.pitch")}</p>
 			<Link to="/servicios">{t("home.cta")}</Link>
+			<section aria-labelledby="highlights-title">
+				<h2 id="highlights-title">{t("home.highlights.title")}</h2>
+				<ul>
+					<li>{t("home.highlights.web")}</li>
+					<li>{t("home.highlights.backend")}</li>
+					<li>{t("home.highlights.mentoring")}</li>
+				</ul>
+			</section>
 		</>
 	);
 }

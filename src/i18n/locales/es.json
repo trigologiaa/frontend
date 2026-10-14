@@ -2,7 +2,13 @@
 	"home": {
 		"title": "Software a tu medida, sin vueltas",
 		"pitch": "Sitios web, APIs y mentoría técnica...",
-		"cta": "Ver servicios"
+		"cta": "Ver servicios",
+		"highlights": {
+			"title": "Qué puedo hacer por vos",
+			"web": "Web · Landing pages y aplicaciones React",
+			"backend": "Backend · APIs REST y bases de datos",
+			"mentoring": "Mentoría · Git, Linux y buenas prácticas"
+		}
 	},
 	"nav": {
 		"home": "Inicio",
