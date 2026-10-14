@@ -77,4 +77,11 @@ describe("App routes", () => {
     renderWithProviders(<App />, { route: "/nope" });
     expect(screen.getByRole("heading", { level: 1, name: /We couldn't find that page/ })).toBeInTheDocument();
   });
+
+  it("goes from the landing page to the catalog with the call to action", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<App />, { route: "/" });
+    await user.click(screen.getByRole("link", { name: es.home.cta }));
+    expect(screen.getByRole("heading", { level: 1, name: es.nav.services })).toBeInTheDocument();
+  });
 });
