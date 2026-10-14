@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useDocumentTitle } from "../../../shared/useDocumentTitle";
 
 export function Home() {
 	const { t } = useTranslation();
+	useDocumentTitle("Trigologiaa Dev");
 	return (
 		<>
 			<h1>{t("home.title")}</h1>

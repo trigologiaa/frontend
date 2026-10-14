@@ -33,4 +33,9 @@ describe("Home", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Custom software, no fuss" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "See services" })).toBeInTheDocument();
   });
+
+  it("sets the browser title to the brand name", () => {
+    renderWithProviders(<Home />);
+    expect(document.title).toBe("Trigologiaa Dev");
+  });
 });
