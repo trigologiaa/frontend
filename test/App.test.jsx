@@ -4,12 +4,13 @@ import { renderWithProviders } from "./renderWithProviders.jsx";
 import { App } from "../src/App.jsx";
 import userEvent from "@testing-library/user-event";
 import { NavBar } from "../src/layout/NavBar.jsx";
+import es from "../src/i18n/locales/es.json";
 import { i18n } from "../src/i18n/index.js";
 
 describe("App routes", () => {
   it("shows the home page inside the layuot at '/'", () => {
     renderWithProviders(<App />, { route: "/" });
-    expect(screen.getByRole("heading", { level: 1, name: "Inicio" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: es.home.title })).toBeInTheDocument();
     expect(within(screen.getByRole("banner")).getByText("Trigologiaa Dev")).toBeInTheDocument();
   });
 
@@ -75,5 +76,12 @@ describe("App routes", () => {
     await i18n.changeLanguage("en");
     renderWithProviders(<App />, { route: "/nope" });
     expect(screen.getByRole("heading", { level: 1, name: /We couldn't find that page/ })).toBeInTheDocument();
+  });
+
+  it("goes from the landing page to the catalog with the call to action", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<App />, { route: "/" });
+    await user.click(screen.getByRole("link", { name: es.home.cta }));
+    expect(screen.getByRole("heading", { level: 1, name: es.nav.services })).toBeInTheDocument();
   });
 });

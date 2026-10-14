@@ -1,4 +1,15 @@
 {
+	"home": {
+		"title": "Custom software, no fuss",
+		"pitch": "Websites, APIs and technical mentoring...",
+		"cta": "See services",
+		"highlights": {
+			"title": "What I can do for you",
+			"web": "Web · Landing pages and React apps",
+			"backend": "Backend · REST APIs and databases",
+			"mentoring": "Mentoring · Git, Linux and good practices"
+		}
+	},
 	"nav": {
 		"home": "Home",
 		"services": "Services",
