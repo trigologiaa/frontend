@@ -3,7 +3,7 @@ import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 
 export function Item({ service }) {
-	const { i18n } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
 	const title = localized(service.title, language);
 	return (
@@ -16,6 +16,7 @@ export function Item({ service }) {
 				height="200"
 			/>
 			<h3>{title}</h3>
+			<p>{t(`categories.${service.category}`)}</p>
 			<p>{formatPrice(service.price, language)}</p>
 		</article>
 	);

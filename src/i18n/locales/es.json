@@ -10,6 +10,12 @@
 			"mentoring": "Mentoría · Git, Linux y buenas prácticas"
 		}
 	},
+	"categories": {
+		"web": "Web",
+		"backend": "Backend",
+		"mentoring": "Mentoría",
+		"devops": "DevOps"
+	},
 	"nav": {
 		"home": "Inicio",
 		"services": "Servicios",

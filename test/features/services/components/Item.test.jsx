@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Item } from "../../../../src/features/services/components/Item";
+import es from "../../../../src/i18n/locales/es.json";
 import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
@@ -19,5 +20,10 @@ describe("Item", () => {
   it("shows the formatted price", () => {
     renderWithProviders(<Item service={makeService(1)} />);
     expect(screen.getByText("US$ 100")).toBeInTheDocument();
+  });
+
+  it("shows the category", () => {
+    renderWithProviders(<Item service={makeService(1)} />);
+    expect(screen.getByText(es.categories.web)).toBeInTheDocument();
   });
 });
