@@ -1,6 +1,6 @@
 export async function getServices({ signal } = {}) {
 	const response = await fetch(
-		new URL("/productos.json", window.location.origin),
+		new URL("/servicios.json", window.location.origin),
 		{ signal },
 	);
 	if (!response.ok) {

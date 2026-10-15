@@ -42,15 +42,15 @@
 	"team": {
 		"person1": {
 			"role": "Developer",
-			"bio": "Builds and maintains the product."
+			"bio": "Builds and maintains the service."
 		},
 		"person2": {
 			"role": "Designer",
 			"bio": "Designs the user experience."
 		},
 		"person3": {
-			"role": "Product owner",
-			"bio": "Sets the product priorities."
+			"role": "Service owner",
+			"bio": "Sets the service priorities."
 		}
 	}
 }

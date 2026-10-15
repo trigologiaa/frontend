@@ -1,6 +1,6 @@
 # US-07 — Load the services from a data source
 
-**As a** developer, **I want** the list of services to be loaded from `productos.json` through one
+**As a** developer, **I want** the list of services to be loaded from `servicios.json` through one
 isolated data-access function and one hook that exposes loading, data and error, **so that** any
 page can show services without knowing where they come from, and so that switching to Firebase later
 touches only one file.
@@ -9,7 +9,7 @@ This is a technical (enabler) story. It has no visible page of its own (the cata
 data is US-08). Its critical point is the **seam**: components depend on the hook, the hook depends
 on the service, and only the service knows about `fetch` and the JSON file.
 
-Requirement: Pre-delivery **Req 2.1** (load services from a local `productos.json` with `useEffect`
+Requirement: Pre-delivery **Req 2.1** (load services from a local `servicios.json` with `useEffect`
 and `fetch`) — the data half; the rendering half is US-08.
 
 Depends on: [US-04](us-04-language-detection-and-switch.md) (the data is bilingual).
@@ -18,12 +18,12 @@ Depends on: [US-04](us-04-language-detection-and-switch.md) (the data is bilingu
 
 Included:
 
-- `public/productos.json` with at least 6 services (see the data shape).
+- `public/servicios.json` with at least 6 services (see the data shape).
 - `servicesApi.js`: `getServices()` and `getServiceById(id)` (using `fetch`).
 - `useServices()` hook with `useEffect` + `useState`, returning `{ services, loading, error }`.
 - A pure helper `localized(field, language)` that picks the text of the active language from a
   `{ es, en }` object, with fallback to Spanish.
-- **MSW** set up for the tests (network-level mock of `/productos.json`), including the error case.
+- **MSW** set up for the tests (network-level mock of `/servicios.json`), including the error case.
 
 Not included:
 
@@ -60,7 +60,7 @@ Feature: Load the services from a data source
   So that pages can show services without knowing where they come from
 
   Scenario: The service returns all the services
-    Given the server answers "/productos.json" with 3 services
+    Given the server answers "/servicios.json" with 3 services
     When I ask the service for all services
     Then I get 3 services
 
@@ -74,7 +74,7 @@ Feature: Load the services from a data source
     Then I get nothing (null)
 
   Scenario: The service fails when the server fails
-    Given the server answers "/productos.json" with status 500
+    Given the server answers "/servicios.json" with status 500
     When I ask the service for all services
     Then the service rejects
 
@@ -101,7 +101,7 @@ Feature: Load the services from a data source
     Then "localized" returns "Hola" for "fr"
 
   Scenario: The real data file is valid
-    Given the file "public/productos.json"
+    Given the file "public/servicios.json"
     Then it has at least 6 services with unique ids and both languages in every text
 ```
 
@@ -115,7 +115,7 @@ Feature: Load the services from a data source
 ## Decisions
 
 - **JSON in `public/`, not `src/`:** only files in `public/` are served as-is, so
-  `fetch('/productos.json')` works (class 5).
+  `fetch('/servicios.json')` works (class 5).
 - **Service returns `null` for an unknown id** instead of throwing: "not found" is an expected case,
   a network failure is an error.
 - **Why MSW and not mocking `fetch` by hand:** the test exercises the real `fetch` call, URL
@@ -126,7 +126,7 @@ Feature: Load the services from a data source
 
 ## Definition of Done
 
-- [ ] All scenarios pass as tests; the data-file test protects `productos.json`.
+- [ ] All scenarios pass as tests; the data-file test protects `servicios.json`.
 - [ ] `pnpm verify` and the pull request's pipeline are green.
-- [ ] Manual check: open `<preview-url>/productos.json` in the browser and see the JSON.
+- [ ] Manual check: open `<preview-url>/servicios.json` in the browser and see the JSON.
 - [ ] Commits follow Conventional Commits.
