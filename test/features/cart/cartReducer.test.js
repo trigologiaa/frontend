@@ -44,4 +44,11 @@ describe("cartReducer", () => {
     const state = cartReducer([], { type: "add", service: makeService(1), quantity });
     expect(state).toEqual([]);
   });
+
+  it("never mutates the previous state", () => {
+    const previous = Object.freeze([Object.freeze({ id, title, price, image, quantity: 1 })]);
+    const state = cartReducer(previous, { type: "add", service: makeService(1), quantity: 2 });
+    expect(previous[0].quantity).toBe(1);
+    expect(state[0].quantity).toBe(3);
+  });
 });
