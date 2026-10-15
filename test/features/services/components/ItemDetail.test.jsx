@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { CartContext } from "../../../../src/features/cart/context/CartContext";
 import { useCart } from "../../../../src/features/cart/context/useCart";
+import { i18n } from "../../../../src/i18n";
 import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
 import es from "../../../../src/i18n/locales/es.json";
 import { makeService } from "../../../handlers";
@@ -126,5 +127,16 @@ describe("ItemDetail", () => {
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     expect(screen.getByLabelText("Cantidad")).toHaveTextContent("1");
+  });
+
+  it("translates the add to cart controls", async () => {
+    await i18n.changeLanguage("en");
+    const user = userEvent.setup();
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    await user.click(screen.getByRole("button", { name: "Increase quantity" }));
+    await user.click(screen.getByRole("button", { name: "Decrease quantity" }));
+    await user.click(screen.getByRole("button", { name: "Add to cart" }));
+    const messages = screen.getAllByRole("status").map((node) => node.textContent);
+    expect(messages).toContain("Added to cart");
   });
 });
