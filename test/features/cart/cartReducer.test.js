@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { cartReducer, selectTotalQuantity } from "../../../src/features/cart/cartReducer";
+import {
+  cartReducer,
+  selectTotalPrice,
+  selectTotalQuantity,
+} from "../../../src/features/cart/cartReducer";
 import { makeService } from "../../handlers";
 
 const { id, title, price, image } = makeService(1);
@@ -64,5 +68,11 @@ describe("cartReducer", () => {
 describe("selectTotalQuantity", () => {
   it("sums the quantity of every item", () => {
     expect(selectTotalQuantity([makeItem(1, 2), makeItem(2, 3)])).toBe(5);
+  });
+});
+
+describe("selectTotalPrice", () => {
+  it("sums price times quantity of every item", () => {
+    expect(selectTotalPrice([makeItem(1, 2), makeItem(2, 3)])).toBe(800);
   });
 });

@@ -26,3 +26,7 @@ export function cartReducer(items, action) {
 export function selectTotalQuantity(items) {
 	return items.reduce((total, item) => total + item.quantity, 0);
 }
+
+export function selectTotalPrice(items) {
+	return items.reduce((total, item) => total + item.price * item.quantity, 0);
+}
