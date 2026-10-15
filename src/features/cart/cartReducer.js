@@ -22,3 +22,7 @@ export function cartReducer(items, action) {
 			return items;
 	}
 }
+
+export function selectTotalQuantity(items) {
+	return items.reduce((total, item) => total + item.quantity, 0);
+}

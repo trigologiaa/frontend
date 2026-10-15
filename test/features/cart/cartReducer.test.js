@@ -1,8 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { cartReducer } from "../../../src/features/cart/cartReducer";
+import { cartReducer, selectTotalQuantity } from "../../../src/features/cart/cartReducer";
 import { makeService } from "../../handlers";
 
 const { id, title, price, image } = makeService(1);
+
+const makeItem = (n, quantity) => ({
+  id: `s${n}`,
+  title,
+  price: 100 * n,
+  image,
+  quantity,
+});
 
 describe("cartReducer", () => {
   it("adds a new service as an item with its quantity", () => {
@@ -50,5 +58,11 @@ describe("cartReducer", () => {
     const state = cartReducer(previous, { type: "add", service: makeService(1), quantity: 2 });
     expect(previous[0].quantity).toBe(1);
     expect(state[0].quantity).toBe(3);
+  });
+});
+
+describe("selectTotalQuantity", () => {
+  it("sums the quantity of every item", () => {
+    expect(selectTotalQuantity([makeItem(1, 2), makeItem(2, 3)])).toBe(5);
   });
 });
