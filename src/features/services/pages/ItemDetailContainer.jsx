@@ -1,13 +1,44 @@
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { ItemDetail } from "../../services/components/ItemDetail";
+import { useService } from "../../services/hooks/useService";
+import styles from "./ItemDetailContainer.module.css";
 
 export function ItemDetailContainer() {
-	const { t } = useTranslation();
 	const { id } = useParams();
+	const { t } = useTranslation();
+	const { service, loading, error } = useService(id);
+
+	if (loading) {
+		return (
+			<p className={styles.status} role="status">
+				{t("detail.loading")}
+			</p>
+		);
+	}
+	if (error) {
+		return (
+			<p className={styles.alert} role="alert">
+				{t("detail.error")}
+			</p>
+		);
+	}
+	if (!service) {
+		return (
+			<section className={styles.notFound}>
+				<h1 className={styles.notFoundTitle}>{t("detail.notFound.title")}</h1>
+				<Link className={styles.back} to="/servicios">
+					{t("detail.back")}
+				</Link>
+			</section>
+		);
+	}
 	return (
-		<>
-			<h1>{t("pages.detail.title")}</h1>
-			<p>{id}</p>
-		</>
+		<section className={styles.page}>
+			<ItemDetail service={service} />
+			<Link className={styles.back} to="/servicios">
+				{t("detail.back")}
+			</Link>
+		</section>
 	);
 }

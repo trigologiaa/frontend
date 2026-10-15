@@ -9,7 +9,7 @@ export async function getServices({ signal } = {}) {
 	return response.json();
 }
 
-export async function getServiceById(id) {
-	const services = await getServices();
+export async function getServiceById(id, { signal } = {}) {
+	const services = await getServices({ signal });
 	return services.find((service) => service.id === id) ?? null;
 }

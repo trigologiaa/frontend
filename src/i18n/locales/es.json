@@ -28,10 +28,13 @@
 		"cart": "Carrito",
 		"label": "Navegación principal"
 	},
-	"pages": {
-		"detail": {
-			"title": "Detalle del servicio"
-		}
+	"detail": {
+		"loading": "Cargando...",
+		"error": "No pudimos cargar el servicio. Probá de nuevo más tarde.",
+		"notFound": {
+			"title": "No encontramos ese servicio"
+		},
+		"back": "Volver a servicios"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",

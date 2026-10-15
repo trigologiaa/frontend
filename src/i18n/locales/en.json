@@ -28,10 +28,13 @@
 		"cart": "Cart",
 		"label": "Main navigation"
 	},
-	"pages": {
-		"detail": {
-			"title": "Service details"
-		}
+	"detail": {
+		"loading": "Loading...",
+		"error": "We couldn't load the service. Please try again later.",
+		"notFound": {
+			"title": "We couldn't find that service"
+		},
+		"back": "Back to services"
 	},
 	"notFound": {
 		"title": "404 - We couldn't find that page",
