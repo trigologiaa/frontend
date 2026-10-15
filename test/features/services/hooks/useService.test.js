@@ -49,4 +49,14 @@ describe("useService", () => {
     unmount();
     expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
   });
+
+  it("does not report a cancelled request as an error in StrictMode", async () => {
+    server.use(servicesHandler([makeService(1)]));
+    const { result } = renderHook(() => useService("service-1"), {
+      wrapper: StrictMode,
+    });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.error).toBeNull();
+    expect(result.current.service).toEqual(makeService(1));
+  });
 });
