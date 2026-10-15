@@ -2,14 +2,14 @@ import { HttpResponse, http } from "msw";
 
 export function makeProduct(n = 1) {
   return {
-    id: `service-${n}`,
+    id: `product-${n}`,
     title: {
       es: `Descripción ${n}`,
       en: `Description ${n}`,
     },
     price: 100 * n,
     category: "web",
-    image: `/images/service-${n}.svg`,
+    image: `/images/product-${n}.svg`,
   };
 }
 
