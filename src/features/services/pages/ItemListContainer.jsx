@@ -4,12 +4,13 @@ import { useServices } from "../hooks/useServices";
 
 export function ItemListContainer() {
 	const { t } = useTranslation();
-	const { services, loading } = useServices();
+	const { services, loading, error } = useServices();
 	return (
 		<>
 			<h1>{t("nav.services")}</h1>
 			{loading && <p role="status">{t("catalog.loading")}</p>}
-			{!loading && <ItemList services={services} />}
+			{error && <p role="alert">{t("catalog.error")}</p>}
+			{!loading && !error && <ItemList services={services} />}
 		</>
 	);
 }

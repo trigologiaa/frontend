@@ -18,7 +18,8 @@
 	},
 	"catalog": {
 		"viewDetail": "View details",
-		"loading": "Loading..."
+		"loading": "Loading...",
+		"error": "We couldn't load the services. Please try again later."
 	},
 	"nav": {
 		"home": "Home",
