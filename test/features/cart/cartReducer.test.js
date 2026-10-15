@@ -15,4 +15,10 @@ describe("cartReducer", () => {
     const state = cartReducer(first, { type: "add", service: makeService(1), quantity: 2 });
     expect(state).toEqual([{ id, title, price, image, quantity: 3 }]);
   });
+
+  it("keeps different services as separate items", () => {
+    const first = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const state = cartReducer(first, { type: "add", service: makeService(2), quantity: 1 });
+    expect(state).toHaveLength(2);
+  });
 });
