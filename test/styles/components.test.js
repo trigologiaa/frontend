@@ -4,8 +4,6 @@ const pending = [
   "src/features/services/pages/ItemListContainer.jsx",
   "src/features/services/pages/ItemDetailContainer.jsx",
   "src/features/cart/pages/CartPage.jsx",
-  "src/features/services/components/Item.jsx",
-  "src/features/services/components/ItemList.jsx",
 ];
 
 const components = Object.keys(
