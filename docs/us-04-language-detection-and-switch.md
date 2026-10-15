@@ -8,7 +8,7 @@ equivalent of Rails' `I18n`: the texts live in translation files and the compone
 **key**, never for a literal text. Its critical point is that, from this story on, **no visible
 text is hardcoded**: every new story adds its keys in both languages.
 
-Requirement: not in the assignment; it is a product decision of this project (Spanish and English).
+Requirement: not in the assignment; it is a service decision of this project (Spanish and English).
 
 Depends on: [US-03](us-03-active-section-and-not-found.md) (there are already texts to translate).
 
@@ -30,7 +30,7 @@ Not included:
 - Translating **catalog data** (service names and descriptions): **US-07** defines the data shape and
   **US-08** renders it.
 - More languages, locale-aware number/currency formatting: later.
-- Routes are **not** translated (`/productos` stays `/productos`).
+- Routes are **not** translated (`/servicios` stays `/servicios`).
 
 ## Acceptance scenarios
 

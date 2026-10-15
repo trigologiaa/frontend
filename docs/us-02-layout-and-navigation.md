@@ -2,7 +2,7 @@
 
 **As a** visitor, **I want** every page to share the same header, navigation bar and footer, and to
 move between sections without the page reloading, **so that** I never get lost and the site feels
-like one coherent product.
+like one coherent service.
 
 This is a UI and structure story: it has no business rules. Its critical points are that the
 navigation **never leads to a missing page** and that moving around **does not reload the page**
@@ -119,9 +119,9 @@ in a real browser (see the Definition of Done) and by the E2E test of US-15.
 - **Router outside `App`:** `main.jsx` wraps `App` in `BrowserRouter`; tests wrap in
   `MemoryRouter`. `App` only declares the routes, which makes it testable at any URL.
 - **Layout as a layout route:** `Layout` renders `<Outlet />` where the page goes (class 7).
-- **Routes follow the assignment PDF:** `/productos` and `/producto/:id` (not `/products`).
+- **Routes use the theme name:** `/servicios` and `/servicio/:id` (not `/services`).
   Route paths do not change with the language.
-- **Labels say "Servicios"** (the theme), paths say `productos` (the assignment).
+- **Labels say "Servicios"** (the theme), paths say `servicios` too.
 - **The brand is a link, not a heading:** every page owns its `<h1>`, so the header brand is a link
   to `/`. This supersedes the first scenario of US-00 ("heading"): the test is rewritten in this
   story, because the behavior changed on purpose.

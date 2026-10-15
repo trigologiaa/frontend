@@ -1,0 +1,100 @@
+[
+  {
+    "id": "landing-page",
+    "title": {
+      "es": "Landing page",
+      "en": "Landing page"
+    },
+    "description": {
+      "es": "Una página de presentación rápida, accesible y lista para publicar.",
+      "en": "A fast, accessible presentation page, ready to publish."
+    },
+    "price": 350,
+    "category": "web",
+    "image": "/images/landing-page.svg"
+  },
+  {
+    "id": "react-app",
+    "title": {
+      "es": "Aplicación React",
+      "en": "React app"
+    },
+    "description": {
+      "es": "Una aplicación web a medida con React, probada y lista para crecer.",
+      "en": "A custom web application built with React, tested and ready to grow."
+    },
+    "price": 1200,
+    "category": "web",
+    "image": "/images/react-app.svg"
+  },
+  {
+    "id": "rest-api",
+    "title": {
+      "es": "API REST",
+      "en": "REST API"
+    },
+    "description": {
+      "es": "Una API REST documentada, con autenticación y pruebas automáticas.",
+      "en": "A documented REST API with authentication and automated tests."
+    },
+    "price": 900,
+    "category": "backend",
+    "image": "/images/rest-api.svg"
+  },
+  {
+    "id": "database-design",
+    "title": {
+      "es": "Diseño de base de datos",
+      "en": "Database design"
+    },
+    "description": {
+      "es": "Modelado, migraciones y consultas pensadas para tu caso de uso.",
+      "en": "Modeling, migrations and queries designed for your use case."
+    },
+    "price": 500,
+    "category": "backend",
+    "image": "/images/database-design.svg"
+  },
+  {
+    "id": "code-review",
+    "title": {
+      "es": "Revisión de código",
+      "en": "Code review"
+    },
+    "description": {
+      "es": "Una revisión detallada de tu código con recomendaciones concretas.",
+      "en": "A detailed review of your code with concrete recommendations."
+    },
+    "price": 200,
+    "category": "mentoring",
+    "image": "/images/code-review.svg"
+  },
+  {
+    "id": "git-linux-class",
+    "title": {
+      "es": "Clase de Git y Linux",
+      "en": "Git and Linux class"
+    },
+    "description": {
+      "es": "Clases personalizadas de Git y Linux, cobradas por hora.",
+      "en": "Personalized Git and Linux classes, charged per hour."
+    },
+    "price": 40,
+    "category": "mentoring",
+    "image": "/images/git-linux-class.svg"
+  },
+  {
+    "id": "dotfiles-setup",
+    "title": {
+      "es": "Setup de dotfiles y Neovim",
+      "en": "Dotfiles and Neovim setup"
+    },
+    "description": {
+      "es": "Dejo tu entorno de desarrollo configurado y versionado.",
+      "en": "I leave your development environment configured and versioned."
+    },
+    "price": 150,
+    "category": "mentoring",
+    "image": "/images/dotfiles-setup.svg"
+  }
+]

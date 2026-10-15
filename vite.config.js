@@ -8,7 +8,7 @@ export default defineConfig({
       include: [/.+/],
     },
     environment: "jsdom",
-    pool: "vmThreads",
+    pool: "forks",
     setupFiles: "test/setup.js",
     include: ["test/**/*.test.{js,jsx}"],
     coverage: {
