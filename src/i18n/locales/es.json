@@ -36,7 +36,8 @@
 		},
 		"back": "Volver a servicios",
 		"quantity": "Cantidad",
-		"increase": "Aumentar cantidad"
+		"increase": "Aumentar cantidad",
+		"decrease": "Disminuir cantidad"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",

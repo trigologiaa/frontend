@@ -4,6 +4,13 @@ export function ItemCount({ value, onChange }) {
 	const { t } = useTranslation();
 	return (
 		<div>
+			<button
+				type="button"
+				aria-label={t("detail.decrease")}
+				onClick={() => onChange(value - 1)}
+			>
+				−
+			</button>
 			<output aria-label={t("detail.quantity")}>{value}</output>
 			<button
 				type="button"

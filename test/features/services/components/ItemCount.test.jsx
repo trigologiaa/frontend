@@ -17,4 +17,12 @@ describe("ItemCount", () => {
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     expect(onChange).toHaveBeenCalledWith(4);
   });
+
+  it("asks to decrease the quantity by one", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    renderWithProviders(<ItemCount value={3} onChange={onChange} />);
+    await user.click(screen.getByRole("button", { name: "Disminuir cantidad" }));
+    expect(onChange).toHaveBeenCalledWith(2);
+  });
 });
