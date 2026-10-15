@@ -18,5 +18,10 @@ export function ItemDetailContainer() {
 			</>
 		);
 	}
-	return <ItemDetail service={service} />;
+	return (
+		<>
+			<ItemDetail service={service} />
+			<Link to="/servicios">{t("detail.back")}</Link>
+		</>
+	);
 }

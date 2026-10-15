@@ -47,4 +47,11 @@ describe("ItemDetailContainer", () => {
       "No pudimos cargar el servicio. Probá de nuevo más tarde.",
     );
   });
+
+  it("links back to the services from a loaded detail", async () => {
+    server.use(servicesHandler([makeService(1)]));
+    renderDetail("service-1");
+    await screen.findByRole("heading", { level: 1, name: "Servicio 1" });
+    expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/servicios");
+  });
 });
