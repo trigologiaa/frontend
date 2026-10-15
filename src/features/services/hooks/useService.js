@@ -7,7 +7,8 @@ export function useService(id) {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		getServiceById(id)
+		const controller = new AbortController();
+		getServiceById(id, { signal: controller.signal })
 			.then((data) => {
 				setService(data);
 				setLoading(false);
@@ -16,6 +17,7 @@ export function useService(id) {
 				setError(err);
 				setLoading(false);
 			});
+		return () => controller.abort();
 	}, [id]);
 
 	return { service, loading, error };
