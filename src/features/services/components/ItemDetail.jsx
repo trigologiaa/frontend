@@ -3,9 +3,11 @@ import { localized } from "../../../shared/localized";
 
 export function ItemDetail({ service }) {
 	const { i18n } = useTranslation();
+	const language = i18n.resolvedLanguage;
 	return (
 		<article>
-			<h1>{localized(service.title, i18n.resolvedLanguage)}</h1>
+			<h1>{localized(service.title, language)}</h1>
+			<p>{localized(service.description, language)}</p>
 		</article>
 	);
 }

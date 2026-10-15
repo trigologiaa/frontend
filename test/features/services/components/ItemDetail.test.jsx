@@ -9,4 +9,9 @@ describe("ItemDetail", () => {
     renderWithProviders(<ItemDetail service={makeService(1)} />);
     expect(screen.getByRole("heading", { level: 1, name: "Servicio 1" })).toBeInTheDocument();
   });
+
+  it("shows the description", () => {
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    expect(screen.getByText("Descripción 1")).toBeInTheDocument();
+  });
 });
