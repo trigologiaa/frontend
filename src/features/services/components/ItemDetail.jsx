@@ -36,11 +36,17 @@ export function ItemDetail({ service }) {
 				<p className={styles.description}>
 					{localized(service.description, language)}
 				</p>
-				<ItemCount value={quantity} onChange={setQuantity} />
-				<button type="button" onClick={handleAdd}>
-					{t("detail.add")}
-				</button>
-				{added && <p role="status">{t("detail.added")}</p>}
+				<div className={styles.actions}>
+					<ItemCount value={quantity} onChange={setQuantity} />
+					<button className={styles.add} type="button" onClick={handleAdd}>
+						{t("detail.add")}
+					</button>
+				</div>
+				{added && (
+					<p className={styles.added} role="status">
+						{t("detail.added")}
+					</p>
+				)}
 			</div>
 		</article>
 	);
