@@ -1,3 +1,25 @@
-import { createContext } from "react";
+import { createContext, useMemo, useReducer } from "react";
+import {
+	cartReducer,
+	selectTotalPrice,
+	selectTotalQuantity,
+} from "../cartReducer";
 
 export const CartContext = createContext(null);
+
+export function CartProvider({ children }) {
+	const [items, dispatch] = useReducer(cartReducer, []);
+
+	const value = useMemo(
+		() => ({
+			items,
+			totalQuantity: selectTotalQuantity(items),
+			totalPrice: selectTotalPrice(items),
+			addToCart: (service, quantity) =>
+				dispatch({ type: "add", service, quantity }),
+		}),
+		[items],
+	);
+
+	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+}
