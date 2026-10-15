@@ -4,6 +4,10 @@ export function makeService(n = 1) {
   return {
     id: `service-${n}`,
     title: {
+      es: `Servicio ${n}`,
+      en: `Service ${n}`,
+    },
+    description: {
       es: `Descripción ${n}`,
       en: `Description ${n}`,
     },
