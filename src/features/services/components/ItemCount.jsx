@@ -7,6 +7,7 @@ export function ItemCount({ value, onChange }) {
 			<button
 				type="button"
 				aria-label={t("detail.decrease")}
+				disabled={value <= 1}
 				onClick={() => onChange(value - 1)}
 			>
 				−
