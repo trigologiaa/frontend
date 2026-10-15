@@ -17,6 +17,7 @@ export function ItemDetail({ service }) {
 	function handleAdd() {
 		addToCart(service, quantity);
 		setAdded(true);
+		setQuantity(1);
 	}
 
 	return (

@@ -118,4 +118,13 @@ describe("ItemDetail", () => {
     const messages = screen.getAllByRole("status").map((node) => node.textContent);
     expect(messages).toContain("Agregado al carrito");
   });
+
+  it("resets the quantity to one after adding", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    expect(screen.getByLabelText("Cantidad")).toHaveTextContent("1");
+  });
 });
