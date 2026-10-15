@@ -17,4 +17,12 @@ describe("useService", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.service).toEqual(makeService(2));
   });
+
+  it("returns no service and no error for an unknown id", async () => {
+    server.use(servicesHandler([makeService(1)]));
+    const { result } = renderHook(() => useService("does-not-exist"));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.service).toBeNull();
+    expect(result.current.error).toBeNull();
+  });
 });
