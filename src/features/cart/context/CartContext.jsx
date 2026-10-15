@@ -17,6 +17,7 @@ export function CartProvider({ children }) {
 			totalPrice: selectTotalPrice(items),
 			addToCart: (service, quantity) =>
 				dispatch({ type: "add", service, quantity }),
+			removeFromCart: (id) => dispatch({ type: "remove", id }),
 		}),
 		[items],
 	);
