@@ -9,4 +9,10 @@ describe("cartReducer", () => {
     const state = cartReducer([], { type: "add", service: makeService(1), quantity: 2 });
     expect(state).toEqual([{ id, title, price, image, quantity: 2 }]);
   });
+
+  it("increases the quantity when the service is already in the cart", () => {
+    const first = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const state = cartReducer(first, { type: "add", service: makeService(1), quantity: 2 });
+    expect(state).toEqual([{ id, title, price, image, quantity: 3 }]);
+  });
 });
