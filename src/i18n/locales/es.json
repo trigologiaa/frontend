@@ -17,7 +17,8 @@
 		"devops": "DevOps"
 	},
 	"catalog": {
-		"viewDetail": "Ver detalle"
+		"viewDetail": "Ver detalle",
+		"loading": "Cargando..."
 	},
 	"nav": {
 		"home": "Inicio",
