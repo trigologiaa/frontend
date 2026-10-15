@@ -15,4 +15,9 @@ describe("Item", () => {
     const image = screen.getByRole("img", { name: "Servicio 1" });
     expect(image).toHaveAttribute("src", "/images/service-1.svg");
   });
+
+  it("shows the formatted price", () => {
+    renderWithProviders(<Item service={makeService(1)} />);
+    expect(screen.getByText("US$ 100")).toBeInTheDocument();
+  });
 });
