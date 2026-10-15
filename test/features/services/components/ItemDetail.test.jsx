@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { CartContext } from "../../../../src/features/cart/context/CartContext";
 import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
 import es from "../../../../src/i18n/locales/es.json";
 import { makeService } from "../../../handlers";
@@ -48,5 +49,28 @@ describe("ItemDetail", () => {
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Disminuir cantidad" }));
     expect(screen.getByLabelText("Cantidad")).toHaveTextContent("2");
+  });
+
+  it("calls addToCart with the service and the chosen quantity", async () => {
+    const user = userEvent.setup();
+    const addToCart = vi.fn();
+    const service = makeService(1);
+    renderWithProviders(
+      <CartContext.Provider
+        value={{
+          items: [],
+          totalQuantity: 0,
+          totalPrice: 0,
+          addToCart,
+          removeFromCart: vi.fn(),
+          clearCart: vi.fn(),
+        }}
+      >
+        <ItemDetail service={service} />
+      </CartContext.Provider>,
+    );
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    expect(addToCart).toHaveBeenCalledWith(service, 2);
   });
 });
