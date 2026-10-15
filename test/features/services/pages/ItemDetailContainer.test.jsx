@@ -56,6 +56,12 @@ describe("ItemDetailContainer", () => {
     expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/servicios");
   });
 
+  it("does not offer the add button while the service loads", () => {
+    server.use(servicesHandler());
+    renderDetail("service-1");
+    expect(screen.queryByRole("button", { name: "Agregar al carrito" })).not.toBeInTheDocument();
+  });
+
   it("shows the service detail in English", async () => {
     await i18n.changeLanguage("en");
     server.use(servicesHandler([makeService(1)]));
