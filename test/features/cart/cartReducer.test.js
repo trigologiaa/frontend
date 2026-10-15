@@ -21,4 +21,11 @@ describe("cartReducer", () => {
     const state = cartReducer(first, { type: "add", service: makeService(2), quantity: 1 });
     expect(state).toHaveLength(2);
   });
+
+  it("removes the whole item of a service", () => {
+    const one = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const two = cartReducer(one, { type: "add", service: makeService(2), quantity: 1 });
+    const state = cartReducer(two, { type: "remove", id: "service-1" });
+    expect(state.map((item) => item.id)).toEqual(["service-2"]);
+  });
 });
