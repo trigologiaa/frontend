@@ -16,5 +16,7 @@ export function cartReducer(items, action) {
 			return items.filter((item) => item.id !== action.id);
 		case "clear":
 			return [];
+		default:
+			return items;
 	}
 }

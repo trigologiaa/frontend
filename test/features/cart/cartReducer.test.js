@@ -34,4 +34,9 @@ describe("cartReducer", () => {
     const two = cartReducer(one, { type: "add", service: makeService(2), quantity: 1 });
     expect(cartReducer(two, { type: "clear" })).toEqual([]);
   });
+
+  it("returns the same state for an unknown action", () => {
+    const state = [];
+    expect(cartReducer(state, { type: "unknown" })).toBe(state);
+  });
 });
