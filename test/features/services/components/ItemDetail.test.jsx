@@ -1,4 +1,5 @@
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
 import es from "../../../../src/i18n/locales/es.json";
@@ -30,5 +31,13 @@ describe("ItemDetail", () => {
   it("starts with a quantity of one", () => {
     renderWithProviders(<ItemDetail service={makeService(1)} />);
     expect(screen.getByLabelText("Cantidad")).toHaveTextContent("1");
+  });
+
+  it("increases the quantity from the detail", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    expect(screen.getByLabelText("Cantidad")).toHaveTextContent("3");
   });
 });
