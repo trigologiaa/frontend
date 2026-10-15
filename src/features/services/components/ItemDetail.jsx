@@ -5,9 +5,11 @@ import { localized } from "../../../shared/localized";
 export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
+	const title = localized(service.title, language);
 	return (
 		<article>
-			<h1>{localized(service.title, language)}</h1>
+			<img src={service.image} alt={title} width="640" height="400" />
+			<h1>{title}</h1>
 			<p>{localized(service.description, language)}</p>
 			<p>{t(`categories.${service.category}`)}</p>
 			<p>{formatPrice(service.price, language)}</p>

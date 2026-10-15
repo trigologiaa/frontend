@@ -23,4 +23,12 @@ describe("ItemDetail", () => {
     expect(screen.getByText("US$ 100")).toBeInTheDocument();
     expect(screen.getByText(es.categories.web)).toBeInTheDocument();
   });
+
+  it("shows the image with the title as alternative text", () => {
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute(
+      "src",
+      "/images/service-1.svg",
+    );
+  });
 });
