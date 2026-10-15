@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { useProducts } from "../../../../src/features/products/hooks/useProducts";
 import { productsHandler, failingProductsHandler } from "../../../handlers";
 import { server } from "../../../server";
+import { StrictMode } from "react";
 
 describe("useProducts", () => {
   afterEach(() => {
@@ -41,5 +42,13 @@ describe("useProducts", () => {
     const { unmount } = renderHook(() => useProducts());
     unmount();
     expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
+  });
+
+  it("does not report cancelled request as an error in StrictMode", async () => {
+    server.use(productsHandler());
+    const { result } = renderHook(() => useProducts(), { wrapper: StrictMode });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.error).toBeNull();
+    expect(result.current.products).toHaveLength(3);
   });
 });
