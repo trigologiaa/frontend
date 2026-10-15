@@ -30,6 +30,7 @@
 	},
 	"detail": {
 		"loading": "Cargando...",
+		"error": "No pudimos cargar el servicio. Probá de nuevo más tarde.",
 		"notFound": {
 			"title": "No encontramos ese servicio"
 		},

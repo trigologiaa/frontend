@@ -6,9 +6,10 @@ import { useService } from "../../services/hooks/useService";
 export function ItemDetailContainer() {
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const { service, loading } = useService(id);
+	const { service, loading, error } = useService(id);
 
 	if (loading) return <p role="status">{t("detail.loading")}</p>;
+	if (error) return <p role="alert">{t("detail.error")}</p>;
 	if (!service) {
 		return (
 			<>
