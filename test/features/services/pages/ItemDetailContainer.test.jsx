@@ -30,4 +30,15 @@ describe("ItemDetailContainer", () => {
     ).toBeInTheDocument();
     expect(screen.queryByText("Servicio 1")).not.toBeInTheDocument();
   });
+
+  it("shows a not-found message and a link back for an unknown service", async () => {
+    server.use(servicesHandler([makeService(1)]));
+    renderDetail("does-not-exist");
+    expect(
+      await screen.findByRole("heading", { name: "No encontramos ese servicio" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Volver a servicios" }),
+    ).toHaveAttribute("href", "/servicios");
+  });
 });

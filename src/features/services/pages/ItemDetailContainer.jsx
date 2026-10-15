@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ItemDetail } from "../components/ItemDetail";
 import { useService } from "../hooks/useService";
 
@@ -9,5 +9,13 @@ export function ItemDetailContainer() {
 	const { service, loading } = useService(id);
 
 	if (loading) return <p role="status">{t("detail.loading")}</p>;
+	if (!service) {
+		return (
+			<>
+				<h1>{t("detail.notFound.title")}</h1>
+				<Link to="/servicios">{t("detail.back")}</Link>
+			</>
+		);
+	}
 	return <ItemDetail service={service} />;
 }

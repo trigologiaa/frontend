@@ -23,7 +23,11 @@
 		"empty": "There are no services available yet."
 	},
 	"detail": {
-		"loading": "Loading..."
+		"loading": "Loading...",
+		"notFound": {
+			"title": "We couldn't find that service"
+		},
+		"back": "Back to services"
 	},
 	"nav": {
 		"home": "Home",
