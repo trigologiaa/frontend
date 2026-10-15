@@ -35,7 +35,8 @@
 			"title": "No encontramos ese servicio"
 		},
 		"back": "Volver a servicios",
-		"quantity": "Cantidad"
+		"quantity": "Cantidad",
+		"increase": "Aumentar cantidad"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",
