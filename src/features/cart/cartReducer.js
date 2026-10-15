@@ -14,5 +14,7 @@ export function cartReducer(items, action) {
 		}
 		case "remove":
 			return items.filter((item) => item.id !== action.id);
+		case "clear":
+			return [];
 	}
 }
