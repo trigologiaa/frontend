@@ -10,6 +10,18 @@
 			"mentoring": "Mentoring · Git, Linux and good practices"
 		}
 	},
+	"categories": {
+		"web": "Web",
+		"backend": "Backend",
+		"mentoring": "Mentoring",
+		"devops": "DevOps"
+	},
+	"catalog": {
+		"viewDetail": "View details",
+		"loading": "Loading...",
+		"error": "We couldn't load the services. Please try again later.",
+		"empty": "There are no services available yet."
+	},
 	"nav": {
 		"home": "Home",
 		"services": "Services",

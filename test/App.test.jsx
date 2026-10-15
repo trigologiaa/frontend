@@ -1,13 +1,19 @@
 import { screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { renderWithProviders } from "./renderWithProviders.jsx";
 import { App } from "../src/App.jsx";
 import userEvent from "@testing-library/user-event";
 import { NavBar } from "../src/layout/NavBar.jsx";
 import es from "../src/i18n/locales/es.json";
 import { i18n } from "../src/i18n/index.js";
+import { servicesHandler } from "./handlers";
+import { server } from "./server";
 
 describe("App routes", () => {
+  beforeEach(() => {
+    server.use(servicesHandler());
+  });
+
   it("shows the home page inside the layuot at '/'", () => {
     renderWithProviders(<App />, { route: "/" });
     expect(screen.getByRole("heading", { level: 1, name: es.home.title })).toBeInTheDocument();

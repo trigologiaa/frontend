@@ -9,6 +9,8 @@ describe("design tokens", () => {
     "--space-4",
     "--font-size-base",
     "--radius",
+    "--color-danger",
+    "--color-danger-surface",
   ])("defines %s", (name) => {
     expect(tokens).toContain(`${name}:`);
   });
