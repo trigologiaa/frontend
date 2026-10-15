@@ -28,6 +28,16 @@ describe("cartReducer", () => {
     expect(state).toEqual([{ id, title, price, image, quantity: 3 }]);
   });
 
+  it("leaves the other items untouched when a quantity accumulates", () => {
+    const one = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const two = cartReducer(one, { type: "add", service: makeService(2), quantity: 1 });
+    const state = cartReducer(two, { type: "add", service: makeService(1), quantity: 2 });
+    expect(state.map((item) => [item.id, item.quantity])).toEqual([
+      ["service-1", 3],
+      ["service-2", 1],
+    ]);
+  });
+
   it("keeps different services as separate items", () => {
     const first = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
     const state = cartReducer(first, { type: "add", service: makeService(2), quantity: 1 });
