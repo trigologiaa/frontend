@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { ItemListContainer } from "../../../../src/features/services/pages/ItemListContainer";
+import { i18n } from "../../../../src/i18n";
 import {
   failingServicesHandler,
   makeService,
@@ -40,5 +41,15 @@ describe("ItemListContainer", () => {
     expect(
       await screen.findByText("Todavía no hay servicios disponibles."),
     ).toBeInTheDocument();
+  });
+
+  it("shows the catalog in English", async () => {
+    await i18n.changeLanguage("en");
+    server.use(servicesHandler([makeService(1)]));
+    renderWithProviders(<ItemListContainer />);
+    expect(
+      await screen.findByRole("heading", { name: "Service 1" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /View details/ })).toBeInTheDocument();
   });
 });
