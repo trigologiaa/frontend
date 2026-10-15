@@ -96,4 +96,18 @@ describe("ItemDetail", () => {
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     expect(screen.getByText("cart: service-1 x2 (2)")).toBeInTheDocument();
   });
+
+  it("accumulates repeated additions of the same service", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(
+      <>
+        <ItemDetail service={makeService(1)} />
+        <CartProbe />
+      </>,
+    );
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    expect(screen.getByText("cart: service-1 x3 (3)")).toBeInTheDocument();
+  });
 });
