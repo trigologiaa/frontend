@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { ItemDetailContainer } from "../../../../src/features/services/pages/ItemDetailContainer";
+import { i18n } from "../../../../src/i18n";
 import {
   failingServicesHandler,
   makeService,
@@ -53,5 +54,13 @@ describe("ItemDetailContainer", () => {
     renderDetail("service-1");
     await screen.findByRole("heading", { level: 1, name: "Servicio 1" });
     expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/servicios");
+  });
+
+  it("shows the service detail in English", async () => {
+    await i18n.changeLanguage("en");
+    server.use(servicesHandler([makeService(1)]));
+    renderDetail("service-1");
+    expect(await screen.findByRole("heading", { level: 1, name: "Service 1" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Back to services" })).toBeInTheDocument();
   });
 });
