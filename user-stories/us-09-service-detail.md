@@ -7,7 +7,7 @@ This is a UI story with data. Its critical point is the **dynamic route**: the i
 URL, so the page must also handle an id that does not exist and must be reachable by typing or
 sharing the address.
 
-Requirement: Pre-delivery **Req 3.1** (`/producto/:id`: detail of a single product) and
+Requirement: Pre-delivery **Req 3.1** (`/servicio/:id`: detail of a single product) and
 `cuestiones-a-tener-en-cuenta` #8.
 
 Depends on: [US-08](us-08-browse-service-catalog.md) (the links to the detail) and
@@ -17,7 +17,7 @@ Depends on: [US-08](us-08-browse-service-catalog.md) (the links to the detail) a
 
 Included:
 
-- `ItemDetailContainer` (page of `/producto/:id`): reads the id with `useParams`, loads the
+- `ItemDetailContainer` (page of `/servicio/:id`): reads the id with `useParams`, loads the
   service, decides what to render.
 - `ItemDetail`: presentational; shows image, title, description, category, price.
 - Loading, error and "service not found" states.
@@ -40,31 +40,31 @@ Feature: Service detail
   So that I can decide whether to hire it
 
   Scenario: Loading feedback is shown
-    When I visit "/producto/landing-page"
+    When I visit "/servicio/landing-page"
     Then I see "Cargando..."
 
   Scenario: The service is shown
     Given the service "landing-page" exists
-    When I visit "/producto/landing-page" and it finishes loading
+    When I visit "/servicio/landing-page" and it finishes loading
     Then I see its title, description, category and price
 
   Scenario: The id in the URL selects the service
     Given the services "landing-page" and "rest-api" exist
-    When I visit "/producto/rest-api" and it finishes loading
+    When I visit "/servicio/rest-api" and it finishes loading
     Then I see the title of "rest-api" and not the one of "landing-page"
 
   Scenario: An unknown service shows a not-found message
-    When I visit "/producto/does-not-exist" and it finishes loading
+    When I visit "/servicio/does-not-exist" and it finishes loading
     Then I see the heading "No encontramos ese servicio"
     And I see a link "Volver a servicios"
 
   Scenario: An error is shown when the service cannot be loaded
     Given the server fails
-    When I visit "/producto/landing-page"
+    When I visit "/servicio/landing-page"
     Then I see an alert "No pudimos cargar el servicio. Probá de nuevo más tarde."
 
   Scenario: The visitor comes from the catalog
-    Given I am on "/productos"
+    Given I am on "/servicios"
     When I follow "Ver detalle" of "Landing page"
     Then I am on the detail of "Landing page"
 
@@ -93,7 +93,7 @@ shows the service title; Knip/the parity test help you keep the catalogs clean.)
 
 ## Non-functional requirements
 
-- **Deep link:** opening `/producto/landing-page` directly (or refreshing) works in production.
+- **Deep link:** opening `/servicio/landing-page` directly (or refreshing) works in production.
 - **Accessibility:** one `<h1>` with the service title; the image has `alt`; the status/alert roles
   are the same as in the catalog.
 - **Responsive** and **no errors** in the console (manual check).

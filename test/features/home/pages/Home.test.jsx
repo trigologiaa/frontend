@@ -18,7 +18,7 @@ describe("Home", () => {
 
   it("offers a call to action that links to the catalog", () => {
     renderWithProviders(<Home />);
-    expect(screen.getByRole("link", { name: es.home.cta })).toHaveAttribute("href", "/productos");
+    expect(screen.getByRole("link", { name: es.home.cta })).toHaveAttribute("href", "/servicios");
   });
 
   it("shows three highlights under their own heading", () => {

@@ -161,7 +161,7 @@ Orden de preferencia de las consultas: `getByRole` → `getByLabelText` → `get
 
 ## 5. Lo que probablemente no sabías que tenías que tener en cuenta
 
-- **SPA y deep links:** si abrís `/productos` directamente, el hosting busca un archivo que no existe.
+- **SPA y deep links:** si abrís `/servicios` directamente, el hosting busca un archivo que no existe.
   Hay que decirle que sirva `index.html` (rewrite). Lo hace US-02.
 - **Accesibilidad (a11y):** HTML semántico (`header`, `nav`, `main`, `footer`), `alt` en imágenes,
   labels en inputs, foco visible, contraste, navegación con teclado. Testing Library te empuja a

@@ -57,7 +57,7 @@ Feature: Create a service
 
   Scenario: The new service appears in the public catalog
     Given I created a service
-    When I visit "/productos"
+    When I visit "/servicios"
     Then I see it
 ```
 

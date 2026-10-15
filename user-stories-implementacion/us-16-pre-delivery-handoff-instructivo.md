@@ -17,9 +17,8 @@ Formato de los pasos: [Formato de los instructivos](00-workflow.md#formato-de-lo
 > que lo cubre, (b) el test que lo prueba y (c) dónde se ve en el sitio. Si no podés, el requisito
 > no está cubierto, aunque "creas" que sí.
 
-> **Nombres de las rutas:** las stories y el proyecto usan **`/productos`** y **`/producto/:id`**
-> (`src/App.jsx`), que son los nombres de la consigna del curso. En el código se dice *product*;
-> en la interfaz, *servicio*. Antes de entregar, confirmá que la consigna no pide otros nombres.
+> **Nombres de las rutas:** las stories y el proyecto usan **`/servicios`** y **`/servicio/:id`**
+> (`src/App.jsx`). Antes de entregar, confirmá que la consigna del curso no exige otros nombres.
 
 ## Mapa de archivos
 
@@ -216,7 +215,7 @@ Hacela después de mergear el PR (para que `main` esté desplegado), o sobre el 
 - [ ] 1.3 El footer tiene información de la empresa y **al menos 3** tarjetas de personas.
 - [ ] 2.1 `ItemListContainer` carga `productos.json` con `useEffect` y `fetch`.
 - [ ] 2.2 `Item` reutilizable que recibe datos por props.
-- [ ] 3.1 `react-router-dom` con `/`, `/productos`, `/producto/:id`, `/carrito` (probá **cada** ruta
+- [ ] 3.1 `react-router-dom` con `/`, `/servicios`, `/servicio/:id`, `/carrito` (probá **cada** ruta
       abriéndola directo y refrescando; ver el aviso sobre los nombres de ruta, arriba).
 - [ ] 3.2 El navbar usa `<Link>`: al navegar no recarga la página.
 - [ ] 4.1 Hay un componente que gestiona el estado global del carrito (`CartProvider`).

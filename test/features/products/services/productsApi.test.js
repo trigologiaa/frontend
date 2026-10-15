@@ -28,7 +28,7 @@ describe("getProducts", () => {
 describe("getProductsById", () => {
   it("returns the product with that id", async () => {
     server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-    const product = await getProductById("product-2");
+    const product = await getProductById("service-2");
     expect(product).toEqual(makeProduct(2));
   });
 

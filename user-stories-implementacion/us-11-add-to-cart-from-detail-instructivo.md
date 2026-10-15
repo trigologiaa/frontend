@@ -32,7 +32,7 @@ ItemDetail   (estado local: cantidad elegida; llama addToCart del contexto)
 | 1–14 | `src/i18n/locales/es.json`, `src/i18n/locales/en.json` | editar (claves `detail.*`) |
 | 5–12, 14 | `test/features/products/components/ItemDetail.test.jsx` | editar (ya existe, de US-09) |
 | 5–12 | `src/features/products/components/ItemDetail.jsx` | editar (ya existe, de US-09) |
-| 13 | `test/features/products/pages/ItemDetailContainer.test.jsx` | editar (ya existe, de US-09) |
+| 13 | `test/features/services/pages/ItemDetailContainer.test.jsx` | editar (ya existe, de US-09) |
 | S1 | `src/features/products/components/ItemCount.module.css` | **crear** |
 | S2 | `src/features/products/components/ItemDetail.module.css` | editar (agregar reglas) |
 
@@ -629,7 +629,7 @@ Este ciclo **no cambia código productivo**: es una prueba de integración con e
        );
        await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
        await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
-       expect(screen.getByText("cart: product-1 x2 (2)")).toBeInTheDocument();
+       expect(screen.getByText("cart: service-1 x2 (2)")).toBeInTheDocument();
      });
    ```
 
@@ -638,7 +638,7 @@ Este ciclo **no cambia código productivo**: es una prueba de integración con e
 ### 2. Mutación
 
 1. En `ItemDetail.jsx` cambiá `addToCart(product, quantity)` por `addToCart(product, 1)`.
-2. **Corré** `pnpm test:run`. **Rojo esperado:** `Unable to find an element with the text: cart: product-1 x2 (2)`
+2. **Corré** `pnpm test:run`. **Rojo esperado:** `Unable to find an element with the text: cart: service-1 x2 (2)`
    (y también falla el test del ciclo 8).
 3. **Restaurá** y corré de nuevo: verde.
 
@@ -671,7 +671,7 @@ Este ciclo **no cambia código productivo**.
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
-    expect(screen.getByText("cart: product-1 x3 (3)")).toBeInTheDocument();
+    expect(screen.getByText("cart: service-1 x3 (3)")).toBeInTheDocument();
   });
 ```
 
@@ -846,13 +846,13 @@ detalle.
 
 ### 1. Test (pasa de entrada)
 
-**Archivo:** `test/features/products/pages/ItemDetailContainer.test.jsx` (ya existe, de US-09).
+**Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx` (ya existe, de US-09).
 **Dónde:** dentro del `describe("ItemDetailContainer", ...)`, después del último test.
 
 ```jsx
   it("does not offer the add button while the service loads", () => {
     server.use(productsHandler());
-    renderDetail("product-1");
+    renderDetail("service-1");
     expect(screen.queryByRole("button", { name: "Agregar al carrito" })).not.toBeInTheDocument();
   });
 ```
@@ -861,7 +861,7 @@ detalle.
 
 ### 2. Mutación
 
-1. En `src/features/products/pages/ItemDetailContainer.jsx` comentá la línea
+1. En `src/features/services/pages/ItemDetailContainer.jsx` comentá la línea
    `if (loading) { ... }` (el bloque entero de carga).
 2. **Corré** `pnpm test:run`. **Rojo esperado:** falla este test (el detalle intenta dibujarse con
    `product = null` y explota: `Cannot read properties of null`).

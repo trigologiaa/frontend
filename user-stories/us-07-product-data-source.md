@@ -44,7 +44,7 @@ Not included:
 }
 ```
 
-- `id`: unique, URL-safe string (used in `/producto/:id`).
+- `id`: unique, URL-safe string (used in `/servicio/:id`).
 - `price`: number in USD per unit; `category`: one of `web`, `backend`, `mentoring`, `devops`.
 - Suggested services: Landing page, React app, REST API, Database design, Code review, Git & Linux
   tutoring (per hour), Dotfiles/Neovim setup.

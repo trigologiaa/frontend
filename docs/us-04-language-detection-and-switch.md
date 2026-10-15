@@ -30,7 +30,7 @@ Not included:
 - Translating **catalog data** (service names and descriptions): **US-07** defines the data shape and
   **US-08** renders it.
 - More languages, locale-aware number/currency formatting: later.
-- Routes are **not** translated (`/productos` stays `/productos`).
+- Routes are **not** translated (`/servicios` stays `/servicios`).
 
 ## Acceptance scenarios
 

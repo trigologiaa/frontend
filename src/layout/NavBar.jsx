@@ -7,7 +7,7 @@ export function NavBar() {
 	return (
 		<nav aria-label={t("nav.label")} className={styles.nav}>
 			<NavItem to="/">{t("nav.home")}</NavItem>
-			<NavItem to="/productos" activeFor={["/producto/:id"]}>
+			<NavItem to="/servicios" activeFor={["/servicio/:id"]}>
 				{t("nav.services")}
 			</NavItem>
 			<NavItem to="/carrito">{t("nav.cart")}</NavItem>

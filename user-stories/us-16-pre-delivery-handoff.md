@@ -56,7 +56,7 @@ Feature: Pre-delivery hand-off
     Then "pnpm install" and "pnpm dev" start the app and "pnpm verify" passes
 
   Scenario: The required routes work in production
-    When I open "/", "/productos", "/producto/<an id>" and "/carrito" directly in the production URL
+    When I open "/", "/servicios", "/servicio/<an id>" and "/carrito" directly in the production URL
     Then each shows its page
 
   Scenario: The deployed version is the last merged one
@@ -75,12 +75,12 @@ Feature: Pre-delivery hand-off
 | 1.1 Organized folder structure                      | US-02        | structure + Knip                 | repository           |
 | 1.2 `Layout` with Header, nav and Footer            | US-02, US-14 | `Layout.test`                    | every page           |
 | 1.3 Footer: company info + ≥ 3 person cards         | US-05        | `Footer.test`, `TeamList.test`   | footer               |
-| 2.1 `ItemListContainer` with `useEffect` + `fetch`  | US-07, US-08 | `ItemListContainer.test`         | `/productos`         |
-| 2.2 Reusable `Item` with props                      | US-08        | `Item.test`                      | `/productos`         |
-| 3.1 react-router-dom and the four routes            | US-02, US-09 | `App.test`                       | `/`, `/productos`, `/producto/:id`, `/carrito` |
+| 2.1 `ItemListContainer` with `useEffect` + `fetch`  | US-07, US-08 | `ItemListContainer.test`         | `/servicios`         |
+| 2.2 Reusable `Item` with props                      | US-08        | `Item.test`                      | `/servicios`         |
+| 3.1 react-router-dom and the four routes            | US-02, US-09 | `App.test`                       | `/`, `/servicios`, `/servicio/:id`, `/carrito` |
 | 3.2 `<Link>` navigation without reloads             | US-02, US-15 | `NavBar.test`, E2E flow 1        | navbar               |
 | 4.1 Global cart state (Context)                     | US-10        | `cartReducer.test`, `CartContext.test` | (internal)     |
-| 4.2 Add from detail calls `addToCart`               | US-11        | `ItemDetail.test`                | `/producto/:id`      |
+| 4.2 Add from detail calls `addToCart`               | US-11        | `ItemDetail.test`                | `/servicio/:id`      |
 | 4.3 `CartWidget` with live count                    | US-12        | `CartWidget.test`                | navbar               |
 | 4.4 `/carrito` shows the detail from `CartContext`  | US-13        | `CartPage.test`                  | `/carrito`           |
 | 5 Hosted online + repository link                   | US-01, US-16 | pipeline + manual                | README               |

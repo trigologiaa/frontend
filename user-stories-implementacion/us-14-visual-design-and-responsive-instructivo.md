@@ -89,7 +89,7 @@ import { renderWithProviders } from "./renderWithProviders";
 import { server } from "./server";
 
 describe("page structure", () => {
-  it.each(["/", "/productos", "/producto/product-1", "/carrito", "/no-existe"])(
+  it.each(["/", "/servicios", "/servicio/service-1", "/carrito", "/no-existe"])(
     "has exactly one main landmark and one level-1 heading at %s",
     async (route) => {
       server.use(productsHandler([makeProduct(1)]));
@@ -434,7 +434,7 @@ pnpm verify && git add -A && git commit -m "test: require a CSS module for every
 
 1. **Desborde horizontal a 360 px:** en la consola de DevTools,
    `document.documentElement.scrollWidth > window.innerWidth` debe dar `false` en **cada** ruta
-   (`/`, `/productos`, `/producto/landing-page`, `/carrito`, `/no-existe`).
+   (`/`, `/servicios`, `/servicio/landing-page`, `/carrito`, `/no-existe`).
 2. **Contraste:** en *Elements*, clic en un texto → el color picker muestra la relación de contraste:
    texto normal ≥ **4.5:1** (AA), en oscuro **y** claro. Mirá en especial `muted` sobre `surface` y
    `primary` sobre `background`.

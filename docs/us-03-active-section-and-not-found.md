@@ -23,7 +23,7 @@ Included:
 Not included:
 
 - Visual design of the active state: basic here, polished in **US-14**.
-- "Product not found" for a valid route with an unknown id (`/producto/xyz`): it belongs to
+- "Product not found" for a valid route with an unknown id (`/servicio/xyz`): it belongs to
   **US-09**, because it depends on the data.
 
 ## Acceptance scenarios
@@ -37,7 +37,7 @@ Feature: Active section and page not found
   So that I never get lost
 
   Scenario: The current section is marked in the navigation
-    When I visit "/productos"
+    When I visit "/servicios"
     Then the link "Servicios" in the main navigation is marked as the current page
     And the links "Inicio" and "Carrito" are not
 
@@ -48,7 +48,7 @@ Feature: Active section and page not found
     And the link "Inicio" is not
 
   Scenario: The catalog stays marked on a detail page
-    When I visit "/producto/landing-page"
+    When I visit "/servicio/landing-page"
     Then the link "Servicios" in the main navigation is marked as the current page
 
   Scenario: An unknown address shows a clear message
@@ -80,7 +80,7 @@ Feature: Active section and page not found
 
 - **`NavLink`, not a hand-written check:** React Router computes "active" and sets `aria-current`
   for free. Tests assert the attribute, not a CSS class (class names are an implementation detail).
-- **"Servicios" stays active on `/producto/:id`:** the detail page lives under the catalog
+- **"Servicios" stays active on `/servicio/:id`:** the detail page lives under the catalog
   (`NavLink` with a custom `isActive` rule, or a nested match). Decide and test it explicitly.
 - **Home `NavLink` uses `end`:** otherwise `/` would match every path and always be active.
 - **Real HTTP 404 is out of scope:** it is a client-rendered page; the hosting serves `index.html`

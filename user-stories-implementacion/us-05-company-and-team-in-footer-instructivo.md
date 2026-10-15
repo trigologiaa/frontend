@@ -583,8 +583,8 @@ const pending = [
   'src/features/team/components/TeamSection.jsx',
   // Stories futuras: cada una borra los suyos cuando les da estilo.
   'src/features/home/pages/Home.jsx',
-  'src/features/products/pages/ItemListContainer.jsx',
-  'src/features/products/pages/ItemDetailContainer.jsx',
+  'src/features/services/pages/ItemListContainer.jsx',
+  'src/features/services/pages/ItemDetailContainer.jsx',
   'src/features/cart/pages/CartPage.jsx',
 ]
 

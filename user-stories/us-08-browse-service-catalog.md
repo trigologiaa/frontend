@@ -12,16 +12,16 @@ Requirement: Pre-delivery **Req 2.1** (`ItemListContainer` loading data with `us
 #3, #6, #7.
 
 Depends on: [US-07](us-07-product-data-source.md) (`useProducts`) and
-[US-02](us-02-layout-and-navigation.md) (the `/productos` route).
+[US-02](us-02-layout-and-navigation.md) (the `/servicios` route).
 
 ## Scope
 
 Included:
 
-- `ItemListContainer` (page of `/productos`): uses `useProducts` and decides what to render.
+- `ItemListContainer` (page of `/servicios`): uses `useProducts` and decides what to render.
 - `ItemList`: receives an array and renders one `Item` per element.
 - `Item`: presentational, receives **one product through props** and shows image, title,
-  category, price and a "View details" link to `/producto/:id`.
+  category, price and a "View details" link to `/servicio/:id`.
 - "Loading…" message while loading; an error message (with `role="alert"`) on failure.
 - An empty state when the list is empty.
 - Translated copy; product texts are picked with `localized` for the active language.
@@ -44,34 +44,34 @@ Feature: Browse the catalog of services
   So that I can compare them and pick one
 
   Scenario: Loading feedback is shown while the services load
-    When I visit "/productos"
+    When I visit "/servicios"
     Then I see "Cargando..."
 
   Scenario: The services are listed after loading
     Given the server has 3 services
-    When I visit "/productos" and they finish loading
+    When I visit "/servicios" and they finish loading
     Then I no longer see "Cargando..."
     And I see 3 service cards
 
   Scenario: Each card shows the service data
     Given the service "Landing page" costs 350
-    When I visit "/productos" and they finish loading
+    When I visit "/servicios" and they finish loading
     Then the card shows "Landing page", its category and the price "US$ 350"
 
   Scenario: Each card links to its detail
     Given the service "Landing page" has the id "landing-page"
-    When I visit "/productos" and they finish loading
-    Then the card has a link "Ver detalle" to "/producto/landing-page"
+    When I visit "/servicios" and they finish loading
+    Then the card has a link "Ver detalle" to "/servicio/landing-page"
 
   Scenario: An error is shown when the services cannot be loaded
     Given the server fails
-    When I visit "/productos"
+    When I visit "/servicios"
     Then I see an alert "No pudimos cargar los servicios. Probá de nuevo más tarde."
     And I see no service cards
 
   Scenario: An empty catalog shows a message
     Given the server has no services
-    When I visit "/productos" and they finish loading
+    When I visit "/servicios" and they finish loading
     Then I see "Todavía no hay servicios disponibles."
 
   Scenario: An item is a reusable component driven by props
@@ -81,7 +81,7 @@ Feature: Browse the catalog of services
 
   Scenario: The catalog follows the language
     Given the language is English and the server has "Landing page"
-    When I visit "/productos" and they finish loading
+    When I visit "/servicios" and they finish loading
     Then the card shows the English title and the link "View details"
 ```
 

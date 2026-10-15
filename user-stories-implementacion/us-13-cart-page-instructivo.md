@@ -21,7 +21,7 @@ CartPage      (contenedor: useCart(); decide vacío / lista; total; "Vaciar")
 
 > **Carpetas reales de este proyecto:** la página `CartPage` **ya existe** (provisoria, desde US-02)
 > en `src/features/cart/pages/CartPage.jsx`: **se edita ahí**. El link "Ver servicios" del estado
-> vacío apunta a `/productos`. El título de la página sigue siendo la clave que ya existe: `nav.cart`.
+> vacío apunta a `/servicios`. El título de la página sigue siendo la clave que ya existe: `nav.cart`.
 
 ## Mapa de archivos
 
@@ -88,7 +88,7 @@ algún día persistís el carrito).
 ```jsx
   it("starts with the initial items when they are provided", () => {
     const initialItems = [
-      { id: "product-1", title: makeProduct(1).title, price: 100, image: "", quantity: 2 },
+      { id: "service-1", title: makeProduct(1).title, price: 100, image: "", quantity: 2 },
     ];
     render(
       <CartProvider initialItems={initialItems}>
@@ -185,7 +185,7 @@ describe("CartItem", () => {
   it("shows the title and the image of the service", () => {
     renderWithProviders(<CartItem item={item} onRemove={vi.fn()} />);
     expect(screen.getByRole("heading", { name: "Servicio 1" })).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute("src", "/images/product-1.svg");
+    expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute("src", "/images/service-1.svg");
   });
 });
 ```
@@ -411,7 +411,7 @@ git add -A && git commit -m "feat(cart): show the unit price and the subtotal"
     const onRemove = vi.fn();
     renderWithProviders(<CartItem item={item} onRemove={onRemove} />);
     await user.click(screen.getByRole("button", { name: "Quitar Servicio 1" }));
-    expect(onRemove).toHaveBeenCalledWith("product-1");
+    expect(onRemove).toHaveBeenCalledWith("service-1");
   });
 ```
 
@@ -556,7 +556,7 @@ describe("CartPage", () => {
   it("invites to browse the services when the cart is empty", () => {
     renderWithProviders(<CartPage />);
     expect(screen.getByText("Tu carrito está vacío")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Ver servicios" })).toHaveAttribute("href", "/productos");
+    expect(screen.getByRole("link", { name: "Ver servicios" })).toHaveAttribute("href", "/servicios");
   });
 });
 ```
@@ -587,7 +587,7 @@ export function CartPage() {
 			<>
 				<h1>{t("nav.cart")}</h1>
 				<p>{t("cart.empty")}</p>
-				<Link to="/productos">{t("cart.browse")}</Link>
+				<Link to="/servicios">{t("cart.browse")}</Link>
 			</>
 		);
 	}
@@ -647,7 +647,7 @@ export function CartPage() {
 			<>
 				<h1>{t("nav.cart")}</h1>
 				<p>{t("cart.empty")}</p>
-				<Link to="/productos">{t("cart.browse")}</Link>
+				<Link to="/servicios">{t("cart.browse")}</Link>
 			</>
 		);
 	}
@@ -734,7 +734,7 @@ export function CartPage() {
 			<>
 				<h1>{t("nav.cart")}</h1>
 				<p>{t("cart.empty")}</p>
-				<Link to="/productos">{t("cart.browse")}</Link>
+				<Link to="/servicios">{t("cart.browse")}</Link>
 			</>
 		);
 	}
@@ -899,7 +899,7 @@ export function CartPage() {
 			<>
 				<h1>{t("nav.cart")}</h1>
 				<p>{t("cart.empty")}</p>
-				<Link to="/productos">{t("cart.browse")}</Link>
+				<Link to="/servicios">{t("cart.browse")}</Link>
 			</>
 		);
 	}
@@ -948,7 +948,7 @@ Este ciclo **no cambia código productivo**: es el recorrido real de la app.
   it("shows in the cart page what was added from the detail", async () => {
     const user = userEvent.setup();
     server.use(productsHandler([makeProduct(1)]));
-    renderWithProviders(<App />, { route: "/producto/product-1" });
+    renderWithProviders(<App />, { route: "/servicio/service-1" });
     await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     await user.click(screen.getByRole("link", { name: "Carrito, 2 artículos" }));
@@ -1313,7 +1313,7 @@ export function CartPage() {
 			<section className={styles.empty}>
 				<h1 className={styles.title}>{t("nav.cart")}</h1>
 				<p>{t("cart.empty")}</p>
-				<Link className={styles.browse} to="/productos">
+				<Link className={styles.browse} to="/servicios">
 					{t("cart.browse")}
 				</Link>
 			</section>

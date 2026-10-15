@@ -523,7 +523,7 @@ export function NavBar() {
 	return (
 		<nav aria-label={t("nav.label")} className={styles.nav}>
 			<NavItem to="/">{t("nav.home")}</NavItem>
-			<NavItem to="/productos" activeFor={["/producto/:id"]}>
+			<NavItem to="/servicios" activeFor={["/servicio/:id"]}>
 				{t("nav.services")}
 			</NavItem>
 			<CartWidget />
@@ -594,7 +594,7 @@ propósito.
   it("keeps the cart across pages", async () => {
     const user = userEvent.setup();
     server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-    renderWithProviders(<App />, { route: "/producto/product-1" });
+    renderWithProviders(<App />, { route: "/servicio/service-1" });
     await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     await user.click(screen.getByRole("link", { name: "Servicios" }));
@@ -608,7 +608,7 @@ propósito.
 
 ### 2. Mutación
 
-1. En `src/features/products/pages/ItemDetailContainer.jsx`, en el `return` final, envolvé el detalle
+1. En `src/features/services/pages/ItemDetailContainer.jsx`, en el `return` final, envolvé el detalle
    en su propio `<CartProvider>` (con `import { CartProvider } from "../../cart/context/CartContext";`):
    `<CartProvider><ItemDetail product={product} /></CartProvider>`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** el estado no sobrevive a la navegación

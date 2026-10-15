@@ -25,7 +25,7 @@ test, the minimum code, one commit).
 | [US-06](us-06-landing-page.md) | Landing page with value proposition | 3.1 (`/`) |
 | [US-07](us-07-product-data-source.md) | Load the services from a data source | 2.1 |
 | [US-08](us-08-browse-service-catalog.md) | Browse the catalog of services | 2.1, 2.2 |
-| [US-09](us-09-service-detail.md) | See the details of one service | 3.1 (`/producto/:id`) |
+| [US-09](us-09-service-detail.md) | See the details of one service | 3.1 (`/servicio/:id`) |
 | [US-10](us-10-cart-state.md) | A global cart state | 4.1 |
 | [US-11](us-11-add-to-cart-from-detail.md) | Add a service to the cart | 4.2 |
 | [US-12](us-12-cart-widget-in-navbar.md) | Cart widget in the navigation bar | 4.3 |
@@ -93,5 +93,5 @@ and these documents are in English.
 the scenario name) except in US-15, where they are a real `.feature` file run with Playwright.
 
 **Provisional decisions to confirm** (recorded so they are not forgotten): brand name
-"Trigologia Dev"; the routes `/productos`, `/producto/:id`, `/carrito` (they follow the assignment
+"Trigologia Dev"; the routes `/servicios`, `/servicio/:id`, `/carrito` (they follow the assignment
 PDF); the three team members of the footer (US-05); the price currency (USD).

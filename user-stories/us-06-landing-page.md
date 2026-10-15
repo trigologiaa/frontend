@@ -16,7 +16,7 @@ Depends on: [US-05](us-05-company-and-team-in-footer.md) (layout complete, texts
 Included:
 
 - The `/` page (`Home`) with a hero: title, value proposition and a primary call to action
-  "See services" that navigates to `/productos` (with `<Link>`, no reload).
+  "See services" that navigates to `/servicios` (with `<Link>`, no reload).
 - A short "what I can do for you" section with three highlights (web, backend, mentoring).
 - Translated copy (es/en).
 - The browser tab title shows the brand name.
@@ -84,7 +84,7 @@ Feature: Landing page with value proposition
 
 ## Decisions
 
-- **The CTA is a `<Link>` to `/productos`:** the catalog route exists since US-02, so it is never
+- **The CTA is a `<Link>` to `/servicios`:** the catalog route exists since US-02, so it is never
   broken.
 - **Document title:** set with a small `useEffect` (or a tiny `useDocumentTitle` hook) — no extra
   library. If you later want per-page titles, extend the hook.

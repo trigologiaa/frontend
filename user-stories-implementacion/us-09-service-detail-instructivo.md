@@ -1,7 +1,7 @@
 # Instructivo US-09: detalle de un servicio (JavaScript)
 
 Guía para implementar [US-09](../user-stories/us-09-service-detail.md) con el [flujo](00-workflow.md).
-Repite el patrón de US-07/US-08 para **un solo** servicio, con la ruta dinámica `/producto/:id`.
+Repite el patrón de US-07/US-08 para **un solo** servicio, con la ruta dinámica `/servicio/:id`.
 Formato de los pasos: [Formato de los instructivos](00-workflow.md#formato-de-los-instructivos).
 
 ## Qué vas a construir
@@ -18,9 +18,9 @@ useProduct(id)       (hook: { product, loading, error })
 
 > **Rutas y carpetas reales de este proyecto:**
 >
-> - El detalle es **`/producto/:id`** y el catálogo **`/productos`** (`src/App.jsx`).
+> - El detalle es **`/servicio/:id`** y el catálogo **`/servicios`** (`src/App.jsx`).
 > - La página `ItemDetailContainer` **ya existe** (provisoria, desde US-02) en
->   `src/features/products/pages/ItemDetailContainer.jsx`: **se edita ahí**.
+>   `src/features/services/pages/ItemDetailContainer.jsx`: **se edita ahí**.
 > - `ItemDetail` y el hook `useProduct` viven en `src/features/products/`, como `Item` y `useProducts`.
 
 ## Mapa de archivos
@@ -34,12 +34,12 @@ useProduct(id)       (hook: { product, loading, error })
 | 6 (opcional) | `src/shared/useAsync.js` | **crear** |
 | 7–10 | `test/features/products/components/ItemDetail.test.jsx` | **crear** en el ciclo 7, editar después |
 | 7–10 | `src/features/products/components/ItemDetail.jsx` | **crear** en el ciclo 7, editar después |
-| 11–15, 17 | `test/features/products/pages/ItemDetailContainer.test.jsx` | **crear** en el ciclo 11, editar después |
-| 11–15 | `src/features/products/pages/ItemDetailContainer.jsx` | editar (era provisoria) |
+| 11–15, 17 | `test/features/services/pages/ItemDetailContainer.test.jsx` | **crear** en el ciclo 11, editar después |
+| 11–15 | `src/features/services/pages/ItemDetailContainer.jsx` | editar (era provisoria) |
 | 11–15, 17 | `src/i18n/locales/es.json`, `src/i18n/locales/en.json` | editar (claves `detail.*`; borrar `pages`) |
 | 11, 16 | `test/App.test.jsx` | editar (se borran dos tests viejos; se agrega el recorrido real) |
 | S1 | `src/features/products/components/ItemDetail.module.css` | **crear** |
-| S2 | `src/features/products/pages/ItemDetailContainer.module.css` | **crear** |
+| S2 | `src/features/services/pages/ItemDetailContainer.module.css` | **crear** |
 
 ## Paso 0: Preparar
 
@@ -90,7 +90,7 @@ import { server } from "../../../server";
 describe("useProduct", () => {
   it("starts loading with no product and no error", () => {
     server.use(productsHandler());
-    const { result } = renderHook(() => useProduct("product-1"));
+    const { result } = renderHook(() => useProduct("service-1"));
     expect(result.current).toEqual({ product: null, loading: true, error: null });
   });
 });
@@ -138,7 +138,7 @@ git add -A && git commit -m "feat(products): add the product hook in its loading
    ```js
      it("loads the product with the requested id", async () => {
        server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-       const { result } = renderHook(() => useProduct("product-2"));
+       const { result } = renderHook(() => useProduct("service-2"));
        await waitFor(() => expect(result.current.loading).toBe(false));
        expect(result.current.product).toEqual(makeProduct(2));
      });
@@ -221,7 +221,7 @@ git add -A && git commit -m "test(products): return null for an unknown id"
    ```js
      it("exposes an error when the product cannot be loaded", async () => {
        server.use(failingProductsHandler());
-       const { result } = renderHook(() => useProduct("product-1"));
+       const { result } = renderHook(() => useProduct("service-1"));
        await waitFor(() => expect(result.current.loading).toBe(false));
        expect(result.current.error).toBeInstanceOf(Error);
        expect(result.current.product).toBeNull();
@@ -293,7 +293,7 @@ Igual que US-07, ciclo 10.
      it("aborts the pending request when the component unmounts", () => {
        server.use(productsHandler());
        const fetchSpy = vi.spyOn(globalThis, "fetch");
-       const { unmount } = renderHook(() => useProduct("product-1"));
+       const { unmount } = renderHook(() => useProduct("service-1"));
        unmount();
        expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
      });
@@ -358,7 +358,7 @@ Igual que US-07, ciclo 11.
    ```js
      it("does not report a cancelled request as an error in StrictMode", async () => {
        server.use(productsHandler([makeProduct(1)]));
-       const { result } = renderHook(() => useProduct("product-1"), { wrapper: StrictMode });
+       const { result } = renderHook(() => useProduct("service-1"), { wrapper: StrictMode });
        await waitFor(() => expect(result.current.loading).toBe(false));
        expect(result.current.error).toBeNull();
        expect(result.current.product).toEqual(makeProduct(1));
@@ -672,7 +672,7 @@ git add -A && git commit -m "feat(products): show the service price and category
 ```jsx
   it("shows the image with the title as alternative text", () => {
     renderWithProviders(<ItemDetail product={makeProduct(1)} />);
-    expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute("src", "/images/product-1.svg");
+    expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute("src", "/images/service-1.svg");
   });
 ```
 
@@ -750,14 +750,14 @@ Este ciclo reemplaza la página provisoria de US-02, así que **rompe a propósi
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemDetailContainer.test.jsx` (**crealo**).
+**Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx` (**crealo**).
 **Dónde:** el archivo entero. Ojo: el test necesita una ruta para que `useParams` tenga `id`.
 
 ```jsx
 import { screen } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import { ItemDetailContainer } from "../../../../src/features/products/pages/ItemDetailContainer";
+import { ItemDetailContainer } from "../../../../src/features/services/pages/ItemDetailContainer";
 import { productsHandler } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 import { server } from "../../../server";
@@ -765,16 +765,16 @@ import { server } from "../../../server";
 function renderDetail(id) {
   return renderWithProviders(
     <Routes>
-      <Route path="/producto/:id" element={<ItemDetailContainer />} />
+      <Route path="/servicio/:id" element={<ItemDetailContainer />} />
     </Routes>,
-    { route: `/producto/${id}` },
+    { route: `/servicio/${id}` },
   );
 }
 
 describe("ItemDetailContainer", () => {
   it("shows a loading message while the service loads", () => {
     server.use(productsHandler());
-    renderDetail("product-1");
+    renderDetail("service-1");
     expect(screen.getByRole("status")).toHaveTextContent("Cargando...");
   });
 });
@@ -788,7 +788,7 @@ Unable to find an accessible element with the role "status"
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemDetailContainer.jsx` (ya existe).
+**Archivo:** `src/features/services/pages/ItemDetailContainer.jsx` (ya existe).
 **Dónde:** reemplazá el archivo entero.
 
 ```jsx
@@ -815,7 +815,7 @@ export function ItemDetailContainer() {
 **Dónde:** borrá estos dos tests completos (el recorrido real lo cubre el ciclo 16):
 
 ```jsx
-  it("shows the detail page at '/producto/:id'", () => { ... });
+  it("shows the detail page at '/servicio/:id'", () => { ... });
   it("gives the detail page the id from the URL", () => { ... });
 ```
 
@@ -849,7 +849,7 @@ git add -A && git commit -m "feat(products): show a loading message in the detai
 
 Dos servicios, para comprobar que **el id elige**.
 
-**Archivo:** `test/features/products/pages/ItemDetailContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx`
 
 1. **Dónde (import de handlers):** sumá `makeProduct`:
 
@@ -862,7 +862,7 @@ Dos servicios, para comprobar que **el id elige**.
    ```jsx
      it("shows the service whose id is in the URL", async () => {
        server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-       renderDetail("product-2");
+       renderDetail("service-2");
        expect(await screen.findByRole("heading", { level: 1, name: "Servicio 2" })).toBeInTheDocument();
        expect(screen.queryByText("Servicio 1")).not.toBeInTheDocument();
      });
@@ -873,7 +873,7 @@ Dos servicios, para comprobar que **el id elige**.
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemDetailContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
 **Dónde:** reemplazá el archivo entero (lee `product` y dibuja `ItemDetail`).
 
 ```jsx
@@ -928,7 +928,7 @@ git add -A && git commit -m "feat(products): show the service selected by the UR
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemDetailContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 12.
 
 ```jsx
@@ -936,7 +936,7 @@ git add -A && git commit -m "feat(products): show the service selected by the UR
     server.use(productsHandler([makeProduct(1)]));
     renderDetail("does-not-exist");
     expect(await screen.findByRole("heading", { name: "No encontramos ese servicio" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/productos");
+    expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/servicios");
   });
 ```
 
@@ -951,7 +951,7 @@ Leelo: es el rojo correcto (falta el caso "no existe").
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemDetailContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
 **Dónde:** reemplazá el archivo entero (nuevo import de `Link`; el caso `!product` va **antes** de
 dibujar el detalle).
 
@@ -971,7 +971,7 @@ export function ItemDetailContainer() {
 		return (
 			<>
 				<h1>{t("detail.notFound.title")}</h1>
-				<Link to="/productos">{t("detail.back")}</Link>
+				<Link to="/servicios">{t("detail.back")}</Link>
 			</>
 		);
 	}
@@ -1009,7 +1009,7 @@ git add -A && git commit -m "feat(products): handle a service that does not exis
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemDetailContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx`
 
 1. **Dónde (import de handlers):** sumá `failingProductsHandler`:
 
@@ -1022,7 +1022,7 @@ git add -A && git commit -m "feat(products): handle a service that does not exis
    ```jsx
      it("shows an alert when the service cannot be loaded", async () => {
        server.use(failingProductsHandler());
-       renderDetail("product-1");
+       renderDetail("service-1");
        expect(await screen.findByRole("alert")).toHaveTextContent(
          "No pudimos cargar el servicio. Probá de nuevo más tarde.",
        );
@@ -1034,7 +1034,7 @@ muestra "No encontramos ese servicio", que es otro caso).
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemDetailContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
 **Dónde:** reemplazá el archivo entero (lee `error` del hook; el `if (error)` va **antes** del
 `!product`).
 
@@ -1055,7 +1055,7 @@ export function ItemDetailContainer() {
 		return (
 			<>
 				<h1>{t("detail.notFound.title")}</h1>
-				<Link to="/productos">{t("detail.back")}</Link>
+				<Link to="/servicios">{t("detail.back")}</Link>
 			</>
 		);
 	}
@@ -1077,15 +1077,15 @@ git add -A && git commit -m "feat(products): show an alert when the service cann
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemDetailContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 14.
 
 ```jsx
   it("links back to the services from a loaded detail", async () => {
     server.use(productsHandler([makeProduct(1)]));
-    renderDetail("product-1");
+    renderDetail("service-1");
     await screen.findByRole("heading", { level: 1, name: "Servicio 1" });
-    expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/productos");
+    expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/servicios");
   });
 ```
 
@@ -1097,7 +1097,7 @@ Unable to find an accessible element with the role "link" and name "Volver a ser
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemDetailContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
 **Dónde:** reemplazá el archivo entero. El link vive en el contenedor, junto al detalle (el detalle
 cargado y su link van en un fragmento).
 
@@ -1118,14 +1118,14 @@ export function ItemDetailContainer() {
 		return (
 			<>
 				<h1>{t("detail.notFound.title")}</h1>
-				<Link to="/productos">{t("detail.back")}</Link>
+				<Link to="/servicios">{t("detail.back")}</Link>
 			</>
 		);
 	}
 	return (
 		<>
 			<ItemDetail product={product} />
-			<Link to="/productos">{t("detail.back")}</Link>
+			<Link to="/servicios">{t("detail.back")}</Link>
 		</>
 	);
 }
@@ -1163,7 +1163,7 @@ mutación.
      it("goes from the catalog to the detail of a service", async () => {
        const user = userEvent.setup();
        server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-       renderWithProviders(<App />, { route: "/productos" });
+       renderWithProviders(<App />, { route: "/servicios" });
        await user.click(await screen.findByRole("link", { name: /Ver detalle.*Servicio 2/ }));
        expect(await screen.findByRole("heading", { level: 1, name: "Servicio 2" })).toBeInTheDocument();
      });
@@ -1174,8 +1174,8 @@ ya existen).
 
 ### 2. Mutación
 
-1. En `src/features/products/components/Item.jsx` cambiá `to={`/producto/${product.id}`}` por
-   `to={`/productos/${product.id}`}`.
+1. En `src/features/products/components/Item.jsx` cambiá `to={`/servicio/${product.id}`}` por
+   `to={`/servicios/${product.id}`}`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** el test del recorrido falla (esa ruta no existe).
 3. **Restaurá** y corré de nuevo: verde.
 
@@ -1196,7 +1196,7 @@ correctos.
 
 ### 1. Test (pasa de entrada)
 
-**Archivo:** `test/features/products/pages/ItemDetailContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx`
 
 1. **Dónde (imports):** agregá, después del import de `ItemDetailContainer`:
 
@@ -1210,7 +1210,7 @@ correctos.
      it("shows the service detail in English", async () => {
        await i18n.changeLanguage("en");
        server.use(productsHandler([makeProduct(1)]));
-       renderDetail("product-1");
+       renderDetail("service-1");
        expect(await screen.findByRole("heading", { level: 1, name: "Service 1" })).toBeInTheDocument();
        expect(screen.getByRole("link", { name: "Back to services" })).toBeInTheDocument();
      });
@@ -1347,14 +1347,14 @@ git add -A && git commit -m "style(products): style the service detail"
 **Dónde:** el array `pending`. Borrá esta línea:
 
 ```js
-  "src/features/products/pages/ItemDetailContainer.jsx",
+  "src/features/services/pages/ItemDetailContainer.jsx",
 ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** el test nombra `ItemDetailContainer.jsx` sin módulo.
 
 **2. 🟢 Código.**
 
-**Archivo:** `src/features/products/pages/ItemDetailContainer.module.css` (**crealo**).
+**Archivo:** `src/features/services/pages/ItemDetailContainer.module.css` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```css
@@ -1400,7 +1400,7 @@ git add -A && git commit -m "style(products): style the service detail"
 }
 ```
 
-**Archivo:** `src/features/products/pages/ItemDetailContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
 **Dónde:** reemplazá el archivo entero (cada retorno recibe su clase; el detalle y su link "Volver"
 van juntos en `styles.page`).
 
@@ -1434,7 +1434,7 @@ export function ItemDetailContainer() {
 		return (
 			<section className={styles.notFound}>
 				<h1 className={styles.notFoundTitle}>{t("detail.notFound.title")}</h1>
-				<Link className={styles.back} to="/productos">
+				<Link className={styles.back} to="/servicios">
 					{t("detail.back")}
 				</Link>
 			</section>
@@ -1443,7 +1443,7 @@ export function ItemDetailContainer() {
 	return (
 		<section className={styles.page}>
 			<ItemDetail product={product} />
-			<Link className={styles.back} to="/productos">
+			<Link className={styles.back} to="/servicios">
 				{t("detail.back")}
 			</Link>
 		</section>
@@ -1453,7 +1453,7 @@ export function ItemDetailContainer() {
 
 **Corré:** `pnpm test:run`. **Resultado esperado:** todo verde.
 
-**3. 🔵 Mirar el navegador.** Visitá `/producto/no-existe` (mensaje amable + link claro) y simulá la
+**3. 🔵 Mirar el navegador.** Visitá `/servicio/no-existe` (mensaje amable + link claro) y simulá la
 carga lenta y el error. Los tres estados tienen que verse **cuidados**, no como un texto suelto.
 
 **4. Commit**
@@ -1467,7 +1467,7 @@ git add -A && git commit -m "style(products): style the service detail states"
 ## Verificación manual
 
 - [ ] `pnpm dev`: catálogo → "Ver detalle" → detalle; botón Atrás del navegador vuelve al catálogo.
-- [ ] Escribí `/producto/no-existe`: mensaje amable + link de vuelta.
+- [ ] Escribí `/servicio/no-existe`: mensaje amable + link de vuelta.
 - [ ] Copiá la URL de un detalle, abrila en otra pestaña y refrescá (en el preview de Vercel también).
 - [ ] Bloqueá `productos.json` en DevTools: alerta de error. Sin errores en consola.
 - [ ] El detalle a 360 y 1280 px (imagen arriba / lado a lado) y sus tres estados (carga, no existe, error).

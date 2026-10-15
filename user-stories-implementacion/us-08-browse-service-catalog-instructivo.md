@@ -21,9 +21,9 @@ ItemListContainer   (contenedor: usa useProducts y decide qué mostrar: cargando
 
 > **Rutas y carpetas reales de este proyecto:**
 >
-> - El catálogo se ve en **`/productos`** y el detalle en **`/producto/:id`** (`src/App.jsx`).
+> - El catálogo se ve en **`/servicios`** y el detalle en **`/servicio/:id`** (`src/App.jsx`).
 > - La página `ItemListContainer` **ya existe** (provisoria, desde US-02) en
->   `src/features/products/pages/ItemListContainer.jsx`: **se edita ahí**, no se crea otra.
+>   `src/features/services/pages/ItemListContainer.jsx`: **se edita ahí**, no se crea otra.
 > - Los componentes nuevos `Item` e `ItemList` y el hook de US-07 viven en `src/features/products/`.
 > - El título de la página sigue siendo la clave que ya existe: `nav.services` ("Servicios").
 
@@ -40,12 +40,12 @@ ItemListContainer   (contenedor: usa useProducts y decide qué mostrar: cargando
 | 3–7 | `src/features/products/components/Item.jsx` | **crear** |
 | 8 | `test/features/products/components/ItemList.test.jsx` | **crear** |
 | 8 | `src/features/products/components/ItemList.jsx` | **crear** |
-| 9–13 | `test/features/products/pages/ItemListContainer.test.jsx` | **crear** |
-| 9–12 | `src/features/products/pages/ItemListContainer.jsx` | editar (era provisoria) |
+| 9–13 | `test/features/services/pages/ItemListContainer.test.jsx` | **crear** |
+| 9–12 | `src/features/services/pages/ItemListContainer.jsx` | editar (era provisoria) |
 | S1 | `test/styles/tokens.test.js`, `src/styles/tokens.css` | editar |
 | S2 | `src/features/products/components/Item.module.css` | **crear** |
 | S2 | `src/features/products/components/ItemList.module.css` | **crear** |
-| S3 | `src/features/products/pages/ItemListContainer.module.css` | **crear** |
+| S3 | `src/features/services/pages/ItemListContainer.module.css` | **crear** |
 
 ## Paso 0: Preparar
 
@@ -65,8 +65,8 @@ array. (Si no, ese test se pone rojo apenas crees cada `.jsx`.)
 
 ```js
 const pending = [
-  "src/features/products/pages/ItemListContainer.jsx",
-  "src/features/products/pages/ItemDetailContainer.jsx",
+  "src/features/services/pages/ItemListContainer.jsx",
+  "src/features/services/pages/ItemDetailContainer.jsx",
   "src/features/cart/pages/CartPage.jsx",
   "src/features/products/components/Item.jsx",
   "src/features/products/components/ItemList.jsx",
@@ -77,7 +77,7 @@ const pending = [
 
 ### Que los tests de `App` no fallen por la red
 
-Desde este story, la página `/productos` pide datos. En `test/setup.js` (US-07) cualquier pedido sin
+Desde este story, la página `/servicios` pide datos. En `test/setup.js` (US-07) cualquier pedido sin
 handler hace fallar el test, y `test/App.test.jsx` renderiza esa página sin handler.
 
 **Archivo:** `test/App.test.jsx`
@@ -280,7 +280,7 @@ git add -A && git commit -m "feat(products): add the item with its title"
   it("shows the image with the title as alternative text", () => {
     renderWithProviders(<Item product={makeProduct(1)} />);
     const image = screen.getByRole("img", { name: "Servicio 1" });
-    expect(image).toHaveAttribute("src", "/images/product-1.svg");
+    expect(image).toHaveAttribute("src", "/images/service-1.svg");
   });
 ```
 
@@ -519,7 +519,7 @@ git add -A && git commit -m "feat(products): show the item category"
 ```jsx
   it("links to the detail page of the product", () => {
     renderWithProviders(<Item product={makeProduct(1)} />);
-    expect(screen.getByRole("link", { name: /Ver detalle/ })).toHaveAttribute("href", "/producto/product-1");
+    expect(screen.getByRole("link", { name: /Ver detalle/ })).toHaveAttribute("href", "/servicio/service-1");
   });
 ```
 
@@ -558,7 +558,7 @@ export function Item({ product }) {
 			<p>{t(`categories.${product.category}`)}</p>
 			<p>{formatPrice(product.price, language)}</p>
 			<Link
-				to={`/producto/${product.id}`}
+				to={`/servicio/${product.id}`}
 				aria-label={`${t("catalog.viewDetail")}: ${title}`}
 			>
 				{t("catalog.viewDetail")}
@@ -667,14 +667,14 @@ git add -A && git commit -m "feat(products): add the item list"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemListContainer.test.jsx` (**crealo**; la carpeta
-`test/features/products/pages/` es nueva).
+**Archivo:** `test/features/services/pages/ItemListContainer.test.jsx` (**crealo**; la carpeta
+`test/features/services/pages/` es nueva).
 **Dónde:** el archivo entero.
 
 ```jsx
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { ItemListContainer } from "../../../../src/features/products/pages/ItemListContainer";
+import { ItemListContainer } from "../../../../src/features/services/pages/ItemListContainer";
 import { productsHandler } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 import { server } from "../../../server";
@@ -697,7 +697,7 @@ Unable to find an accessible element with the role "status"
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemListContainer.jsx` (ya existe).
+**Archivo:** `src/features/services/pages/ItemListContainer.jsx` (ya existe).
 **Dónde:** reemplazá el archivo entero. El `<h1>` se mantiene con la clave de siempre.
 
 ```jsx
@@ -734,7 +734,7 @@ git add -A && git commit -m "feat(products): show a loading message in the catal
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemListContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemListContainer.test.jsx`
 
 1. **Dónde (import de handlers):** sumá `makeProduct`:
 
@@ -761,7 +761,7 @@ git add -A && git commit -m "feat(products): show a loading message in the catal
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemListContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemListContainer.jsx`
 **Dónde:** reemplazá el archivo entero.
 
 ```jsx
@@ -812,7 +812,7 @@ git add -A && git commit -m "feat(products): list the loaded products"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemListContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemListContainer.test.jsx`
 
 1. **Dónde (import de handlers):** sumá `failingProductsHandler`:
 
@@ -838,7 +838,7 @@ git add -A && git commit -m "feat(products): list the loaded products"
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemListContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemListContainer.jsx`
 **Dónde:** reemplazá el archivo entero (lee `error` del hook; la lista solo si `!loading && !error`).
 
 ```jsx
@@ -890,7 +890,7 @@ git add -A && git commit -m "feat(products): show an alert when loading fails"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/pages/ItemListContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemListContainer.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 11.
 
 ```jsx
@@ -906,7 +906,7 @@ git add -A && git commit -m "feat(products): show an alert when loading fails"
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/pages/ItemListContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemListContainer.jsx`
 **Dónde:** reemplazá el archivo entero (mensaje de vacío y lista solo si hay productos).
 
 ```jsx
@@ -946,7 +946,7 @@ git add -A && git commit -m "feat(products): show a message when the catalog is 
 Ese bloque de `&&` encadenados es difícil de leer. Con los tests en verde, reemplazalo por una
 cadena de `if`.
 
-**Archivo:** `src/features/products/pages/ItemListContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemListContainer.jsx`
 **Dónde:** reemplazá el archivo entero.
 
 ```jsx
@@ -993,7 +993,7 @@ el correcto.
 
 ### 1. 🔴 Escribir el test (pasa de entrada)
 
-**Archivo:** `test/features/products/pages/ItemListContainer.test.jsx`
+**Archivo:** `test/features/services/pages/ItemListContainer.test.jsx`
 
 1. **Dónde (imports):** agregá, después del import de `ItemListContainer`:
 
@@ -1187,7 +1187,7 @@ export function Item({ product }) {
 				<p className={styles.price}>{formatPrice(product.price, language)}</p>
 				<Link
 					className={styles.link}
-					to={`/producto/${product.id}`}
+					to={`/servicio/${product.id}`}
 					aria-label={`${t("catalog.viewDetail")}: ${title}`}
 				>
 					{t("catalog.viewDetail")}
@@ -1220,7 +1220,7 @@ export function ItemList({ products }) {
 
 **Corré:** `pnpm test:run`. **Resultado esperado:** todo verde.
 
-**3. 🔵 Mirar el navegador** (`pnpm dev`, `/productos`). La imagen ya tiene `width`/`height` en el
+**3. 🔵 Mirar el navegador** (`pnpm dev`, `/servicios`). La imagen ya tiene `width`/`height` en el
 HTML y acá `aspect-ratio`: el espacio queda reservado y la página no salta cuando la imagen carga.
 Todas las tarjetas de una fila miden lo mismo (el botón queda abajo gracias a `margin-top: auto`).
 Probalo con un título largo.
@@ -1237,14 +1237,14 @@ git add -A && git commit -m "style(products): style the item card and the catalo
 **Dónde:** el array `pending`. Borrá esta línea:
 
 ```js
-  "src/features/products/pages/ItemListContainer.jsx",
+  "src/features/services/pages/ItemListContainer.jsx",
 ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** el test nombra `ItemListContainer.jsx` sin módulo.
 
 **2. 🟢 Código.**
 
-**Archivo:** `src/features/products/pages/ItemListContainer.module.css` (**crealo**).
+**Archivo:** `src/features/services/pages/ItemListContainer.module.css` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```css
@@ -1277,7 +1277,7 @@ git add -A && git commit -m "style(products): style the item card and the catalo
 }
 ```
 
-**Archivo:** `src/features/products/pages/ItemListContainer.jsx`
+**Archivo:** `src/features/services/pages/ItemListContainer.jsx`
 **Dónde:** reemplazá el archivo entero (el fragmento pasa a `<section className={styles.page}>` y
 cada estado recibe su clase).
 
@@ -1335,7 +1335,7 @@ git add -A && git commit -m "style(products): style the catalog states"
 
 ## Verificación manual
 
-- [ ] `pnpm dev`, `/productos`: se ven las tarjetas con imagen, categoría y precio.
+- [ ] `pnpm dev`, `/servicios`: se ven las tarjetas con imagen, categoría y precio.
 - [ ] **Red lenta:** DevTools → *Network* → *Slow 4G* → recargá: aparece "Cargando...".
 - [ ] **Error:** DevTools → *Network* → clic derecho en `productos.json` → *Block request URL* →
       recargá: aparece la alerta. Desbloqueá.

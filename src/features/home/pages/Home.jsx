@@ -11,7 +11,7 @@ export function Home() {
 			<div className={styles.hero}>
 				<h1 className={styles.title}>{t("home.title")}</h1>
 				<p className={styles.pitch}>{t("home.pitch")}</p>
-				<Link to="/productos" className={styles.cta}>
+				<Link to="/servicios" className={styles.cta}>
 					{t("home.cta")}
 				</Link>
 			</div>

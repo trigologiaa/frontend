@@ -25,9 +25,8 @@ Mañana, para pasar a Firebase (US-17), se reescribe **solo** `productsApi`.
 > la URL real.
 
 > **Nombres:** el *archivo de datos* se llama `public/productos.json` y la *feature* de datos
-> `src/features/products/` (así lo define la story). La **ruta** del catálogo es `/productos` y su
-> página vive en `src/features/products/pages/`. En el código se dice *product*; en la interfaz,
-> *servicio*.
+> `src/features/products/` (así lo define la story). La **ruta** del catálogo es `/servicios` y su
+> página vive en `src/features/services/pages/`.
 
 ## Mapa de archivos
 
@@ -44,7 +43,7 @@ Mañana, para pasar a Firebase (US-17), se reescribe **solo** `productsApi`.
 | 5–6 | `src/shared/localized.js` | **crear** en el ciclo 5, editar en el 6 |
 | 7–11 | `test/features/products/hooks/useProducts.test.js` | **crear** en el ciclo 7, editar después |
 | 7–11 | `src/features/products/hooks/useProducts.js` | **crear** en el ciclo 7, editar después |
-| 12 | `test/features/products/productos.test.js` | **crear** |
+| 12 | `test/features/products/servicios.test.js` | **crear** |
 | 12 | `public/productos.json` | **crear** |
 | 12 | `public/images/<id>.svg` (uno por servicio) | **crear** |
 
@@ -95,12 +94,12 @@ import { HttpResponse, http } from "msw";
 
 export function makeProduct(n = 1) {
   return {
-    id: `product-${n}`,
+    id: `service-${n}`,
     title: { es: `Servicio ${n}`, en: `Service ${n}` },
     description: { es: `Descripción ${n}`, en: `Description ${n}` },
     price: 100 * n,
     category: "web",
-    image: `/images/product-${n}.svg`,
+    image: `/images/service-${n}.svg`,
   };
 }
 
@@ -203,7 +202,7 @@ export async function getProducts() {
 
 > **Por qué `new URL(..., window.location.origin)`:** Node (donde corren los tests) no acepta URLs
 > relativas en `fetch`; en el navegador anda igual. Usá siempre `/productos.json` con barra inicial:
-> los archivos de `public/` cuelgan de la raíz del sitio, aun estando en `/producto/abc`.
+> los archivos de `public/` cuelgan de la raíz del sitio, aun estando en `/servicio/abc`.
 
 **Corré:** `pnpm test:run`. **Resultado esperado:** todo verde.
 
@@ -290,7 +289,7 @@ git add -A && git commit -m "feat(products): reject when the products cannot be 
    describe("getProductById", () => {
      it("returns the product with that id", async () => {
        server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-       const product = await getProductById("product-2");
+       const product = await getProductById("service-2");
        expect(product).toEqual(makeProduct(2));
      });
    });
@@ -801,7 +800,7 @@ git add -A && git commit -m "fix(products): ignore aborted requests in the hook"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/productos.test.js` (**crealo**).
+**Archivo:** `test/features/products/servicios.test.js` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```js

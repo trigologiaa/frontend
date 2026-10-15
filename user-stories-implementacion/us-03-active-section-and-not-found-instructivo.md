@@ -38,7 +38,7 @@ git add docs && git commit -m "docs: add US-03 active section and not found stor
 
 ```jsx
   it('marks the current section as the current page', () => {
-    renderWithProviders(<NavBar />, { route: '/productos' })
+    renderWithProviders(<NavBar />, { route: '/servicios' })
 
     expect(screen.getByRole('link', { name: 'Servicios' })).toHaveAttribute('aria-current', 'page')
   })
@@ -57,7 +57,7 @@ pnpm test:run && git add -A && git commit -m "feat(layout): mark the current sec
 
 ```jsx
   it('does not mark the other sections', () => {
-    renderWithProviders(<NavBar />, { route: '/productos' })
+    renderWithProviders(<NavBar />, { route: '/servicios' })
 
     expect(screen.getByRole('link', { name: 'Inicio' })).not.toHaveAttribute('aria-current')
     expect(screen.getByRole('link', { name: 'Carrito' })).not.toHaveAttribute('aria-current')
@@ -104,13 +104,13 @@ pnpm test:run && git add -A && git commit -m "test(layout): follow the mark thro
 
 ```jsx
   it('keeps the services section marked on a service detail', () => {
-    renderWithProviders(<NavBar />, { route: '/producto/landing-page' })
+    renderWithProviders(<NavBar />, { route: '/servicio/landing-page' })
 
     expect(screen.getByRole('link', { name: 'Servicios' })).toHaveAttribute('aria-current', 'page')
   })
 ```
 
-Rojo: `Received: null` (`/producto/landing-page` no coincide con `/productos`). 🟢: hay que dejar de
+Rojo: `Received: null` (`/servicio/landing-page` no coincide con `/servicios`). 🟢: hay que dejar de
 depender solo de `NavLink`. Creá `NavItem` — un link que sabe en qué rutas está activo:
 
 ```jsx
@@ -128,7 +128,7 @@ export function NavItem({ to, activeFor = [], children }) {
 }
 ```
 
-En `NavBar`: `<NavItem to="/">Inicio</NavItem>`, `<NavItem to="/productos" activeFor={['/producto/:id']}>Servicios</NavItem>`,
+En `NavBar`: `<NavItem to="/">Inicio</NavItem>`, `<NavItem to="/servicios" activeFor={['/servicio/:id']}>Servicios</NavItem>`,
 `<NavItem to="/carrito">Carrito</NavItem>`. Los tests de los ciclos 1–3 siguen verdes y te dicen
 que el refactor no rompió nada (por eso `end: true` está en `matchPath`, reemplazando el `end` de
 `NavLink`).

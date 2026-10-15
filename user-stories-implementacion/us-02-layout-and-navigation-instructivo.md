@@ -142,7 +142,7 @@ pnpm test:run && git add -A && git commit -m "feat(layout): add main navigation 
     renderWithProviders(<NavBar />)
 
     expect(screen.getByRole('link', { name: 'Inicio' })).toHaveAttribute('href', '/')
-    expect(screen.getByRole('link', { name: 'Servicios' })).toHaveAttribute('href', '/productos')
+    expect(screen.getByRole('link', { name: 'Servicios' })).toHaveAttribute('href', '/servicios')
     expect(screen.getByRole('link', { name: 'Carrito' })).toHaveAttribute('href', '/carrito')
   })
 ```
@@ -156,7 +156,7 @@ export function NavBar() {
   return (
     <nav aria-label="Navegación principal">
       <Link to="/">Inicio</Link>
-      <Link to="/productos">Servicios</Link>
+      <Link to="/servicios">Servicios</Link>
       <Link to="/carrito">Carrito</Link>
     </nav>
   )
@@ -336,13 +336,13 @@ pnpm verify && git add -A && git commit -m "feat(app): route home page inside th
 
 (`verify` y no solo `test:run`: acá tocaste `main` y el build.)
 
-## Ciclo 8 — `/productos`
+## Ciclo 8 — `/servicios`
 
 🔴 Agregá a `App.test`:
 
 ```jsx
-  it('shows the catalog page at "/productos"', () => {
-    renderWithProviders(<App />, { route: '/productos' })
+  it('shows the catalog page at "/servicios"', () => {
+    renderWithProviders(<App />, { route: '/servicios' })
 
     expect(screen.getByRole('heading', { level: 1, name: 'Servicios' })).toBeInTheDocument()
   })
@@ -351,7 +351,7 @@ pnpm verify && git add -A && git commit -m "feat(app): route home page inside th
 Rojo: `Unable to find ... name "Servicios"` (aparece el h1 de Home en su lugar… o nada: leé el
 mensaje de RTL, que imprime el DOM actual). 🟢:
 
-`src/features/products/pages/ItemListContainer.jsx`:
+`src/features/services/pages/ItemListContainer.jsx`:
 
 ```jsx
 export function ItemListContainer() {
@@ -365,19 +365,19 @@ export function ItemListContainer() {
 pnpm test:run && git add -A && git commit -m "feat(app): route the catalog page"
 ```
 
-## Ciclo 9 — `/producto/:id` (título)
+## Ciclo 9 — `/servicio/:id` (título)
 
 🔴:
 
 ```jsx
-  it('shows the detail page at "/producto/:id"', () => {
-    renderWithProviders(<App />, { route: '/producto/landing-page' })
+  it('shows the detail page at "/servicio/:id"', () => {
+    renderWithProviders(<App />, { route: '/servicio/landing-page' })
 
     expect(screen.getByRole('heading', { level: 1, name: 'Detalle del servicio' })).toBeInTheDocument()
   })
 ```
 
-🟢 `src/features/products/pages/ItemDetailContainer.jsx`:
+🟢 `src/features/services/pages/ItemDetailContainer.jsx`:
 
 ```jsx
 export function ItemDetailContainer() {
@@ -399,7 +399,7 @@ pnpm test:run && git add -A && git commit -m "feat(app): route the detail page"
 
 ```jsx
   it('gives the detail page the id from the URL', () => {
-    renderWithProviders(<App />, { route: '/producto/landing-page' })
+    renderWithProviders(<App />, { route: '/servicio/landing-page' })
 
     expect(screen.getByText('landing-page')).toBeInTheDocument()
   })
@@ -463,7 +463,7 @@ import userEvent from '@testing-library/user-event'
 ```
 
 1. Corrélo: verde.
-2. **Rompé a propósito** `NavBar`: cambiá `<Link to="/productos">` por `<a href="/productos">`.
+2. **Rompé a propósito** `NavBar`: cambiá `<Link to="/servicios">` por `<a href="/servicios">`.
 3. Corrélo: rojo (`MemoryRouter` no sigue un `<a>`; en un navegador real recargaría la página).
 4. `git restore src/layout/NavBar.jsx`; verde otra vez.
 
@@ -479,7 +479,7 @@ Creá `vercel.json`:
 { "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
 ```
 
-Sin esto, abrir `https://…/productos` directo o refrescar da 404: el servidor busca un archivo
+Sin esto, abrir `https://…/servicios` directo o refrescar da 404: el servidor busca un archivo
 `productos` que no existe. Con el rewrite siempre sirve `index.html` y React Router resuelve la URL.
 
 ```sh
@@ -495,9 +495,9 @@ pnpm dev
 - [ ] Los tres links llevan a su página; el ícono de carga de la pestaña **no** aparece (no hay
       recarga). Para estar seguro: DevTools → *Network* → activá *Preserve log* y mirá que al
       navegar no se pida `index.html` de nuevo.
-- [ ] `/producto/landing-page` muestra el id.
+- [ ] `/servicio/landing-page` muestra el id.
 - [ ] A 360 px nada se sale de la pantalla; sin errores en consola.
-- [ ] Después del deploy de preview: abrí `…/productos` y `…/carrito` **directo** y refrescá.
+- [ ] Después del deploy de preview: abrí `…/servicios` y `…/carrito` **directo** y refrescá.
 
 ## Publicar
 
@@ -533,7 +533,7 @@ build: serve index.html for every route on vercel
 
 - [ ] Todos los escenarios pasan como tests (menos "no recarga": manual).
 - [ ] `pnpm verify` y el pipeline del PR en verde.
-- [ ] Verificación manual hecha en el preview (incluido refresh en `/productos`).
+- [ ] Verificación manual hecha en el preview (incluido refresh en `/servicios`).
 - [ ] Commits convencionales, un ciclo verde por commit.
 
 ## Qué aprendiste

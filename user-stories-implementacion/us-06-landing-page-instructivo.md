@@ -13,7 +13,7 @@ destacados y el título de la pestaña del navegador. Reemplaza la página provi
 > `getByRole` y los textos vienen de los catálogos: si cambiás el copy en `es.json`, los tests
 > no se enteran (leen el mismo archivo).
 
-> **Ruta del catálogo:** el catálogo vive en **`/productos`** (`src/App.jsx`, `src/layout/NavBar.jsx`).
+> **Ruta del catálogo:** el catálogo vive en **`/servicios`** (`src/App.jsx`, `src/layout/NavBar.jsx`).
 > El botón tiene que apuntar ahí; si apunta a otra ruta el test del link falla y el click cae en la
 > página 404. El texto visible sigue diciendo "Servicios".
 
@@ -281,7 +281,7 @@ git add -A && git commit -m "feat(home): show the value proposition"
 ```jsx
   it("offers a call to action that links to the catalog", () => {
     renderWithProviders(<Home />);
-    expect(screen.getByRole("link", { name: es.home.cta })).toHaveAttribute("href", "/productos");
+    expect(screen.getByRole("link", { name: es.home.cta })).toHaveAttribute("href", "/servicios");
   });
 ```
 
@@ -305,7 +305,7 @@ Unable to find an accessible element with the role "link" and name "Ver servicio
 2. **Dónde (`return`):** agregá el `<Link>` **después** del `<p>`, dentro del fragmento:
 
    ```jsx
-   <Link to="/productos">{t("home.cta")}</Link>
+   <Link to="/servicios">{t("home.cta")}</Link>
    ```
 
 **Archivo completo después de este ciclo:**
@@ -320,7 +320,7 @@ export function Home() {
 		<>
 			<h1>{t("home.title")}</h1>
 			<p>{t("home.pitch")}</p>
-			<Link to="/productos">{t("home.cta")}</Link>
+			<Link to="/servicios">{t("home.cta")}</Link>
 		</>
 	);
 }
@@ -366,8 +366,8 @@ ciclo 1).
 
 ### 2. Mutación (comprobar que el test protege algo)
 
-1. En `src/features/home/pages/Home.jsx` cambiá `<Link to="/productos">...</Link>` por
-   `<a href="/productos">...</a>`.
+1. En `src/features/home/pages/Home.jsx` cambiá `<Link to="/servicios">...</Link>` por
+   `<a href="/servicios">...</a>`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** el test falla (un `<a>` recarga la página; en
    jsdom no navega por el router).
 3. **Restaurá** el `<Link>` y corré de nuevo: verde.
@@ -452,7 +452,7 @@ export function Home() {
 		<>
 			<h1>{t("home.title")}</h1>
 			<p>{t("home.pitch")}</p>
-			<Link to="/productos">{t("home.cta")}</Link>
+			<Link to="/servicios">{t("home.cta")}</Link>
 			<section aria-labelledby="highlights-title">
 				<h2 id="highlights-title">{t("home.highlights.title")}</h2>
 				<ul>
@@ -631,7 +631,7 @@ export function Home() {
 		<>
 			<h1>{t("home.title")}</h1>
 			<p>{t("home.pitch")}</p>
-			<Link to="/productos">{t("home.cta")}</Link>
+			<Link to="/servicios">{t("home.cta")}</Link>
 			<section aria-labelledby="highlights-title">
 				<h2 id="highlights-title">{t("home.highlights.title")}</h2>
 				<ul>
@@ -679,8 +679,8 @@ Con el contenido ya probado, ahora se estila. Seguí el **ciclo de estilo** del
 
 ```js
 const pending = [
-  "src/features/products/pages/ItemListContainer.jsx",
-  "src/features/products/pages/ItemDetailContainer.jsx",
+  "src/features/services/pages/ItemListContainer.jsx",
+  "src/features/services/pages/ItemDetailContainer.jsx",
   "src/features/cart/pages/CartPage.jsx",
 ];
 ```
@@ -790,7 +790,7 @@ export function Home() {
 			<div className={styles.hero}>
 				<h1 className={styles.title}>{t("home.title")}</h1>
 				<p className={styles.pitch}>{t("home.pitch")}</p>
-				<Link className={styles.cta} to="/productos">
+				<Link className={styles.cta} to="/servicios">
 					{t("home.cta")}
 				</Link>
 			</div>
@@ -832,7 +832,7 @@ pnpm test:run && git add -A && git commit -m "style(home): style the landing pag
 ## Verificación manual
 
 - [ ] `pnpm dev`: *leelo como un desconocido*: ¿se entiende qué se vende y qué hacer después?
-- [ ] El botón lleva a `/productos` sin recargar. La pestaña dice "Trigologia Dev".
+- [ ] El botón lleva a `/servicios` sin recargar. La pestaña dice "Trigologia Dev".
 - [ ] Cambiá el idioma: todo cambia. A 360 px el título, el texto y el botón se ven sin hacer scroll.
 - [ ] Sin errores en consola.
 - [ ] 360 px y 1280 px: el título, el botón y los tres destacados se ven bien; solo teclado: el foco del botón se ve.

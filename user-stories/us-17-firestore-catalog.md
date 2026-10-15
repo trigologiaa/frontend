@@ -37,21 +37,21 @@ Not included:
 Feature: Services from Firestore
   Scenario: The catalog shows the services stored in Firestore
     Given Firestore has 3 services
-    When I visit "/productos"
+    When I visit "/servicios"
     Then I see 3 service cards
 
   Scenario: The detail is found by the Firestore document id
     Given a service with the document id "abc123"
-    When I visit "/producto/abc123"
+    When I visit "/servicio/abc123"
     Then I see its title
 
   Scenario: An unknown id shows the not-found message
-    When I visit "/producto/nope"
+    When I visit "/servicio/nope"
     Then I see "No encontramos ese servicio"
 
   Scenario: A Firestore failure shows the error message
     Given Firestore is unreachable
-    When I visit "/productos"
+    When I visit "/servicios"
     Then I see the catalog error alert
 
   Scenario: The components did not change

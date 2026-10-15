@@ -201,8 +201,8 @@ git add -A && git commit -m "test(cart): keep different products separate"
   it("removes the whole item of a product", () => {
     const one = cartReducer([], { type: "add", product: makeProduct(1), quantity: 1 });
     const two = cartReducer(one, { type: "add", product: makeProduct(2), quantity: 1 });
-    const state = cartReducer(two, { type: "remove", id: "product-1" });
-    expect(state.map((item) => item.id)).toEqual(["product-2"]);
+    const state = cartReducer(two, { type: "remove", id: "service-1" });
+    expect(state.map((item) => item.id)).toEqual(["service-2"]);
   });
 ```
 
@@ -686,7 +686,7 @@ git add -A && git commit -m "feat(cart): add the cart provider"
          <button type="button" onClick={() => addToCart(makeProduct(1), 2)}>
            add
          </button>
-         <button type="button" onClick={() => removeFromCart("product-1")}>
+         <button type="button" onClick={() => removeFromCart("service-1")}>
            remove
          </button>
          <p>items: {items.length}</p>
@@ -755,7 +755,7 @@ git add -A && git commit -m "feat(cart): expose removeFromCart"
          <button type="button" onClick={() => addToCart(makeProduct(2), 1)}>
            add other
          </button>
-         <button type="button" onClick={() => removeFromCart("product-1")}>
+         <button type="button" onClick={() => removeFromCart("service-1")}>
            remove
          </button>
          <button type="button" onClick={clearCart}>
