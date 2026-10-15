@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { useProducts } from "../../../../src/features/products/hooks/useProducts";
-import { productsHandler } from "../../../handlers";
+import { productsHandler, failingProductsHandler } from "../../../handlers";
 import { server } from "../../../server";
 
 describe("useProducts", () => {
@@ -21,5 +21,13 @@ describe("useProducts", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.products).toHaveLength(3);
     expect(result.current.error).toBeNull();
+  });
+
+  it("exposes an error when the products cannot be loaded", async () => {
+    server.use(failingProductsHandler());
+    const { result } = renderHook(() => useProducts());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.products).toEqual([]);
   });
 });
