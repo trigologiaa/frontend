@@ -29,7 +29,11 @@
 		"label": "Main navigation"
 	},
 	"detail": {
-		"loading": "Loading..."
+		"loading": "Loading...",
+		"notFound": {
+			"title": "We couldn't find that service"
+		},
+		"back": "Back to services"
 	},
 	"notFound": {
 		"title": "404 - We couldn't find that page",

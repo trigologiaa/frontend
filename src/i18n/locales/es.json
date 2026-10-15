@@ -29,7 +29,11 @@
 		"label": "Navegación principal"
 	},
 	"detail": {
-		"loading": "Cargando..."
+		"loading": "Cargando...",
+		"notFound": {
+			"title": "No encontramos ese servicio"
+		},
+		"back": "Volver a servicios"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",
