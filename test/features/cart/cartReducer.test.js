@@ -39,4 +39,9 @@ describe("cartReducer", () => {
     const state = [];
     expect(cartReducer(state, { type: "unknown" })).toBe(state);
   });
+
+  it.each([0, -1, 1.5])("ignores a quantity of %s", (quantity) => {
+    const state = cartReducer([], { type: "add", service: makeService(1), quantity });
+    expect(state).toEqual([]);
+  });
 });

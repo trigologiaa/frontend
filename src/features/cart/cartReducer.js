@@ -1,6 +1,8 @@
 export function cartReducer(items, action) {
 	switch (action.type) {
 		case "add": {
+			if (!Number.isInteger(action.quantity) || action.quantity < 1)
+				return items;
 			const { id, title, price, image } = action.service;
 			const existing = items.find((item) => item.id === id);
 			if (existing) {
