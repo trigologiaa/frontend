@@ -10,7 +10,12 @@ export function ItemListContainer() {
 			<h1>{t("nav.services")}</h1>
 			{loading && <p role="status">{t("catalog.loading")}</p>}
 			{error && <p role="alert">{t("catalog.error")}</p>}
-			{!loading && !error && <ItemList services={services} />}
+			{!loading && !error && services.length === 0 && (
+				<p>{t("catalog.empty")}</p>
+			)}
+			{!loading && !error && services.length > 0 && (
+				<ItemList services={services} />
+			)}
 		</>
 	);
 }

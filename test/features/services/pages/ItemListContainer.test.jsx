@@ -33,4 +33,12 @@ describe("ItemListContainer", () => {
     );
     expect(screen.queryAllByRole("listitem")).toHaveLength(0);
   });
+
+  it("shows a message when there are no services", async () => {
+    server.use(servicesHandler([]));
+    renderWithProviders(<ItemListContainer />);
+    expect(
+      await screen.findByText("Todavía no hay servicios disponibles."),
+    ).toBeInTheDocument();
+  });
 });

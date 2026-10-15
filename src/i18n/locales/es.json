@@ -19,7 +19,8 @@
 	"catalog": {
 		"viewDetail": "Ver detalle",
 		"loading": "Cargando...",
-		"error": "No pudimos cargar los servicios. Probá de nuevo más tarde."
+		"error": "No pudimos cargar los servicios. Probá de nuevo más tarde.",
+		"empty": "Todavía no hay servicios disponibles."
 	},
 	"nav": {
 		"home": "Inicio",

@@ -19,7 +19,8 @@
 	"catalog": {
 		"viewDetail": "View details",
 		"loading": "Loading...",
-		"error": "We couldn't load the services. Please try again later."
+		"error": "We couldn't load the services. Please try again later.",
+		"empty": "There are no services available yet."
 	},
 	"nav": {
 		"home": "Home",
