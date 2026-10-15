@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
+import styles from "./ItemCount.module.css";
 
 export function ItemCount({ value, onChange }) {
 	const { t } = useTranslation();
 	return (
-		<div>
+		<div className={styles.counter}>
 			<button
+				className={styles.button}
 				type="button"
 				aria-label={t("detail.decrease")}
 				disabled={value <= 1}
@@ -12,8 +14,11 @@ export function ItemCount({ value, onChange }) {
 			>
 				−
 			</button>
-			<output aria-label={t("detail.quantity")}>{value}</output>
+			<output className={styles.value} aria-label={t("detail.quantity")}>
+				{value}
+			</output>
 			<button
+				className={styles.button}
 				type="button"
 				aria-label={t("detail.increase")}
 				onClick={() => onChange(value + 1)}
