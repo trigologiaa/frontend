@@ -38,7 +38,8 @@
 		"quantity": "Quantity",
 		"increase": "Increase quantity",
 		"decrease": "Decrease quantity",
-		"add": "Add to cart"
+		"add": "Add to cart",
+		"added": "Added to cart"
 	},
 	"notFound": {
 		"title": "404 - We couldn't find that page",

@@ -12,6 +12,13 @@ export function ItemDetail({ service }) {
 	const language = i18n.resolvedLanguage;
 	const title = localized(service.title, language);
 	const [quantity, setQuantity] = useState(1);
+	const [added, setAdded] = useState(false);
+
+	function handleAdd() {
+		addToCart(service, quantity);
+		setAdded(true);
+	}
+
 	return (
 		<article className={styles.detail}>
 			<img
@@ -29,9 +36,10 @@ export function ItemDetail({ service }) {
 					{localized(service.description, language)}
 				</p>
 				<ItemCount value={quantity} onChange={setQuantity} />
-				<button type="button" onClick={() => addToCart(service, quantity)}>
+				<button type="button" onClick={handleAdd}>
 					{t("detail.add")}
 				</button>
+				{added && <p role="status">{t("detail.added")}</p>}
 			</div>
 		</article>
 	);

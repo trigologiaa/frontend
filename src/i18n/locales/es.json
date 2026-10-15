@@ -38,7 +38,8 @@
 		"quantity": "Cantidad",
 		"increase": "Aumentar cantidad",
 		"decrease": "Disminuir cantidad",
-		"add": "Agregar al carrito"
+		"add": "Agregar al carrito",
+		"added": "Agregado al carrito"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",

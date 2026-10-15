@@ -110,4 +110,12 @@ describe("ItemDetail", () => {
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     expect(screen.getByText("cart: service-1 x3 (3)")).toBeInTheDocument();
   });
+
+  it("confirms that the service was added", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    const messages = screen.getAllByRole("status").map((node) => node.textContent);
+    expect(messages).toContain("Agregado al carrito");
+  });
 });
