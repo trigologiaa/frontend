@@ -27,7 +27,8 @@
 		"notFound": {
 			"title": "We couldn't find that service"
 		},
-		"back": "Back to services"
+		"back": "Back to services",
+		"error": "We couldn't load the service. Please try again later."
 	},
 	"nav": {
 		"home": "Home",

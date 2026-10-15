@@ -27,7 +27,8 @@
 		"notFound": {
 			"title": "No encontramos ese servicio"
 		},
-		"back": "Volver a servicios"
+		"back": "Volver a servicios",
+		"error": "No pudimos cargar el servicio. Probá de nuevo más tarde."
 	},
 	"nav": {
 		"home": "Inicio",

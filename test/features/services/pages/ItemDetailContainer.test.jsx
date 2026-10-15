@@ -2,7 +2,11 @@ import { screen } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { ItemDetailContainer } from "../../../../src/features/services/pages/ItemDetailContainer";
-import { makeService, servicesHandler } from "../../../handlers";
+import {
+  failingServicesHandler,
+  makeService,
+  servicesHandler,
+} from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 import { server } from "../../../server";
 
@@ -40,5 +44,13 @@ describe("ItemDetailContainer", () => {
     expect(
       screen.getByRole("link", { name: "Volver a servicios" }),
     ).toHaveAttribute("href", "/servicios");
+  });
+
+  it("shows an alert when the service cannot be loaded", async () => {
+    server.use(failingServicesHandler());
+    renderDetail("service-1");
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "No pudimos cargar el servicio. Probá de nuevo más tarde.",
+    );
   });
 });
