@@ -9,4 +9,10 @@ describe("Item", () => {
     renderWithProviders(<Item service={makeService(1)} />);
     expect(screen.getByRole("heading", { name: "Servicio 1" })).toBeInTheDocument();
   });
+
+  it("shows the image with the title as alternative text", () => {
+    renderWithProviders(<Item service={makeService(1)} />);
+    const image = screen.getByRole("img", { name: "Servicio 1" });
+    expect(image).toHaveAttribute("src", "/images/service-1.svg");
+  });
 });

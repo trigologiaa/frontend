@@ -3,9 +3,17 @@ import { localized } from "../../../shared/localized";
 
 export function Item({ service }) {
 	const { i18n } = useTranslation();
+	const title = localized(service.title, i18n.resolvedLanguage);
 	return (
 		<article>
-			<h3>{localized(service.title, i18n.resolvedLanguage)}</h3>
+			<img
+				src={service.image}
+				alt={title}
+				loading="lazy"
+				width="320"
+				height="200"
+			/>
+			<h3>{title}</h3>
 		</article>
 	);
 }
