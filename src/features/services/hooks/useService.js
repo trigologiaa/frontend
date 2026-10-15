@@ -14,6 +14,9 @@ export function useService(id) {
 				setLoading(false);
 			})
 			.catch((err) => {
+				if (err.name === "AbortError") {
+					return;
+				}
 				setError(err);
 				setLoading(false);
 			});

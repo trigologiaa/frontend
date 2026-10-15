@@ -1,3 +1,4 @@
+import { StrictMode } from "react";
 import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { useService } from "../../../../src/features/services/hooks/useService";
@@ -48,5 +49,15 @@ describe("useService", () => {
     const { unmount } = renderHook(() => useService("service-1"));
     unmount();
     expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
+  });
+
+  it("does not report a cancelled request as an error in StrictMode", async () => {
+    server.use(servicesHandler([makeService(1)]));
+    const { result } = renderHook(() => useService("service-1"), {
+      wrapper: StrictMode,
+    });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.error).toBeNull();
+    expect(result.current.service).toEqual(makeService(1));
   });
 });
