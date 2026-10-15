@@ -1,3 +1,3 @@
 export function localized(field, language) {
-	return field[language];
+	return field[language] ?? field.es;
 }
