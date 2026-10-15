@@ -1,10 +1,14 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { useProducts } from "../../../../src/features/products/hooks/useProducts";
 import { productsHandler, failingProductsHandler } from "../../../handlers";
 import { server } from "../../../server";
 
 describe("useProducts", () => {
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   it("starts loading with no products and no error", () => {
     server.use(productsHandler());
     const { result } = renderHook(() => useProducts());
@@ -29,5 +33,13 @@ describe("useProducts", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeInstanceOf(Error);
     expect(result.current.products).toEqual([]);
+  });
+
+  it("aborts the pending request when the component unmounts", () => {
+    server.use(productsHandler());
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    const { unmount } = renderHook(() => useProducts());
+    unmount();
+    expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
   });
 });

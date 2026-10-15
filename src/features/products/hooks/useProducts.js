@@ -6,7 +6,8 @@ export function useProducts() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	useEffect(() => {
-		getProducts()
+		const controller = new AbortController();
+		getProducts({ signal: controller.signal })
 			.then((data) => {
 				setProducts(data);
 				setLoading(false);
@@ -15,6 +16,7 @@ export function useProducts() {
 				setError(err);
 				setLoading(false);
 			});
+		return () => controller.abort();
 	}, []);
 	return { products, loading, error };
 }

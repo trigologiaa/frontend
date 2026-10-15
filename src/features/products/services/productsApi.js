@@ -1,6 +1,7 @@
-export async function getProducts() {
+export async function getProducts({ signal } = {}) {
 	const response = await fetch(
 		new URL("/productos.json", window.location.origin),
+		{ signal },
 	);
 	if (!response.ok) {
 		throw new Error(`Could not load the products ${response.status}`);
