@@ -40,4 +40,13 @@ describe("ItemDetail", () => {
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     expect(screen.getByLabelText("Cantidad")).toHaveTextContent("3");
   });
+
+  it("decreases the quantity from the detail", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Disminuir cantidad" }));
+    expect(screen.getByLabelText("Cantidad")).toHaveTextContent("2");
+  });
 });
