@@ -25,16 +25,6 @@ describe("App routes", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Servicios" })).toBeInTheDocument();
   });
 
-  it("shows the detail page at '/servicio/:id'", () => {
-    renderWithProviders(<App />, { route: "/servicio/landing-page" });
-    expect(screen.getByRole("heading", { level: 1, name: "Detalle del servicio" })).toBeInTheDocument();
-  });
-
-  it("gives the detail page the id from the URL", () => {
-    renderWithProviders(<App />, { route: "/servicio/landing-page" });
-    expect(screen.getByText("landing-page")).toBeInTheDocument();
-  });
-
   it("shows the cart page at '/carrito'", () => {
     renderWithProviders(<App />, { route: "/carrito" });
     expect(screen.getByRole("heading", { level: 1, name: "Carrito" })).toBeInTheDocument();

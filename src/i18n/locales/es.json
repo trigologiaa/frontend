@@ -22,16 +22,14 @@
 		"error": "No pudimos cargar los servicios. Probá de nuevo más tarde.",
 		"empty": "Todavía no hay servicios disponibles."
 	},
+	"detail": {
+		"loading": "Cargando..."
+	},
 	"nav": {
 		"home": "Inicio",
 		"services": "Servicios",
 		"cart": "Carrito",
 		"label": "Navegación principal"
-	},
-	"pages": {
-		"detail": {
-			"title": "Detalle del servicio"
-		}
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",

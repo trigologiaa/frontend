@@ -1,13 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { useService } from "../hooks/useService";
 
 export function ItemDetailContainer() {
-	const { t } = useTranslation();
 	const { id } = useParams();
-	return (
-		<>
-			<h1>{t("pages.detail.title")}</h1>
-			<p>{id}</p>
-		</>
-	);
+	const { t } = useTranslation();
+	const { loading } = useService(id);
+
+	if (loading) return <p role="status">{t("detail.loading")}</p>;
+	return null;
 }

@@ -22,16 +22,14 @@
 		"error": "We couldn't load the services. Please try again later.",
 		"empty": "There are no services available yet."
 	},
+	"detail": {
+		"loading": "Loading..."
+	},
 	"nav": {
 		"home": "Home",
 		"services": "Services",
 		"cart": "Cart",
 		"label": "Main navigation"
-	},
-	"pages": {
-		"detail": {
-			"title": "Service details"
-		}
 	},
 	"notFound": {
 		"title": "404 - We couldn't find that page",
