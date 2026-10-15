@@ -1,7 +1,11 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { useService } from "../../../../src/features/services/hooks/useService";
-import { makeService, servicesHandler } from "../../../handlers";
+import {
+  failingServicesHandler,
+  makeService,
+  servicesHandler,
+} from "../../../handlers";
 import { server } from "../../../server";
 
 describe("useService", () => {
@@ -24,5 +28,13 @@ describe("useService", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.service).toBeNull();
     expect(result.current.error).toBeNull();
+  });
+
+  it("exposes an error when the service cannot be loaded", async () => {
+    server.use(failingServicesHandler());
+    const { result } = renderHook(() => useService("service-1"));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.service).toBeNull();
   });
 });
