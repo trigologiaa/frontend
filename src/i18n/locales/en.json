@@ -28,10 +28,8 @@
 		"cart": "Cart",
 		"label": "Main navigation"
 	},
-	"pages": {
-		"detail": {
-			"title": "Service details"
-		}
+	"detail": {
+		"loading": "Loading..."
 	},
 	"notFound": {
 		"title": "404 - We couldn't find that page",

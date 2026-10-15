@@ -28,10 +28,8 @@
 		"cart": "Carrito",
 		"label": "Navegación principal"
 	},
-	"pages": {
-		"detail": {
-			"title": "Detalle del servicio"
-		}
+	"detail": {
+		"loading": "Cargando..."
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",
