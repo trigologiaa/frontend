@@ -26,4 +26,9 @@ describe("ItemDetail", () => {
     renderWithProviders(<ItemDetail service={makeService(1)} />);
     expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute("src", "/images/service-1.svg");
   });
+
+  it("starts with a quantity of one", () => {
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    expect(screen.getByLabelText("Cantidad")).toHaveTextContent("1");
+  });
 });

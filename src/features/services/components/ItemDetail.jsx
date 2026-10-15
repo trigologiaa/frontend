@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
+import { ItemCount } from "./ItemCount";
 import styles from "./ItemDetail.module.css";
 
 export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
 	const title = localized(service.title, language);
+	const [quantity, setQuantity] = useState(1);
 	return (
 		<article className={styles.detail}>
 			<img
@@ -23,6 +26,7 @@ export function ItemDetail({ service }) {
 				<p className={styles.description}>
 					{localized(service.description, language)}
 				</p>
+				<ItemCount value={quantity} onChange={setQuantity} />
 			</div>
 		</article>
 	);
