@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 
@@ -18,6 +19,12 @@ export function Item({ service }) {
 			<h3>{title}</h3>
 			<p>{t(`categories.${service.category}`)}</p>
 			<p>{formatPrice(service.price, language)}</p>
+			<Link
+				to={`/servicio/${service.id}`}
+				aria-label={`${t("catalog.viewDetail")}: ${title}`}
+			>
+				{t("catalog.viewDetail")}
+			</Link>
 		</article>
 	);
 }

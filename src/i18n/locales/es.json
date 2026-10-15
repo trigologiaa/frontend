@@ -16,6 +16,9 @@
 		"mentoring": "Mentoría",
 		"devops": "DevOps"
 	},
+	"catalog": {
+		"viewDetail": "Ver detalle"
+	},
 	"nav": {
 		"home": "Inicio",
 		"services": "Servicios",

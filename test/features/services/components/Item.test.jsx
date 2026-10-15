@@ -26,4 +26,12 @@ describe("Item", () => {
     renderWithProviders(<Item service={makeService(1)} />);
     expect(screen.getByText(es.categories.web)).toBeInTheDocument();
   });
+
+  it("links to the detail page of the service", () => {
+    renderWithProviders(<Item service={makeService(1)} />);
+    expect(screen.getByRole("link", { name: /Ver detalle/ })).toHaveAttribute(
+      "href",
+      "/servicio/service-1",
+    );
+  });
 });
