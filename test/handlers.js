@@ -1,6 +1,6 @@
 import { HttpResponse, http } from "msw";
 
-export function makeProduct(n = 1) {
+export function makeService(n = 1) {
   return {
     id: `service-${n}`,
     title: {
@@ -13,13 +13,13 @@ export function makeProduct(n = 1) {
   };
 }
 
-export function productsHandler(
-  products = [makeProduct(1), makeProduct(2), makeProduct(3)],
+export function servicesHandler(
+  services = [makeService(1), makeService(2), makeService(3)],
 ) {
-  return http.get("*/productos.json", () => HttpResponse.json(products));
+  return http.get("*/productos.json", () => HttpResponse.json(services));
 }
 
-export function failingProductsHandler() {
+export function failingServicesHandler() {
   return http.get("*/productos.json", () =>
     HttpResponse.json({ message: "boom" }, { status: 500 }),
   );

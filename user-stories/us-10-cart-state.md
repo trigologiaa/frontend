@@ -11,14 +11,14 @@ without React, and a Context that only distributes it.
 Requirement: Pre-delivery **Req 4.1** (a component that manages the global cart state, with
 `addToCart`) and `cuestiones-a-tener-en-cuenta` #9 (`useState`/state for the cart).
 
-Depends on: [US-07](us-07-product-data-source.md) (the product shape).
+Depends on: [US-07](us-07-service-data-source.md) (the service shape).
 
 ## Scope
 
 Included:
 
 - `cartReducer` (pure function): actions to add an item, remove an item and clear the cart.
-- `CartContext` + `CartProvider`: hold the state and expose `items`, `addToCart(product, quantity)`,
+- `CartContext` + `CartProvider`: hold the state and expose `items`, `addToCart(service, quantity)`,
   `removeFromCart(id)`, `clearCart()`, `totalQuantity` and `totalPrice`.
 - `useCart()` hook: reads the context and fails with a clear message outside a provider.
 - `renderWithProviders` now also wraps in `CartProvider`.
@@ -35,7 +35,7 @@ Not included:
 items: [{ id, title, price, image, quantity }]   // title keeps both languages: { es, en }
 ```
 
-An item stores a **snapshot** of the product fields it needs, so the cart does not have to load the
+An item stores a **snapshot** of the service fields it needs, so the cart does not have to load the
 catalog again.
 
 ## Acceptance scenarios
@@ -52,20 +52,20 @@ Feature: Global cart state
     Given the initial state
     Then there are no items
 
-  Scenario: Adding a new product creates an item
+  Scenario: Adding a new service creates an item
     When I add 2 units of "landing-page"
     Then the cart has one item "landing-page" with quantity 2
 
-  Scenario: Adding an existing product increases its quantity
+  Scenario: Adding an existing service increases its quantity
     Given the cart has 1 unit of "landing-page"
     When I add 2 more units of "landing-page"
     Then the cart has one item "landing-page" with quantity 3
 
-  Scenario: Adding different products keeps them separate
+  Scenario: Adding different services keeps them separate
     When I add "landing-page" and "rest-api"
     Then the cart has 2 items
 
-  Scenario: Removing a product removes the whole item
+  Scenario: Removing a service removes the whole item
     Given the cart has "landing-page" and "rest-api"
     When I remove "landing-page"
     Then the cart only has "rest-api"
@@ -116,7 +116,7 @@ Feature: Global cart state
   testable. `useReducer` is `useState`'s sibling; the class uses `useState`, the assignment accepts
   either because both are hooks — see the guide for the trade-off.
 - **Derived values are computed, not stored:** `totalQuantity` and `totalPrice` come from `items`.
-- **Product id is the identity:** two items are "the same" if they have the same `id`.
+- **Service id is the identity:** two items are "the same" if they have the same `id`.
 - **One file per concept:** `cartReducer.js`, `CartContext.jsx`, `useCart.js`.
 
 ## Definition of Done

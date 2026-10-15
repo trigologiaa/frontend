@@ -359,7 +359,7 @@ export function ItemListContainer() {
 }
 ```
 
-`App`: `<Route path="productos" element={<ItemListContainer />} />`.
+`App`: `<Route path="servicios" element={<ItemListContainer />} />`.
 
 ```sh
 pnpm test:run && git add -A && git commit -m "feat(app): route the catalog page"
@@ -385,7 +385,7 @@ export function ItemDetailContainer() {
 }
 ```
 
-`App`: `<Route path="producto/:id" element={<ItemDetailContainer />} />`.
+`App`: `<Route path="servicio/:id" element={<ItemDetailContainer />} />`.
 
 ```sh
 pnpm test:run && git add -A && git commit -m "feat(app): route the detail page"
@@ -480,7 +480,7 @@ Creá `vercel.json`:
 ```
 
 Sin esto, abrir `https://…/servicios` directo o refrescar da 404: el servidor busca un archivo
-`productos` que no existe. Con el rewrite siempre sirve `index.html` y React Router resuelve la URL.
+`servicios` que no existe. Con el rewrite siempre sirve `index.html` y React Router resuelve la URL.
 
 ```sh
 git add vercel.json && git commit -m "build: serve index.html for every route on vercel"

@@ -621,7 +621,7 @@ describe('component styles', () => {
 ```
 
 > Tu carpeta del catálogo se llama `services`; los instructivos de las stories 08 y 09 dicen
-> `products`. Usá el nombre que tengas en el repo en **todos** lados.
+> `services`. Usá el nombre que tengas en el repo en **todos** lados.
 
 Pasa de entrada (todo está pendiente). Dos mutaciones: (1) sacá `Footer.jsx` de `pending` → rojo con
 `['src/layout/Footer.jsx']`; volvé a ponerlo. (2) creá un `Footer.module.css` con una regla y dejalo

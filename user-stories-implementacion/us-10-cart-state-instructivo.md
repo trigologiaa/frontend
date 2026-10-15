@@ -48,7 +48,7 @@ cp <ruta-a>/javascript/user-stories/us-10-cart-state.md docs/
 git add docs && git commit -m "docs: add US-10 cart state story"
 ```
 
-Forma del estado: un **array de ítems**. Cada ítem guarda una *foto* del producto (lo que el carrito
+Forma del estado: un **array de ítems**. Cada ítem guarda una *foto* del servicio (lo que el carrito
 necesita mostrar) más la cantidad:
 
 ```
@@ -57,7 +57,7 @@ necesita mostrar) más la cantidad:
 
 ---
 
-## Ciclo 1 — Agregar un producto nuevo crea un ítem
+## Ciclo 1 — Agregar un servicio nuevo crea un ítem
 
 ### 1. 🔴 Escribir el test
 
@@ -68,13 +68,13 @@ puede no existir todavía).
 ```js
 import { describe, expect, it } from "vitest";
 import { cartReducer } from "../../../src/features/cart/cartReducer";
-import { makeProduct } from "../../handlers";
+import { makeService } from "../../handlers";
 
-const { id, title, price, image } = makeProduct(1);
+const { id, title, price, image } = makeService(1);
 
 describe("cartReducer", () => {
-  it("adds a new product as an item with its quantity", () => {
-    const state = cartReducer([], { type: "add", product: makeProduct(1), quantity: 2 });
+  it("adds a new service as an item with its quantity", () => {
+    const state = cartReducer([], { type: "add", service: makeService(1), quantity: 2 });
     expect(state).toEqual([{ id, title, price, image, quantity: 2 }]);
   });
 });
@@ -93,7 +93,7 @@ Failed to resolve import "../../../src/features/cart/cartReducer"
 
 ```js
 export function cartReducer(items, action) {
-	const { id, title, price, image } = action.product;
+	const { id, title, price, image } = action.service;
 	return [...items, { id, title, price, image, quantity: action.quantity }];
 }
 ```
@@ -103,12 +103,12 @@ export function cartReducer(items, action) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(cart): add a product to the cart"
+git add -A && git commit -m "feat(cart): add a service to the cart"
 ```
 
 ---
 
-## Ciclo 2 — Agregar un producto existente suma cantidad
+## Ciclo 2 — Agregar un servicio existente suma cantidad
 
 ### 1. 🔴 Escribir el test
 
@@ -116,9 +116,9 @@ git add -A && git commit -m "feat(cart): add a product to the cart"
 **Dónde:** dentro del `describe("cartReducer", ...)`, después del test del ciclo 1.
 
 ```js
-  it("increases the quantity when the product is already in the cart", () => {
-    const first = cartReducer([], { type: "add", product: makeProduct(1), quantity: 1 });
-    const state = cartReducer(first, { type: "add", product: makeProduct(1), quantity: 2 });
+  it("increases the quantity when the service is already in the cart", () => {
+    const first = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const state = cartReducer(first, { type: "add", service: makeService(1), quantity: 2 });
     expect(state).toEqual([{ id, title, price, image, quantity: 3 }]);
   });
 ```
@@ -133,7 +133,7 @@ git add -A && git commit -m "feat(cart): add a product to the cart"
 
 ```js
 export function cartReducer(items, action) {
-	const { id, title, price, image } = action.product;
+	const { id, title, price, image } = action.service;
 	const existing = items.find((item) => item.id === id);
 	if (existing) {
 		return items.map((item) =>
@@ -151,12 +151,12 @@ export function cartReducer(items, action) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(cart): accumulate the quantity of a repeated product"
+git add -A && git commit -m "feat(cart): accumulate the quantity of a repeated service"
 ```
 
 ---
 
-## Ciclo 3 — Productos distintos quedan separados
+## Ciclo 3 — Servicios distintos quedan separados
 
 Este ciclo **no cambia código productivo**: el test pasa de entrada y se valida con una mutación.
 
@@ -166,9 +166,9 @@ Este ciclo **no cambia código productivo**: el test pasa de entrada y se valida
 **Dónde:** dentro del `describe`, después del test del ciclo 2.
 
 ```js
-  it("keeps different products as separate items", () => {
-    const first = cartReducer([], { type: "add", product: makeProduct(1), quantity: 1 });
-    const state = cartReducer(first, { type: "add", product: makeProduct(2), quantity: 1 });
+  it("keeps different services as separate items", () => {
+    const first = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const state = cartReducer(first, { type: "add", service: makeService(2), quantity: 1 });
     expect(state).toHaveLength(2);
   });
 ```
@@ -185,12 +185,12 @@ Este ciclo **no cambia código productivo**: el test pasa de entrada y se valida
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(cart): keep different products separate"
+git add -A && git commit -m "test(cart): keep different services separate"
 ```
 
 ---
 
-## Ciclo 4 — Quitar un producto
+## Ciclo 4 — Quitar un servicio
 
 ### 1. 🔴 Escribir el test
 
@@ -198,9 +198,9 @@ git add -A && git commit -m "test(cart): keep different products separate"
 **Dónde:** dentro del `describe`, después del test del ciclo 3.
 
 ```js
-  it("removes the whole item of a product", () => {
-    const one = cartReducer([], { type: "add", product: makeProduct(1), quantity: 1 });
-    const two = cartReducer(one, { type: "add", product: makeProduct(2), quantity: 1 });
+  it("removes the whole item of a service", () => {
+    const one = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const two = cartReducer(one, { type: "add", service: makeService(2), quantity: 1 });
     const state = cartReducer(two, { type: "remove", id: "service-1" });
     expect(state.map((item) => item.id)).toEqual(["service-2"]);
   });
@@ -209,7 +209,7 @@ git add -A && git commit -m "test(cart): keep different products separate"
 **Corré:** `pnpm test:run`. **Rojo esperado:** el `remove` cae en el código de `add` y falla con
 
 ```
-Cannot destructure property 'id' of 'action.product' as it is undefined
+Cannot destructure property 'id' of 'action.service' as it is undefined
 ```
 
 ### 2. 🟢 Hacerlo pasar
@@ -222,7 +222,7 @@ ya tenías, y se suma `case "remove"`.
 export function cartReducer(items, action) {
 	switch (action.type) {
 		case "add": {
-			const { id, title, price, image } = action.product;
+			const { id, title, price, image } = action.service;
 			const existing = items.find((item) => item.id === id);
 			if (existing) {
 				return items.map((item) =>
@@ -244,7 +244,7 @@ export function cartReducer(items, action) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(cart): remove a product from the cart"
+git add -A && git commit -m "feat(cart): remove a service from the cart"
 ```
 
 ---
@@ -258,8 +258,8 @@ git add -A && git commit -m "feat(cart): remove a product from the cart"
 
 ```js
   it("clears the whole cart", () => {
-    const one = cartReducer([], { type: "add", product: makeProduct(1), quantity: 1 });
-    const two = cartReducer(one, { type: "add", product: makeProduct(2), quantity: 1 });
+    const one = cartReducer([], { type: "add", service: makeService(1), quantity: 1 });
+    const two = cartReducer(one, { type: "add", service: makeService(2), quantity: 1 });
     expect(cartReducer(two, { type: "clear" })).toEqual([]);
   });
 ```
@@ -331,7 +331,7 @@ git add -A && git commit -m "feat(cart): ignore unknown actions"
 
 ```js
   it.each([0, -1, 1.5])("ignores a quantity of %s", (quantity) => {
-    const state = cartReducer([], { type: "add", product: makeProduct(1), quantity });
+    const state = cartReducer([], { type: "add", service: makeService(1), quantity });
     expect(state).toEqual([]);
   });
 ```
@@ -372,7 +372,7 @@ Este ciclo **no cambia código productivo**: el test pasa de entrada y se valida
 ```js
   it("never mutates the previous state", () => {
     const previous = Object.freeze([Object.freeze({ id, title, price, image, quantity: 1 })]);
-    const state = cartReducer(previous, { type: "add", product: makeProduct(1), quantity: 2 });
+    const state = cartReducer(previous, { type: "add", service: makeService(1), quantity: 2 });
     expect(previous[0].quantity).toBe(1);
     expect(state[0].quantity).toBe(3);
   });
@@ -415,7 +415,7 @@ git add -A && git commit -m "test(cart): never mutate the previous state"
    import { cartReducer, selectTotalQuantity } from "../../../src/features/cart/cartReducer";
    ```
 
-2. **Dónde (debajo de `const { id, title, price, image } = makeProduct(1);`):** un helper para
+2. **Dónde (debajo de `const { id, title, price, image } = makeService(1);`):** un helper para
    armar ítems:
 
    ```js
@@ -592,13 +592,13 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { CartProvider } from "../../../../src/features/cart/context/CartContext";
 import { useCart } from "../../../../src/features/cart/context/useCart";
-import { makeProduct } from "../../../handlers";
+import { makeService } from "../../../handlers";
 
 function Probe() {
   const { items, totalQuantity, totalPrice, addToCart } = useCart();
   return (
     <>
-      <button type="button" onClick={() => addToCart(makeProduct(1), 2)}>
+      <button type="button" onClick={() => addToCart(makeService(1), 2)}>
         add
       </button>
       <p>items: {items.length}</p>
@@ -646,7 +646,7 @@ export function CartProvider({ children }) {
 			items,
 			totalQuantity: selectTotalQuantity(items),
 			totalPrice: selectTotalPrice(items),
-			addToCart: (product, quantity) => dispatch({ type: "add", product, quantity }),
+			addToCart: (service, quantity) => dispatch({ type: "add", service, quantity }),
 		}),
 		[items],
 	);
@@ -683,7 +683,7 @@ git add -A && git commit -m "feat(cart): add the cart provider"
      const { items, totalQuantity, totalPrice, addToCart, removeFromCart } = useCart();
      return (
        <>
-         <button type="button" onClick={() => addToCart(makeProduct(1), 2)}>
+         <button type="button" onClick={() => addToCart(makeService(1), 2)}>
            add
          </button>
          <button type="button" onClick={() => removeFromCart("service-1")}>
@@ -700,7 +700,7 @@ git add -A && git commit -m "feat(cart): add the cart provider"
 2. **Dónde (dentro de `describe("CartProvider", ...)`):** después del test del ciclo 12.
 
    ```jsx
-     it("removes a product from the cart", async () => {
+     it("removes a service from the cart", async () => {
        const user = userEvent.setup();
        render(
          <CartProvider>
@@ -749,10 +749,10 @@ git add -A && git commit -m "feat(cart): expose removeFromCart"
      const { items, totalQuantity, totalPrice, addToCart, removeFromCart, clearCart } = useCart();
      return (
        <>
-         <button type="button" onClick={() => addToCart(makeProduct(1), 2)}>
+         <button type="button" onClick={() => addToCart(makeService(1), 2)}>
            add
          </button>
-         <button type="button" onClick={() => addToCart(makeProduct(2), 1)}>
+         <button type="button" onClick={() => addToCart(makeService(2), 1)}>
            add other
          </button>
          <button type="button" onClick={() => removeFromCart("service-1")}>
@@ -893,10 +893,10 @@ Squash merge: `feat: add a global cart state (US-10)`.
 
 ```
 docs: add US-10 cart state story
-feat(cart): add a product to the cart
-feat(cart): accumulate the quantity of a repeated product
-test(cart): keep different products separate
-feat(cart): remove a product from the cart
+feat(cart): add a service to the cart
+feat(cart): accumulate the quantity of a repeated service
+test(cart): keep different services separate
+feat(cart): remove a service from the cart
 feat(cart): clear the cart
 feat(cart): ignore unknown actions
 feat(cart): ignore invalid quantities

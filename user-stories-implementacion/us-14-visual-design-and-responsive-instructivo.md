@@ -40,8 +40,8 @@ reducido respetado, estilos repetidos consolidados y una auditoría con números
 | 1 | `test/pages.test.jsx` | **crear** (estructura de cada página) |
 | 2 | `src/styles/button.module.css` | **crear** |
 | 2 | `src/features/home/pages/Home.module.css` | editar (`.cta`) |
-| 2 | `src/features/products/components/Item.module.css` | editar (`.link`) |
-| 2 | `src/features/products/components/ItemDetail.module.css` | editar (`.add`) |
+| 2 | `src/features/services/components/Item.module.css` | editar (`.link`) |
+| 2 | `src/features/services/components/ItemDetail.module.css` | editar (`.add`) |
 | 2 | `src/features/not-found/pages/NotFound.module.css` | editar (`.back`) |
 | 2 | `src/features/cart/pages/CartPage.module.css` | editar (`.browse`) |
 | 2 | `biome.json` | editar (solo si Biome se queja de `composes`) |
@@ -84,7 +84,7 @@ productivo**: pasa de entrada y se valida con una mutación.
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { App } from "../src/App";
-import { makeProduct, productsHandler } from "./handlers";
+import { makeService, servicesHandler } from "./handlers";
 import { renderWithProviders } from "./renderWithProviders";
 import { server } from "./server";
 
@@ -92,7 +92,7 @@ describe("page structure", () => {
   it.each(["/", "/servicios", "/servicio/service-1", "/carrito", "/no-existe"])(
     "has exactly one main landmark and one level-1 heading at %s",
     async (route) => {
-      server.use(productsHandler([makeProduct(1)]));
+      server.use(servicesHandler([makeService(1)]));
       renderWithProviders(<App />, { route });
       await screen.findByRole("main");
       expect(screen.getAllByRole("main")).toHaveLength(1);
@@ -131,8 +131,8 @@ Con todas las stories estiladas vas a encontrar **copias**: el botón principal 
 | Archivo | Clase |
 | ------- | ----- |
 | `src/features/home/pages/Home.module.css` | `.cta` |
-| `src/features/products/components/Item.module.css` | `.link` |
-| `src/features/products/components/ItemDetail.module.css` | `.add` |
+| `src/features/services/components/Item.module.css` | `.link` |
+| `src/features/services/components/ItemDetail.module.css` | `.add` |
 | `src/features/not-found/pages/NotFound.module.css` | `.back` |
 | `src/features/cart/pages/CartPage.module.css` | `.browse` |
 
@@ -178,7 +178,7 @@ carpetas de `src/`.
 }
 ```
 
-**Archivo:** `src/features/products/components/Item.module.css`
+**Archivo:** `src/features/services/components/Item.module.css`
 **Dónde:** la regla `.link { ... }`.
 
 ```css
@@ -189,7 +189,7 @@ carpetas de `src/`.
 }
 ```
 
-**Archivo:** `src/features/products/components/ItemDetail.module.css`
+**Archivo:** `src/features/services/components/ItemDetail.module.css`
 **Dónde:** la regla `.add { ... }` (es un `<button>`, por eso conserva `font`, `border` y `cursor`).
 
 ```css
@@ -413,9 +413,9 @@ se coló: dale su módulo).
 
 ### 2. Mutación
 
-1. Renombrá `src/features/products/components/Item.module.css` a `Item.css`.
+1. Renombrá `src/features/services/components/Item.module.css` a `Item.css`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** el mensaje incluye
-   `src/features/products/components/Item.jsx`.
+   `src/features/services/components/Item.jsx`.
 3. **Deshacé** el cambio de nombre y corré de nuevo: verde.
 
 > Desde ahora, un componente nuevo sin CSS rompe el test **apenas lo creás**: el estilo no se puede

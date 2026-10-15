@@ -17,7 +17,7 @@ Depends on: [US-19](us-19-create-service.md) (the management list).
 Included:
 
 - A "Delete" button per row, with an **accessible in-page confirmation** (no `window.confirm`).
-- `deleteProduct` in `productsApi` (`deleteDoc`); the list and the catalog update.
+- `deleteService` in `servicesApi` (`deleteDoc`); the list and the catalog update.
 - Error feedback.
 
 Not included:
@@ -40,7 +40,7 @@ Feature: Delete a service
   Scenario: Confirming removes the service
     Given I am asked to confirm
     When I confirm
-    Then "deleteProduct" receives the id
+    Then "deleteService" receives the id
     And the service disappears from the list and from the public catalog
 
   Scenario: A failure keeps the service and shows an error

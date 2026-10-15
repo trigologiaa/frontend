@@ -13,7 +13,7 @@ CartPage      (contenedor: useCart(); decide vacío / lista; total; "Vaciar")
 ```
 
 > **Concepto — la página no pide datos:** todo lo que necesita (título, precio, imagen, cantidad) ya
-> está en el carrito porque guardamos una *foto* del producto (US-10). Por eso no hay `fetch` acá,
+> está en el carrito porque guardamos una *foto* del servicio (US-10). Por eso no hay `fetch` acá,
 > y por eso el carrito sigue funcionando si después se borra o cambia un servicio del catálogo.
 >
 > **Concepto — valores derivados:** el subtotal de una línea (`price × quantity`) y el total
@@ -76,8 +76,8 @@ git add -A && git commit -m "test: register the cart item as pending styles"
 
 ## Ciclo 0 — El provider acepta ítems iniciales (para poder sembrar tests)
 
-Los tests de esta story necesitan un carrito **real** que ya tenga productos. En vez de repetir
-"agregar productos" en cada test, el provider acepta un estado inicial (algo que además te sirve si
+Los tests de esta story necesitan un carrito **real** que ya tenga servicios. En vez de repetir
+"agregar servicios" en cada test, el provider acepta un estado inicial (algo que además te sirve si
 algún día persistís el carrito).
 
 ### 1. 🔴 Escribir el test
@@ -88,7 +88,7 @@ algún día persistís el carrito).
 ```jsx
   it("starts with the initial items when they are provided", () => {
     const initialItems = [
-      { id: "service-1", title: makeProduct(1).title, price: 100, image: "", quantity: 2 },
+      { id: "service-1", title: makeService(1).title, price: 100, image: "", quantity: 2 },
     ];
     render(
       <CartProvider initialItems={initialItems}>
@@ -175,10 +175,10 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { CartItem } from "../../../../src/features/cart/components/CartItem";
-import { makeProduct } from "../../../handlers";
+import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
-const { id, title, image } = makeProduct(1);
+const { id, title, image } = makeService(1);
 const item = { id, title, image, price: 350, quantity: 2 };
 
 describe("CartItem", () => {
@@ -486,7 +486,7 @@ Este ciclo **no cambia código productivo**: protege los textos en inglés.
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 4. (El título en inglés de
-   `makeProduct(1)` es `Service 1`.)
+   `makeService(1)` es `Service 1`.)
 
    ```jsx
      it("translates the cart item", async () => {
@@ -544,11 +544,11 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { CartPage } from "../../../../src/features/cart/pages/CartPage";
-import { makeProduct } from "../../../handlers";
+import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 function line(n, quantity = 1) {
-  const { id, title, image } = makeProduct(n);
+  const { id, title, image } = makeService(n);
   return { id, title, image, price: 100 * n, quantity };
 }
 
@@ -942,12 +942,12 @@ Este ciclo **no cambia código productivo**: es el recorrido real de la app.
 
 **Archivo:** `test/App.test.jsx`
 **Dónde:** dentro del `describe("App routes", ...)`, después del test `"keeps the cart across pages"`
-(US-12). `userEvent`, `server`, `productsHandler` y `makeProduct` ya están importados.
+(US-12). `userEvent`, `server`, `servicesHandler` y `makeService` ya están importados.
 
 ```jsx
   it("shows in the cart page what was added from the detail", async () => {
     const user = userEvent.setup();
-    server.use(productsHandler([makeProduct(1)]));
+    server.use(servicesHandler([makeService(1)]));
     renderWithProviders(<App />, { route: "/servicio/service-1" });
     await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
@@ -1042,8 +1042,8 @@ export function useLanguage() {
 }
 ```
 
-**Archivos:** `src/features/products/components/Item.jsx`,
-`src/features/products/components/ItemDetail.jsx`, `src/features/cart/components/CartItem.jsx` y
+**Archivos:** `src/features/services/components/Item.jsx`,
+`src/features/services/components/ItemDetail.jsx`, `src/features/cart/components/CartItem.jsx` y
 `src/features/cart/pages/CartPage.jsx`.
 **Dónde:** en cada uno, importá `useLanguage` (`import { useLanguage } from "../../../shared/useLanguage";`),
 cambiá `const { t, i18n } = useTranslation();` por `const { t } = useTranslation();` y

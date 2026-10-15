@@ -9,7 +9,7 @@ This is a technical (enabler) story. It has no visible page of its own (the cata
 data is US-08). Its critical point is the **seam**: components depend on the hook, the hook depends
 on the service, and only the service knows about `fetch` and the JSON file.
 
-Requirement: Pre-delivery **Req 2.1** (load products from a local `productos.json` with `useEffect`
+Requirement: Pre-delivery **Req 2.1** (load services from a local `productos.json` with `useEffect`
 and `fetch`) — the data half; the rendering half is US-08.
 
 Depends on: [US-04](us-04-language-detection-and-switch.md) (the data is bilingual).
@@ -19,8 +19,8 @@ Depends on: [US-04](us-04-language-detection-and-switch.md) (the data is bilingu
 Included:
 
 - `public/productos.json` with at least 6 services (see the data shape).
-- `productsApi.js`: `getProducts()` and `getProductById(id)` (using `fetch`).
-- `useProducts()` hook with `useEffect` + `useState`, returning `{ products, loading, error }`.
+- `servicesApi.js`: `getServices()` and `getServiceById(id)` (using `fetch`).
+- `useServices()` hook with `useEffect` + `useState`, returning `{ services, loading, error }`.
 - A pure helper `localized(field, language)` that picks the text of the active language from a
   `{ es, en }` object, with fallback to Spanish.
 - **MSW** set up for the tests (network-level mock of `/productos.json`), including the error case.
@@ -28,7 +28,7 @@ Included:
 Not included:
 
 - Rendering anything: **US-08** (list) and **US-09** (detail).
-- Firebase/Firestore: **US-17** (it replaces the body of `productsApi`).
+- Firebase/Firestore: **US-17** (it replaces the body of `servicesApi`).
 - Caching, retries, pagination.
 
 ### Data shape
@@ -59,33 +59,33 @@ Feature: Load the services from a data source
   I want one isolated data source and one hook
   So that pages can show services without knowing where they come from
 
-  Scenario: The service returns all the products
-    Given the server answers "/productos.json" with 3 products
-    When I ask the service for all products
-    Then I get 3 products
+  Scenario: The service returns all the services
+    Given the server answers "/productos.json" with 3 services
+    When I ask the service for all services
+    Then I get 3 services
 
-  Scenario: The service finds a product by id
-    Given the server answers with a product whose id is "landing-page"
-    When I ask the service for the product "landing-page"
-    Then I get that product
+  Scenario: The service finds a service by id
+    Given the server answers with a service whose id is "landing-page"
+    When I ask the service for the service "landing-page"
+    Then I get that service
 
   Scenario: The service reports an unknown id
-    When I ask the service for the product "does-not-exist"
+    When I ask the service for the service "does-not-exist"
     Then I get nothing (null)
 
   Scenario: The service fails when the server fails
     Given the server answers "/productos.json" with status 500
-    When I ask the service for all products
+    When I ask the service for all services
     Then the service rejects
 
   Scenario: The hook starts loading
-    When a component uses the products hook
-    Then "loading" is true and "products" is empty
+    When a component uses the services hook
+    Then "loading" is true and "services" is empty
 
-  Scenario: The hook exposes the loaded products
-    Given the server answers with 3 products
-    When the products are loaded
-    Then "loading" is false and "products" has 3 items and "error" is empty
+  Scenario: The hook exposes the loaded services
+    Given the server answers with 3 services
+    When the services are loaded
+    Then "loading" is false and "services" has 3 items and "error" is empty
 
   Scenario: The hook exposes an error
     Given the server fails
@@ -102,7 +102,7 @@ Feature: Load the services from a data source
 
   Scenario: The real data file is valid
     Given the file "public/productos.json"
-    Then it has at least 6 products with unique ids and both languages in every text
+    Then it has at least 6 services with unique ids and both languages in every text
 ```
 
 ## Non-functional requirements
@@ -120,9 +120,9 @@ Feature: Load the services from a data source
   a network failure is an error.
 - **Why MSW and not mocking `fetch` by hand:** the test exercises the real `fetch` call, URL
   included; if someone changes the URL the test fails.
-- **`useProducts` fetches on mount, once.** Refetch/caching would be TanStack Query territory
+- **`useServices` fetches on mount, once.** Refetch/caching would be TanStack Query territory
   (mentioned in the workflow as a future alternative).
-- **`getProductById` reuses `getProducts`:** with a JSON file there is no per-item endpoint.
+- **`getServiceById` reuses `getServices`:** with a JSON file there is no per-item endpoint.
 
 ## Definition of Done
 

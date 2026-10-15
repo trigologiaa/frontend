@@ -46,7 +46,7 @@ git add docs && git commit -m "docs: add US-12 cart widget in navbar story"
 
 ### Infraestructura de tests: un carrito falso inyectable
 
-Para probar "el widget muestra 5" sin agregar cinco productos a mano, `renderWithProviders` acepta
+Para probar "el widget muestra 5" sin agregar cinco servicios a mano, `renderWithProviders` acepta
 una opción `cart`.
 
 **Archivo:** `test/renderWithProviders.jsx`
@@ -286,8 +286,8 @@ detalle sirve de botón). Es la prueba de que el Context funciona de punta a pun
 
    ```jsx
    import userEvent from "@testing-library/user-event";
-   import { ItemDetail } from "../../../../src/features/products/components/ItemDetail";
-   import { makeProduct } from "../../../handlers";
+   import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
+   import { makeService } from "../../../handlers";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 3.
@@ -298,7 +298,7 @@ detalle sirve de botón). Es la prueba de que el Context funciona de punta a pun
        renderWithProviders(
          <>
            <CartWidget />
-           <ItemDetail product={makeProduct(1)} />
+           <ItemDetail service={makeService(1)} />
          </>,
        );
        await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
@@ -588,12 +588,12 @@ propósito.
 **Archivo:** `test/App.test.jsx`
 **Dónde:** dentro del `describe("App routes", ...)`, después del test
 `"goes from the catalog to the detail of a service"` (US-09). `userEvent`, `server`,
-`productsHandler` y `makeProduct` ya están importados.
+`servicesHandler` y `makeService` ya están importados.
 
 ```jsx
   it("keeps the cart across pages", async () => {
     const user = userEvent.setup();
-    server.use(productsHandler([makeProduct(1), makeProduct(2)]));
+    server.use(servicesHandler([makeService(1), makeService(2)]));
     renderWithProviders(<App />, { route: "/servicio/service-1" });
     await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
@@ -610,7 +610,7 @@ propósito.
 
 1. En `src/features/services/pages/ItemDetailContainer.jsx`, en el `return` final, envolvé el detalle
    en su propio `<CartProvider>` (con `import { CartProvider } from "../../cart/context/CartContext";`):
-   `<CartProvider><ItemDetail product={product} /></CartProvider>`.
+   `<CartProvider><ItemDetail service={service} /></CartProvider>`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** el estado no sobrevive a la navegación
    (`Unable to find an accessible element ... name "Carrito, 3 artículos"`).
 3. **Restaurá** y corré de nuevo: verde.
@@ -726,7 +726,7 @@ Solo falta separar ícono, texto y número.
 ### 3. 🔵 Mirar el navegador
 
 El ícono toma el color del texto (`stroke="currentColor"` en el SVG: cambia con el tema y con el
-estado activo sin tocar nada). Agregá productos desde el detalle y mirá cómo crece el número: con dos
+estado activo sin tocar nada). Agregá servicios desde el detalle y mirá cómo crece el número: con dos
 dígitos (10, 99) la *pill* no se tiene que deformar. Con el carrito vacío no aparece (ciclo 3).
 
 ### 4. Commit

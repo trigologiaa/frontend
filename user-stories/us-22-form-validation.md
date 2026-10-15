@@ -5,7 +5,7 @@
 **As the** owner, **I want** the form to tell me what is wrong before saving, **so that** I never
 store incomplete or absurd data.
 
-Critical point: validation is **pure logic** (a function `validateProduct(values) → errors`), tested
+Critical point: validation is **pure logic** (a function `validateService(values) → errors`), tested
 without React; the form only displays its result. Client validation is a convenience: the database
 rules remain the real guard.
 
@@ -17,7 +17,7 @@ Depends on: [US-19](us-19-create-service.md) and [US-20](us-20-edit-service.md).
 
 Included:
 
-- `validateProduct` (pure): required title (es and en), required description, price greater than 0
+- `validateService` (pure): required title (es and en), required description, price greater than 0
   (number), valid category, valid image URL, unique id.
 - Errors shown next to each field, in the active language; focus goes to the first invalid field
   on submit.
@@ -34,15 +34,15 @@ Not included:
 Feature: Validate the service form
   Scenario: An empty title is rejected
     Given an empty title
-    Then "validateProduct" reports a title error
+    Then "validateService" reports a title error
 
   Scenario: A price of zero or less is rejected
     Given a price of 0
-    Then "validateProduct" reports a price error
+    Then "validateService" reports a price error
 
   Scenario: A valid service has no errors
     Given valid values
-    Then "validateProduct" returns no errors
+    Then "validateService" returns no errors
 
   Scenario: The form shows the errors next to the fields
     When I submit an empty form
@@ -50,7 +50,7 @@ Feature: Validate the service form
 
   Scenario: Nothing is saved while invalid
     When I submit an invalid form
-    Then "createProduct" is not called
+    Then "createService" is not called
 
   Scenario: The focus goes to the first error
     When I submit an invalid form

@@ -18,10 +18,10 @@ Depends on: [US-18](us-18-sign-in-and-protected-routes.md) (only the owner can r
 Included:
 
 - `/admin` management page with the list of services and a "New service" form
-  (`FormularioProducto`, presentational) inside a container (`Gestion`).
+  (`FormularioServicio`, presentational) inside a container (`Gestion`).
 - Fields: id/slug (or generated), title (es/en), description (es/en), price, category, image URL.
 - Image upload to an external service (class 6, Imgbb) **or** an image URL field — decide.
-- On submit: `createProduct` in `productsApi` (`addDoc`), the list updates, the form resets.
+- On submit: `createService` in `servicesApi` (`addDoc`), the list updates, the form resets.
 - Success and error feedback.
 
 Not included:
@@ -39,7 +39,7 @@ Feature: Create a service
   Scenario: Submitting creates the service
     Given I filled the form
     When I submit
-    Then "createProduct" receives the data
+    Then "createService" receives the data
     And the new service appears in the list
 
   Scenario: The form resets after a successful creation
@@ -69,8 +69,8 @@ Feature: Create a service
 
 ## Decisions
 
-- **`createProduct` lives in `productsApi`:** the same seam as the reads.
-- **Container/presentational:** `Gestion` holds state and calls the API; `FormularioProducto` only
+- **`createService` lives in `servicesApi`:** the same seam as the reads.
+- **Container/presentational:** `Gestion` holds state and calls the API; `FormularioServicio` only
   receives props and emits `onSubmit`.
 - **Image handling** is decided here (external upload vs URL) and recorded.
 

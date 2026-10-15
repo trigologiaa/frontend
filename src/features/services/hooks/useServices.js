@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../services/productsApi";
+import { getServices } from "../services/servicesApi";
 
-export function useProducts() {
-	const [products, setProducts] = useState([]);
+export function useServices() {
+	const [services, setServices] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	useEffect(() => {
 		const controller = new AbortController();
-		getProducts({ signal: controller.signal })
+		getServices({ signal: controller.signal })
 			.then((data) => {
-				setProducts(data);
+				setServices(data);
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -21,5 +21,5 @@ export function useProducts() {
 			});
 		return () => controller.abort();
 	}, []);
-	return { products, loading, error };
+	return { services, loading, error };
 }

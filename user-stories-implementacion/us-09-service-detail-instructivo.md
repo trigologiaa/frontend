@@ -7,12 +7,12 @@ Formato de los pasos: [Formato de los instructivos](00-workflow.md#formato-de-lo
 ## Qué vas a construir
 
 ```
-ItemDetailContainer  (lee :id con useParams, usa useProduct(id); decide: cargando / error / no existe / detalle)
-   └─ ItemDetail     (presentacional: recibe UN producto)
-useProduct(id)       (hook: { product, loading, error })
+ItemDetailContainer  (lee :id con useParams, usa useService(id); decide: cargando / error / no existe / detalle)
+   └─ ItemDetail     (presentacional: recibe UN servicio)
+useService(id)       (hook: { service, loading, error })
 ```
 
-> **Concepto — `null` no es error:** `getProductById` devuelve `null` si el id no existe
+> **Concepto — `null` no es error:** `getServiceById` devuelve `null` si el id no existe
 > (US-07). El contenedor lo muestra como "No encontramos ese servicio" (contenido amable), mientras
 > que un rechazo de red muestra la alerta de error. Son dos casos distintos con dos mensajes.
 
@@ -21,24 +21,24 @@ useProduct(id)       (hook: { product, loading, error })
 > - El detalle es **`/servicio/:id`** y el catálogo **`/servicios`** (`src/App.jsx`).
 > - La página `ItemDetailContainer` **ya existe** (provisoria, desde US-02) en
 >   `src/features/services/pages/ItemDetailContainer.jsx`: **se edita ahí**.
-> - `ItemDetail` y el hook `useProduct` viven en `src/features/products/`, como `Item` y `useProducts`.
+> - `ItemDetail` y el hook `useService` viven en `src/features/services/`, como `Item` y `useServices`.
 
 ## Mapa de archivos
 
 | Ciclo | Archivo | Acción |
 | ----- | ------- | ------ |
 | 0, S1 | `test/styles/components.test.js` | editar (lista `pending`) |
-| 1–6 | `test/features/products/hooks/useProduct.test.js` | **crear** en el ciclo 1, editar después |
-| 1–6 | `src/features/products/hooks/useProduct.js` | **crear** en el ciclo 1, editar después |
-| 5 | `src/features/products/services/productsApi.js` | editar (`getProductById` recibe `signal`) |
+| 1–6 | `test/features/services/hooks/useService.test.js` | **crear** en el ciclo 1, editar después |
+| 1–6 | `src/features/services/hooks/useService.js` | **crear** en el ciclo 1, editar después |
+| 5 | `src/features/services/services/servicesApi.js` | editar (`getServiceById` recibe `signal`) |
 | 6 (opcional) | `src/shared/useAsync.js` | **crear** |
-| 7–10 | `test/features/products/components/ItemDetail.test.jsx` | **crear** en el ciclo 7, editar después |
-| 7–10 | `src/features/products/components/ItemDetail.jsx` | **crear** en el ciclo 7, editar después |
+| 7–10 | `test/features/services/components/ItemDetail.test.jsx` | **crear** en el ciclo 7, editar después |
+| 7–10 | `src/features/services/components/ItemDetail.jsx` | **crear** en el ciclo 7, editar después |
 | 11–15, 17 | `test/features/services/pages/ItemDetailContainer.test.jsx` | **crear** en el ciclo 11, editar después |
 | 11–15 | `src/features/services/pages/ItemDetailContainer.jsx` | editar (era provisoria) |
 | 11–15, 17 | `src/i18n/locales/es.json`, `src/i18n/locales/en.json` | editar (claves `detail.*`; borrar `pages`) |
 | 11, 16 | `test/App.test.jsx` | editar (se borran dos tests viejos; se agrega el recorrido real) |
-| S1 | `src/features/products/components/ItemDetail.module.css` | **crear** |
+| S1 | `src/features/services/components/ItemDetail.module.css` | **crear** |
 | S2 | `src/features/services/pages/ItemDetailContainer.module.css` | **crear** |
 
 ## Paso 0: Preparar
@@ -57,7 +57,7 @@ git add docs && git commit -m "docs: add US-09 service detail story"
 **Dónde:** el array `pending`. Agregá esta ruta **al final** del array:
 
 ```js
-  "src/features/products/components/ItemDetail.jsx",
+  "src/features/services/components/ItemDetail.jsx",
 ```
 
 (`ItemDetailContainer.jsx` ya está en la lista desde US-05.)
@@ -70,28 +70,28 @@ git add -A && git commit -m "test: register the service detail as pending styles
 
 ---
 
-## Ciclos 1–6 — El hook `useProduct(id)`
+## Ciclos 1–6 — El hook `useService(id)`
 
-Es la misma secuencia que `useProducts` (US-07, ciclos 7–11), pero para un servicio. Un test por
+Es la misma secuencia que `useServices` (US-07, ciclos 7–11), pero para un servicio. Un test por
 ciclo, cada uno con su rojo antes del verde.
 
 ### Ciclo 1 — arranca cargando
 
-**1. 🔴 Test.** **Archivo:** `test/features/products/hooks/useProduct.test.js` (**crealo**).
+**1. 🔴 Test.** **Archivo:** `test/features/services/hooks/useService.test.js` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```js
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { useProduct } from "../../../../src/features/products/hooks/useProduct";
-import { productsHandler } from "../../../handlers";
+import { useService } from "../../../../src/features/services/hooks/useService";
+import { servicesHandler } from "../../../handlers";
 import { server } from "../../../server";
 
-describe("useProduct", () => {
-  it("starts loading with no product and no error", () => {
-    server.use(productsHandler());
-    const { result } = renderHook(() => useProduct("service-1"));
-    expect(result.current).toEqual({ product: null, loading: true, error: null });
+describe("useService", () => {
+  it("starts loading with no service and no error", () => {
+    server.use(servicesHandler());
+    const { result } = renderHook(() => useService("service-1"));
+    expect(result.current).toEqual({ service: null, loading: true, error: null });
   });
 });
 ```
@@ -99,15 +99,15 @@ describe("useProduct", () => {
 **Corré:** `pnpm test:run`. **Rojo esperado:**
 
 ```
-Failed to resolve import "../../../../src/features/products/hooks/useProduct"
+Failed to resolve import "../../../../src/features/services/hooks/useService"
 ```
 
-**2. 🟢 Código.** **Archivo:** `src/features/products/hooks/useProduct.js` (**crealo**).
+**2. 🟢 Código.** **Archivo:** `src/features/services/hooks/useService.js` (**crealo**).
 **Dónde:** el archivo entero (*fake it*: valor fijo).
 
 ```js
-export function useProduct() {
-	return { product: null, loading: true, error: null };
+export function useService() {
+	return { service: null, loading: true, error: null };
 }
 ```
 
@@ -116,56 +116,56 @@ export function useProduct() {
 **3. Commit**
 
 ```sh
-git add -A && git commit -m "feat(products): add the product hook in its loading state"
+git add -A && git commit -m "feat(services): add the service hook in its loading state"
 ```
 
-### Ciclo 2 — carga el producto con ese id (y no otro)
+### Ciclo 2 — carga el servicio con ese id (y no otro)
 
-**1. 🔴 Test.** **Archivo:** `test/features/products/hooks/useProduct.test.js`
+**1. 🔴 Test.** **Archivo:** `test/features/services/hooks/useService.test.js`
 
 1. **Dónde (imports):** reemplazá las dos primeras líneas de imports y el import de handlers:
 
    ```js
    import { renderHook, waitFor } from "@testing-library/react";
    import { describe, expect, it } from "vitest";
-   import { useProduct } from "../../../../src/features/products/hooks/useProduct";
-   import { makeProduct, productsHandler } from "../../../handlers";
+   import { useService } from "../../../../src/features/services/hooks/useService";
+   import { makeService, servicesHandler } from "../../../handlers";
    import { server } from "../../../server";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 1.
 
    ```js
-     it("loads the product with the requested id", async () => {
-       server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-       const { result } = renderHook(() => useProduct("service-2"));
+     it("loads the service with the requested id", async () => {
+       server.use(servicesHandler([makeService(1), makeService(2)]));
+       const { result } = renderHook(() => useService("service-2"));
        await waitFor(() => expect(result.current.loading).toBe(false));
-       expect(result.current.product).toEqual(makeProduct(2));
+       expect(result.current.service).toEqual(makeService(2));
      });
    ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** se agota el tiempo del `waitFor`
 (`expected true to be false`).
 
-**2. 🟢 Código.** **Archivo:** `src/features/products/hooks/useProduct.js`
+**2. 🟢 Código.** **Archivo:** `src/features/services/hooks/useService.js`
 **Dónde:** reemplazá el archivo entero. La dependencia `[id]` hace que, si el id cambia, vuelva a pedir.
 
 ```js
 import { useEffect, useState } from "react";
-import { getProductById } from "../services/productsApi";
+import { getServiceById } from "../services/servicesApi";
 
-export function useProduct(id) {
-	const [product, setProduct] = useState(null);
+export function useService(id) {
+	const [service, setService] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		getProductById(id).then((data) => {
-			setProduct(data);
+		getServiceById(id).then((data) => {
+			setService(data);
 			setLoading(false);
 		});
 	}, [id]);
 
-	return { product, loading, error: null };
+	return { service, loading, error: null };
 }
 ```
 
@@ -174,79 +174,79 @@ export function useProduct(id) {
 **3. Commit**
 
 ```sh
-git add -A && git commit -m "feat(products): load a product by id"
+git add -A && git commit -m "feat(services): load a service by id"
 ```
 
 ### Ciclo 3 — id desconocido
 
 Este ciclo **no cambia código productivo**: el test pasa de entrada y se valida con una mutación.
 
-**1. Test (pasa de entrada).** **Archivo:** `test/features/products/hooks/useProduct.test.js`
+**1. Test (pasa de entrada).** **Archivo:** `test/features/services/hooks/useService.test.js`
 **Dónde:** dentro del `describe`, después del test del ciclo 2.
 
 ```js
-  it("returns no product and no error for an unknown id", async () => {
-    server.use(productsHandler([makeProduct(1)]));
-    const { result } = renderHook(() => useProduct("does-not-exist"));
+  it("returns no service and no error for an unknown id", async () => {
+    server.use(servicesHandler([makeService(1)]));
+    const { result } = renderHook(() => useService("does-not-exist"));
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.product).toBeNull();
+    expect(result.current.service).toBeNull();
     expect(result.current.error).toBeNull();
   });
 ```
 
 **Corré:** `pnpm test:run`. **Resultado esperado:** verde de entrada.
 
-**2. Mutación.** En `src/features/products/hooks/useProduct.js` borrá (o comentá) la línea
+**2. Mutación.** En `src/features/services/hooks/useService.js` borrá (o comentá) la línea
 `setLoading(false);`. **Corré** `pnpm test:run`: **rojo esperado**, se agota el tiempo del
 `waitFor` (el hook se queda "cargando" cuando el id no existe). **Restaurá** la línea.
 
 **3. Commit**
 
 ```sh
-git add -A && git commit -m "test(products): return null for an unknown id"
+git add -A && git commit -m "test(services): return null for an unknown id"
 ```
 
 ### Ciclo 4 — error
 
-**1. 🔴 Test.** **Archivo:** `test/features/products/hooks/useProduct.test.js`
+**1. 🔴 Test.** **Archivo:** `test/features/services/hooks/useService.test.js`
 
-1. **Dónde (import de handlers):** sumá `failingProductsHandler`:
+1. **Dónde (import de handlers):** sumá `failingServicesHandler`:
 
    ```js
-   import { failingProductsHandler, makeProduct, productsHandler } from "../../../handlers";
+   import { failingServicesHandler, makeService, servicesHandler } from "../../../handlers";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 3.
 
    ```js
-     it("exposes an error when the product cannot be loaded", async () => {
-       server.use(failingProductsHandler());
-       const { result } = renderHook(() => useProduct("service-1"));
+     it("exposes an error when the service cannot be loaded", async () => {
+       server.use(failingServicesHandler());
+       const { result } = renderHook(() => useService("service-1"));
        await waitFor(() => expect(result.current.loading).toBe(false));
        expect(result.current.error).toBeInstanceOf(Error);
-       expect(result.current.product).toBeNull();
+       expect(result.current.service).toBeNull();
      });
    ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** se agota el tiempo del `waitFor` (la promesa rechazada
 nunca apaga `loading`).
 
-**2. 🟢 Código.** **Archivo:** `src/features/products/hooks/useProduct.js`
+**2. 🟢 Código.** **Archivo:** `src/features/services/hooks/useService.js`
 **Dónde:** reemplazá el archivo entero (estado `error` y `.catch`).
 
 ```js
 import { useEffect, useState } from "react";
-import { getProductById } from "../services/productsApi";
+import { getServiceById } from "../services/servicesApi";
 
-export function useProduct(id) {
-	const [product, setProduct] = useState(null);
+export function useService(id) {
+	const [service, setService] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		getProductById(id)
+		getServiceById(id)
 			.then((data) => {
-				setProduct(data);
+				setService(data);
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -255,7 +255,7 @@ export function useProduct(id) {
 			});
 	}, [id]);
 
-	return { product, loading, error };
+	return { service, loading, error };
 }
 ```
 
@@ -264,14 +264,14 @@ export function useProduct(id) {
 **3. Commit**
 
 ```sh
-git add -A && git commit -m "feat(products): expose errors in the product hook"
+git add -A && git commit -m "feat(services): expose errors in the service hook"
 ```
 
 ### Ciclo 5 — aborta al desmontar
 
 Igual que US-07, ciclo 10.
 
-**1. 🔴 Test.** **Archivo:** `test/features/products/hooks/useProduct.test.js`
+**1. 🔴 Test.** **Archivo:** `test/features/services/hooks/useService.test.js`
 
 1. **Dónde (import de `vitest`):** sumá `afterEach` y `vi`:
 
@@ -291,9 +291,9 @@ Igual que US-07, ciclo 10.
 
    ```js
      it("aborts the pending request when the component unmounts", () => {
-       server.use(productsHandler());
+       server.use(servicesHandler());
        const fetchSpy = vi.spyOn(globalThis, "fetch");
-       const { unmount } = renderHook(() => useProduct("service-1"));
+       const { unmount } = renderHook(() => useService("service-1"));
        unmount();
        expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
      });
@@ -304,25 +304,25 @@ sin señal).
 
 **2. 🟢 Código.**
 
-**Archivo:** `src/features/products/services/productsApi.js`
-**Dónde:** reemplazá `getProductById` (la señal se propaga hasta `getProducts`).
+**Archivo:** `src/features/services/services/servicesApi.js`
+**Dónde:** reemplazá `getServiceById` (la señal se propaga hasta `getServices`).
 
 ```js
-export async function getProductById(id, { signal } = {}) {
-	const products = await getProducts({ signal });
-	return products.find((product) => product.id === id) ?? null;
+export async function getServiceById(id, { signal } = {}) {
+	const services = await getServices({ signal });
+	return services.find((service) => service.id === id) ?? null;
 }
 ```
 
-**Archivo:** `src/features/products/hooks/useProduct.js`
+**Archivo:** `src/features/services/hooks/useService.js`
 **Dónde:** reemplazá el `useEffect` completo.
 
 ```js
 	useEffect(() => {
 		const controller = new AbortController();
-		getProductById(id, { signal: controller.signal })
+		getServiceById(id, { signal: controller.signal })
 			.then((data) => {
-				setProduct(data);
+				setService(data);
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -338,14 +338,14 @@ export async function getProductById(id, { signal } = {}) {
 **3. Commit**
 
 ```sh
-git add -A && git commit -m "feat(products): abort the product request on unmount"
+git add -A && git commit -m "feat(services): abort the service request on unmount"
 ```
 
 ### Ciclo 6 — StrictMode no es error
 
 Igual que US-07, ciclo 11.
 
-**1. 🔴 Test.** **Archivo:** `test/features/products/hooks/useProduct.test.js`
+**1. 🔴 Test.** **Archivo:** `test/features/services/hooks/useService.test.js`
 
 1. **Dónde (imports, arriba de todo):**
 
@@ -357,36 +357,36 @@ Igual que US-07, ciclo 11.
 
    ```js
      it("does not report a cancelled request as an error in StrictMode", async () => {
-       server.use(productsHandler([makeProduct(1)]));
-       const { result } = renderHook(() => useProduct("service-1"), { wrapper: StrictMode });
+       server.use(servicesHandler([makeService(1)]));
+       const { result } = renderHook(() => useService("service-1"), { wrapper: StrictMode });
        await waitFor(() => expect(result.current.loading).toBe(false));
        expect(result.current.error).toBeNull();
-       expect(result.current.product).toEqual(makeProduct(1));
+       expect(result.current.service).toEqual(makeService(1));
      });
    ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** `error` no es `null` (el primer pedido se cancela y
 queda como error).
 
-**2. 🟢 Código.** **Archivo:** `src/features/products/hooks/useProduct.js`
+**2. 🟢 Código.** **Archivo:** `src/features/services/hooks/useService.js`
 **Dónde:** en el `.catch`, como **primera línea** (antes de `setError`).
 
 **Archivo completo después de este ciclo:**
 
 ```js
 import { useEffect, useState } from "react";
-import { getProductById } from "../services/productsApi";
+import { getServiceById } from "../services/servicesApi";
 
-export function useProduct(id) {
-	const [product, setProduct] = useState(null);
+export function useService(id) {
+	const [service, setService] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const controller = new AbortController();
-		getProductById(id, { signal: controller.signal })
+		getServiceById(id, { signal: controller.signal })
 			.then((data) => {
-				setProduct(data);
+				setService(data);
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -397,7 +397,7 @@ export function useProduct(id) {
 		return () => controller.abort();
 	}, [id]);
 
-	return { product, loading, error };
+	return { service, loading, error };
 }
 ```
 
@@ -406,12 +406,12 @@ export function useProduct(id) {
 **3. Commit**
 
 ```sh
-git add -A && git commit -m "fix(products): ignore aborted requests in the product hook"
+git add -A && git commit -m "fix(services): ignore aborted requests in the service hook"
 ```
 
 ### Refactor guiado (opcional, recomendado): un hook genérico `useAsync`
 
-`useProducts` y `useProduct` repiten el mismo esqueleto (estado + efecto + abort + ignorar
+`useServices` y `useService` repiten el mismo esqueleto (estado + efecto + abort + ignorar
 `AbortError`). Con **todos los tests verdes**, tocá estos tres archivos **en este orden**
 (primero el nuevo, después los dos hooks):
 
@@ -449,33 +449,33 @@ export function useAsync(fetcher, deps, initialData) {
 > El comentario `biome-ignore` es necesario: Biome no puede verificar un arreglo de dependencias que
 > llega de afuera (`deps`), y esa es justamente la gracia de este hook genérico.
 
-**Archivo:** `src/features/products/hooks/useProduct.js`
+**Archivo:** `src/features/services/hooks/useService.js`
 **Dónde:** reemplazá el archivo entero.
 
 ```js
 import { useAsync } from "../../../shared/useAsync";
-import { getProductById } from "../services/productsApi";
+import { getServiceById } from "../services/servicesApi";
 
-export function useProduct(id) {
+export function useService(id) {
 	const {
-		data: product,
+		data: service,
 		loading,
 		error,
-	} = useAsync((options) => getProductById(id, options), [id], null);
-	return { product, loading, error };
+	} = useAsync((options) => getServiceById(id, options), [id], null);
+	return { service, loading, error };
 }
 ```
 
-**Archivo:** `src/features/products/hooks/useProducts.js`
+**Archivo:** `src/features/services/hooks/useServices.js`
 **Dónde:** reemplazá el archivo entero.
 
 ```js
 import { useAsync } from "../../../shared/useAsync";
-import { getProducts } from "../services/productsApi";
+import { getServices } from "../services/servicesApi";
 
-export function useProducts() {
-	const { data: products, loading, error } = useAsync(getProducts, [], []);
-	return { products, loading, error };
+export function useServices() {
+	const { data: services, loading, error } = useAsync(getServices, [], []);
+	return { services, loading, error };
 }
 ```
 
@@ -494,19 +494,19 @@ git add -A && git commit -m "refactor(shared): extract a generic async data hook
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx` (**crealo**).
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```jsx
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { ItemDetail } from "../../../../src/features/products/components/ItemDetail";
-import { makeProduct } from "../../../handlers";
+import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
+import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 describe("ItemDetail", () => {
   it("shows the title as the main heading", () => {
-    renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
     expect(screen.getByRole("heading", { level: 1, name: "Servicio 1" })).toBeInTheDocument();
   });
 });
@@ -515,23 +515,23 @@ describe("ItemDetail", () => {
 **Corré:** `pnpm test:run`. **Rojo esperado:**
 
 ```
-Failed to resolve import "../../../../src/features/products/components/ItemDetail"
+Failed to resolve import "../../../../src/features/services/components/ItemDetail"
 ```
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx` (**crealo**).
+**Archivo:** `src/features/services/components/ItemDetail.jsx` (**crealo**).
 **Dónde:** el archivo entero (`useTranslation` + `localized`, igual que `Item`).
 
 ```jsx
 import { useTranslation } from "react-i18next";
 import { localized } from "../../../shared/localized";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { i18n } = useTranslation();
 	return (
 		<article>
-			<h1>{localized(product.title, i18n.resolvedLanguage)}</h1>
+			<h1>{localized(service.title, i18n.resolvedLanguage)}</h1>
 		</article>
 	);
 }
@@ -542,7 +542,7 @@ export function ItemDetail({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add the service detail with its title"
+git add -A && git commit -m "feat(services): add the service detail with its title"
 ```
 
 ---
@@ -551,12 +551,12 @@ git add -A && git commit -m "feat(products): add the service detail with its tit
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 7.
 
 ```jsx
   it("shows the description", () => {
-    renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
     expect(screen.getByText("Descripción 1")).toBeInTheDocument();
   });
 ```
@@ -569,20 +569,20 @@ Unable to find an element with the text: Descripción 1
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero.
 
 ```jsx
 import { useTranslation } from "react-i18next";
 import { localized } from "../../../shared/localized";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
 	return (
 		<article>
-			<h1>{localized(product.title, language)}</h1>
-			<p>{localized(product.description, language)}</p>
+			<h1>{localized(service.title, language)}</h1>
+			<p>{localized(service.description, language)}</p>
 		</article>
 	);
 }
@@ -593,7 +593,7 @@ export function ItemDetail({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the service description"
+git add -A && git commit -m "feat(services): show the service description"
 ```
 
 ---
@@ -604,7 +604,7 @@ git add -A && git commit -m "feat(products): show the service description"
 
 Un solo test con dos afirmaciones, porque son dos líneas del mismo dato "ficha".
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 
 1. **Dónde (imports):** agregá el catálogo en español, junto a los demás imports:
 
@@ -616,7 +616,7 @@ Un solo test con dos afirmaciones, porque son dos líneas del mismo dato "ficha"
 
    ```jsx
      it("shows the price and the category", () => {
-       renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+       renderWithProviders(<ItemDetail service={makeService(1)} />);
        expect(screen.getByText("US$ 100")).toBeInTheDocument();
        expect(screen.getByText(es.categories.web)).toBeInTheDocument();
      });
@@ -630,7 +630,7 @@ Unable to find an element with the text: US$ 100
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero.
 
 ```jsx
@@ -638,15 +638,15 @@ import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
 	return (
 		<article>
-			<h1>{localized(product.title, language)}</h1>
-			<p>{localized(product.description, language)}</p>
-			<p>{t(`categories.${product.category}`)}</p>
-			<p>{formatPrice(product.price, language)}</p>
+			<h1>{localized(service.title, language)}</h1>
+			<p>{localized(service.description, language)}</p>
+			<p>{t(`categories.${service.category}`)}</p>
+			<p>{formatPrice(service.price, language)}</p>
 		</article>
 	);
 }
@@ -657,7 +657,7 @@ export function ItemDetail({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the service price and category"
+git add -A && git commit -m "feat(services): show the service price and category"
 ```
 
 ---
@@ -666,12 +666,12 @@ git add -A && git commit -m "feat(products): show the service price and category
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 9.
 
 ```jsx
   it("shows the image with the title as alternative text", () => {
-    renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
     expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute("src", "/images/service-1.svg");
   });
 ```
@@ -684,7 +684,7 @@ Unable to find an accessible element with the role "img" and name "Servicio 1"
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero. Es la imagen principal: **sin** `loading="lazy"` (está arriba
 del todo).
 
@@ -693,17 +693,17 @@ import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	return (
 		<article>
-			<img src={product.image} alt={title} width="640" height="400" />
+			<img src={service.image} alt={title} width="640" height="400" />
 			<h1>{title}</h1>
-			<p>{localized(product.description, language)}</p>
-			<p>{t(`categories.${product.category}`)}</p>
-			<p>{formatPrice(product.price, language)}</p>
+			<p>{localized(service.description, language)}</p>
+			<p>{t(`categories.${service.category}`)}</p>
+			<p>{formatPrice(service.price, language)}</p>
 		</article>
 	);
 }
@@ -714,11 +714,11 @@ export function ItemDetail({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the service image"
+git add -A && git commit -m "feat(services): show the service image"
 ```
 
 > 🔵 `Item` e `ItemDetail` calculan `title`, `language` y el precio de la misma forma. Si te
-> molesta, extraé un hook `useLocalizedProduct(product)`; si no, dejalo: dos usos todavía no
+> molesta, extraé un hook `useLocalizedService(service)`; si no, dejalo: dos usos todavía no
 > justifican una abstracción (regla de tres).
 
 ---
@@ -758,7 +758,7 @@ import { screen } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { ItemDetailContainer } from "../../../../src/features/services/pages/ItemDetailContainer";
-import { productsHandler } from "../../../handlers";
+import { servicesHandler } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 import { server } from "../../../server";
 
@@ -773,7 +773,7 @@ function renderDetail(id) {
 
 describe("ItemDetailContainer", () => {
   it("shows a loading message while the service loads", () => {
-    server.use(productsHandler());
+    server.use(servicesHandler());
     renderDetail("service-1");
     expect(screen.getByRole("status")).toHaveTextContent("Cargando...");
   });
@@ -794,12 +794,12 @@ Unable to find an accessible element with the role "status"
 ```jsx
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { useProduct } from "../../products/hooks/useProduct";
+import { useService } from "../../services/hooks/useService";
 
 export function ItemDetailContainer() {
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const { loading } = useProduct(id);
+	const { loading } = useService(id);
 
 	if (loading) return <p role="status">{t("detail.loading")}</p>;
 	return null;
@@ -838,7 +838,7 @@ porque borraste el bloque en los dos).
 ### 5. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show a loading message in the detail"
+git add -A && git commit -m "feat(services): show a loading message in the detail"
 ```
 
 ---
@@ -851,17 +851,17 @@ Dos servicios, para comprobar que **el id elige**.
 
 **Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx`
 
-1. **Dónde (import de handlers):** sumá `makeProduct`:
+1. **Dónde (import de handlers):** sumá `makeService`:
 
    ```jsx
-   import { makeProduct, productsHandler } from "../../../handlers";
+   import { makeService, servicesHandler } from "../../../handlers";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 11.
 
    ```jsx
      it("shows the service whose id is in the URL", async () => {
-       server.use(productsHandler([makeProduct(1), makeProduct(2)]));
+       server.use(servicesHandler([makeService(1), makeService(2)]));
        renderDetail("service-2");
        expect(await screen.findByRole("heading", { level: 1, name: "Servicio 2" })).toBeInTheDocument();
        expect(screen.queryByText("Servicio 1")).not.toBeInTheDocument();
@@ -874,21 +874,21 @@ Dos servicios, para comprobar que **el id elige**.
 ### 2. 🟢 Hacerlo pasar
 
 **Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
-**Dónde:** reemplazá el archivo entero (lee `product` y dibuja `ItemDetail`).
+**Dónde:** reemplazá el archivo entero (lee `service` y dibuja `ItemDetail`).
 
 ```jsx
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { ItemDetail } from "../../products/components/ItemDetail";
-import { useProduct } from "../../products/hooks/useProduct";
+import { ItemDetail } from "../../services/components/ItemDetail";
+import { useService } from "../../services/hooks/useService";
 
 export function ItemDetailContainer() {
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const { product, loading } = useProduct(id);
+	const { service, loading } = useService(id);
 
 	if (loading) return <p role="status">{t("detail.loading")}</p>;
-	return <ItemDetail product={product} />;
+	return <ItemDetail service={service} />;
 }
 ```
 
@@ -897,7 +897,7 @@ export function ItemDetailContainer() {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the service selected by the URL"
+git add -A && git commit -m "feat(services): show the service selected by the URL"
 ```
 
 ---
@@ -933,14 +933,14 @@ git add -A && git commit -m "feat(products): show the service selected by the UR
 
 ```jsx
   it("shows a not-found message and a link back for an unknown service", async () => {
-    server.use(productsHandler([makeProduct(1)]));
+    server.use(servicesHandler([makeService(1)]));
     renderDetail("does-not-exist");
     expect(await screen.findByRole("heading", { name: "No encontramos ese servicio" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/servicios");
   });
 ```
 
-**Corré:** `pnpm test:run`. **Rojo esperado:** el código del ciclo 12 pasa `product = null` a
+**Corré:** `pnpm test:run`. **Rojo esperado:** el código del ciclo 12 pasa `service = null` a
 `ItemDetail` y **explota**:
 
 ```
@@ -952,22 +952,22 @@ Leelo: es el rojo correcto (falta el caso "no existe").
 ### 3. 🟢 Hacerlo pasar
 
 **Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
-**Dónde:** reemplazá el archivo entero (nuevo import de `Link`; el caso `!product` va **antes** de
+**Dónde:** reemplazá el archivo entero (nuevo import de `Link`; el caso `!service` va **antes** de
 dibujar el detalle).
 
 ```jsx
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
-import { ItemDetail } from "../../products/components/ItemDetail";
-import { useProduct } from "../../products/hooks/useProduct";
+import { ItemDetail } from "../../services/components/ItemDetail";
+import { useService } from "../../services/hooks/useService";
 
 export function ItemDetailContainer() {
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const { product, loading } = useProduct(id);
+	const { service, loading } = useService(id);
 
 	if (loading) return <p role="status">{t("detail.loading")}</p>;
-	if (!product) {
+	if (!service) {
 		return (
 			<>
 				<h1>{t("detail.notFound.title")}</h1>
@@ -975,7 +975,7 @@ export function ItemDetailContainer() {
 			</>
 		);
 	}
-	return <ItemDetail product={product} />;
+	return <ItemDetail service={service} />;
 }
 ```
 
@@ -984,7 +984,7 @@ export function ItemDetailContainer() {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): handle a service that does not exist"
+git add -A && git commit -m "feat(services): handle a service that does not exist"
 ```
 
 ---
@@ -1011,17 +1011,17 @@ git add -A && git commit -m "feat(products): handle a service that does not exis
 
 **Archivo:** `test/features/services/pages/ItemDetailContainer.test.jsx`
 
-1. **Dónde (import de handlers):** sumá `failingProductsHandler`:
+1. **Dónde (import de handlers):** sumá `failingServicesHandler`:
 
    ```jsx
-   import { failingProductsHandler, makeProduct, productsHandler } from "../../../handlers";
+   import { failingServicesHandler, makeService, servicesHandler } from "../../../handlers";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 13.
 
    ```jsx
      it("shows an alert when the service cannot be loaded", async () => {
-       server.use(failingProductsHandler());
+       server.use(failingServicesHandler());
        renderDetail("service-1");
        expect(await screen.findByRole("alert")).toHaveTextContent(
          "No pudimos cargar el servicio. Probá de nuevo más tarde.",
@@ -1036,22 +1036,22 @@ muestra "No encontramos ese servicio", que es otro caso).
 
 **Archivo:** `src/features/services/pages/ItemDetailContainer.jsx`
 **Dónde:** reemplazá el archivo entero (lee `error` del hook; el `if (error)` va **antes** del
-`!product`).
+`!service`).
 
 ```jsx
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
-import { ItemDetail } from "../../products/components/ItemDetail";
-import { useProduct } from "../../products/hooks/useProduct";
+import { ItemDetail } from "../../services/components/ItemDetail";
+import { useService } from "../../services/hooks/useService";
 
 export function ItemDetailContainer() {
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const { product, loading, error } = useProduct(id);
+	const { service, loading, error } = useService(id);
 
 	if (loading) return <p role="status">{t("detail.loading")}</p>;
 	if (error) return <p role="alert">{t("detail.error")}</p>;
-	if (!product) {
+	if (!service) {
 		return (
 			<>
 				<h1>{t("detail.notFound.title")}</h1>
@@ -1059,7 +1059,7 @@ export function ItemDetailContainer() {
 			</>
 		);
 	}
-	return <ItemDetail product={product} />;
+	return <ItemDetail service={service} />;
 }
 ```
 
@@ -1068,7 +1068,7 @@ export function ItemDetailContainer() {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show an alert when the service cannot load"
+git add -A && git commit -m "feat(services): show an alert when the service cannot load"
 ```
 
 ---
@@ -1082,7 +1082,7 @@ git add -A && git commit -m "feat(products): show an alert when the service cann
 
 ```jsx
   it("links back to the services from a loaded detail", async () => {
-    server.use(productsHandler([makeProduct(1)]));
+    server.use(servicesHandler([makeService(1)]));
     renderDetail("service-1");
     await screen.findByRole("heading", { level: 1, name: "Servicio 1" });
     expect(screen.getByRole("link", { name: "Volver a servicios" })).toHaveAttribute("href", "/servicios");
@@ -1104,17 +1104,17 @@ cargado y su link van en un fragmento).
 ```jsx
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
-import { ItemDetail } from "../../products/components/ItemDetail";
-import { useProduct } from "../../products/hooks/useProduct";
+import { ItemDetail } from "../../services/components/ItemDetail";
+import { useService } from "../../services/hooks/useService";
 
 export function ItemDetailContainer() {
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const { product, loading, error } = useProduct(id);
+	const { service, loading, error } = useService(id);
 
 	if (loading) return <p role="status">{t("detail.loading")}</p>;
 	if (error) return <p role="alert">{t("detail.error")}</p>;
-	if (!product) {
+	if (!service) {
 		return (
 			<>
 				<h1>{t("detail.notFound.title")}</h1>
@@ -1124,7 +1124,7 @@ export function ItemDetailContainer() {
 	}
 	return (
 		<>
-			<ItemDetail product={product} />
+			<ItemDetail service={service} />
 			<Link to="/servicios">{t("detail.back")}</Link>
 		</>
 	);
@@ -1136,7 +1136,7 @@ export function ItemDetailContainer() {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add a link back to the services"
+git add -A && git commit -m "feat(services): add a link back to the services"
 ```
 
 ---
@@ -1150,10 +1150,10 @@ mutación.
 
 **Archivo:** `test/App.test.jsx`
 
-1. **Dónde (import de handlers):** sumá `makeProduct` al import que agregaste en US-08:
+1. **Dónde (import de handlers):** sumá `makeService` al import que agregaste en US-08:
 
    ```jsx
-   import { makeProduct, productsHandler } from "./handlers";
+   import { makeService, servicesHandler } from "./handlers";
    ```
 
 2. **Dónde (dentro del `describe("App routes", ...)`):** después del test `"changes the page when a
@@ -1162,7 +1162,7 @@ mutación.
    ```jsx
      it("goes from the catalog to the detail of a service", async () => {
        const user = userEvent.setup();
-       server.use(productsHandler([makeProduct(1), makeProduct(2)]));
+       server.use(servicesHandler([makeService(1), makeService(2)]));
        renderWithProviders(<App />, { route: "/servicios" });
        await user.click(await screen.findByRole("link", { name: /Ver detalle.*Servicio 2/ }));
        expect(await screen.findByRole("heading", { level: 1, name: "Servicio 2" })).toBeInTheDocument();
@@ -1174,8 +1174,8 @@ ya existen).
 
 ### 2. Mutación
 
-1. En `src/features/products/components/Item.jsx` cambiá `to={`/servicio/${product.id}`}` por
-   `to={`/servicios/${product.id}`}`.
+1. En `src/features/services/components/Item.jsx` cambiá `to={`/servicio/${service.id}`}` por
+   `to={`/servicios/${service.id}`}`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** el test del recorrido falla (esa ruta no existe).
 3. **Restaurá** y corré de nuevo: verde.
 
@@ -1209,7 +1209,7 @@ correctos.
    ```jsx
      it("shows the service detail in English", async () => {
        await i18n.changeLanguage("en");
-       server.use(productsHandler([makeProduct(1)]));
+       server.use(servicesHandler([makeService(1)]));
        renderDetail("service-1");
        expect(await screen.findByRole("heading", { level: 1, name: "Service 1" })).toBeInTheDocument();
        expect(screen.getByRole("link", { name: "Back to services" })).toBeInTheDocument();
@@ -1225,7 +1225,7 @@ En `src/i18n/locales/en.json` cambiá `"back": "Back to services"` por otro text
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): translate the service detail"
+git add -A && git commit -m "test(services): translate the service detail"
 ```
 
 ---
@@ -1241,14 +1241,14 @@ Mismo **ciclo de estilo** que en el [workflow](00-workflow.md#2b-el-css-se-escri
 **Dónde:** el array `pending`. Borrá esta línea:
 
 ```js
-  "src/features/products/components/ItemDetail.jsx",
+  "src/features/services/components/ItemDetail.jsx",
 ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** el test nombra `ItemDetail.jsx` sin módulo.
 
 **2. 🟢 Código.**
 
-**Archivo:** `src/features/products/components/ItemDetail.module.css` (**crealo**).
+**Archivo:** `src/features/services/components/ItemDetail.module.css` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```css
@@ -1300,7 +1300,7 @@ Mismo **ciclo de estilo** que en el [workflow](00-workflow.md#2b-el-css-se-escri
 }
 ```
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero (la imagen va **antes** del bloque de texto: en el celular la
 foto va arriba; título, descripción, categoría y precio quedan dentro de `div.info`).
 
@@ -1310,18 +1310,18 @@ import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 import styles from "./ItemDetail.module.css";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	return (
 		<article className={styles.detail}>
-			<img className={styles.image} src={product.image} alt={title} width="640" height="400" />
+			<img className={styles.image} src={service.image} alt={title} width="640" height="400" />
 			<div className={styles.info}>
 				<h1 className={styles.title}>{title}</h1>
-				<p className={styles.category}>{t(`categories.${product.category}`)}</p>
-				<p className={styles.price}>{formatPrice(product.price, language)}</p>
-				<p className={styles.description}>{localized(product.description, language)}</p>
+				<p className={styles.category}>{t(`categories.${service.category}`)}</p>
+				<p className={styles.price}>{formatPrice(service.price, language)}</p>
+				<p className={styles.description}>{localized(service.description, language)}</p>
 			</div>
 		</article>
 	);
@@ -1338,7 +1338,7 @@ caracteres: se lee mejor. A 360 px la imagen va arriba y los datos abajo; a 1280
 **4. Commit**
 
 ```sh
-git add -A && git commit -m "style(products): style the service detail"
+git add -A && git commit -m "style(services): style the service detail"
 ```
 
 ### Ciclo S2 — Los estados del detalle
@@ -1407,14 +1407,14 @@ van juntos en `styles.page`).
 ```jsx
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
-import { ItemDetail } from "../../products/components/ItemDetail";
-import { useProduct } from "../../products/hooks/useProduct";
+import { ItemDetail } from "../../services/components/ItemDetail";
+import { useService } from "../../services/hooks/useService";
 import styles from "./ItemDetailContainer.module.css";
 
 export function ItemDetailContainer() {
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const { product, loading, error } = useProduct(id);
+	const { service, loading, error } = useService(id);
 
 	if (loading) {
 		return (
@@ -1430,7 +1430,7 @@ export function ItemDetailContainer() {
 			</p>
 		);
 	}
-	if (!product) {
+	if (!service) {
 		return (
 			<section className={styles.notFound}>
 				<h1 className={styles.notFoundTitle}>{t("detail.notFound.title")}</h1>
@@ -1442,7 +1442,7 @@ export function ItemDetailContainer() {
 	}
 	return (
 		<section className={styles.page}>
-			<ItemDetail product={product} />
+			<ItemDetail service={service} />
 			<Link className={styles.back} to="/servicios">
 				{t("detail.back")}
 			</Link>
@@ -1459,7 +1459,7 @@ carga lenta y el error. Los tres estados tienen que verse **cuidados**, no como 
 **4. Commit**
 
 ```sh
-git add -A && git commit -m "style(products): style the service detail states"
+git add -A && git commit -m "style(services): style the service detail states"
 ```
 
 ---
@@ -1486,26 +1486,26 @@ Squash merge: `feat: add the service detail page (US-09)`.
 ```
 docs: add US-09 service detail story
 test: register the service detail as pending styles
-feat(products): add the product hook in its loading state
-feat(products): load a product by id
-test(products): return null for an unknown id
-feat(products): expose errors in the product hook
-feat(products): abort the product request on unmount
-fix(products): ignore aborted requests in the product hook
+feat(services): add the service hook in its loading state
+feat(services): load a service by id
+test(services): return null for an unknown id
+feat(services): expose errors in the service hook
+feat(services): abort the service request on unmount
+fix(services): ignore aborted requests in the service hook
 refactor(shared): extract a generic async data hook              (opcional)
-feat(products): add the service detail with its title
-feat(products): show the service description
-feat(products): show the service price and category
-feat(products): show the service image
-feat(products): show a loading message in the detail
-feat(products): show the service selected by the URL
-feat(products): handle a service that does not exist
-feat(products): show an alert when the service cannot load
-feat(products): add a link back to the services
+feat(services): add the service detail with its title
+feat(services): show the service description
+feat(services): show the service price and category
+feat(services): show the service image
+feat(services): show a loading message in the detail
+feat(services): show the service selected by the URL
+feat(services): handle a service that does not exist
+feat(services): show an alert when the service cannot load
+feat(services): add a link back to the services
 test(app): go from the catalog to a service detail
-test(products): translate the service detail
-style(products): style the service detail
-style(products): style the service detail states
+test(services): translate the service detail
+style(services): style the service detail
+style(services): style the service detail states
 ```
 
 ## Definition of Done

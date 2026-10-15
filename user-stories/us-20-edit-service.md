@@ -18,7 +18,7 @@ Included:
 
 - An "Edit" button on each row of the management list.
 - The form is populated with the chosen service; the submit button says "Save changes".
-- `updateProduct` in `productsApi` (`updateDoc`); the list and the public catalog reflect the change.
+- `updateService` in `servicesApi` (`updateDoc`); the list and the public catalog reflect the change.
 - A way to cancel editing and go back to "create" mode.
 
 Not included:
@@ -36,7 +36,7 @@ Feature: Edit a service
   Scenario: Saving updates the service
     Given I am editing a service
     When I change the price and save
-    Then "updateProduct" receives the id and the new data
+    Then "updateService" receives the id and the new data
     And the list shows the new price
 
   Scenario: Saving does not create a duplicate

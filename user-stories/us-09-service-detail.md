@@ -7,11 +7,11 @@ This is a UI story with data. Its critical point is the **dynamic route**: the i
 URL, so the page must also handle an id that does not exist and must be reachable by typing or
 sharing the address.
 
-Requirement: Pre-delivery **Req 3.1** (`/servicio/:id`: detail of a single product) and
+Requirement: Pre-delivery **Req 3.1** (`/servicio/:id`: detail of a single service) and
 `cuestiones-a-tener-en-cuenta` #8.
 
 Depends on: [US-08](us-08-browse-service-catalog.md) (the links to the detail) and
-[US-07](us-07-product-data-source.md) (`getProductById`).
+[US-07](us-07-service-data-source.md) (`getServiceById`).
 
 ## Scope
 
@@ -101,9 +101,9 @@ shows the service title; Knip/the parity test help you keep the catalogs clean.)
 ## Decisions
 
 - **Route param is a string:** ids are strings (`landing-page`), so no number conversion.
-- **Loading the single service through the same hook family:** a `useProduct(id)` hook (or
-  `useProducts` + find) — keep the state shape `{ product, loading, error }`. Prefer the dedicated
-  hook: it reuses `getProductById`.
+- **Loading the single service through the same hook family:** a `useService(id)` hook (or
+  `useServices` + find) — keep the state shape `{ service, loading, error }`. Prefer the dedicated
+  hook: it reuses `getServiceById`.
 - **"Not found" is not an error:** `null` from the service renders a friendly page; a rejection
   renders the error alert.
 - **The detail leaves an empty slot** where US-11 will put the quantity selector and the button.

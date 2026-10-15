@@ -20,21 +20,21 @@ ItemDetail   (estado local: cantidad elegida; llama addToCart del contexto)
 > llamar al *setter* React vuelve a dibujar el componente con el valor nuevo.
 >
 > **Concepto — espía (`vi.fn()`):** una función falsa que recuerda cómo la llamaron. Sirve para
-> comprobar un **contrato** ("se llama a `addToCart(producto, cantidad)`").
+> comprobar un **contrato** ("se llama a `addToCart(servicio, cantidad)`").
 
 ## Mapa de archivos
 
 | Ciclo | Archivo | Acción |
 | ----- | ------- | ------ |
 | 0, S1 | `test/styles/components.test.js` | editar (lista `pending`) |
-| 1–4 | `test/features/products/components/ItemCount.test.jsx` | **crear** en el ciclo 1, editar después |
-| 1–4 | `src/features/products/components/ItemCount.jsx` | **crear** en el ciclo 1, editar después |
+| 1–4 | `test/features/services/components/ItemCount.test.jsx` | **crear** en el ciclo 1, editar después |
+| 1–4 | `src/features/services/components/ItemCount.jsx` | **crear** en el ciclo 1, editar después |
 | 1–14 | `src/i18n/locales/es.json`, `src/i18n/locales/en.json` | editar (claves `detail.*`) |
-| 5–12, 14 | `test/features/products/components/ItemDetail.test.jsx` | editar (ya existe, de US-09) |
-| 5–12 | `src/features/products/components/ItemDetail.jsx` | editar (ya existe, de US-09) |
+| 5–12, 14 | `test/features/services/components/ItemDetail.test.jsx` | editar (ya existe, de US-09) |
+| 5–12 | `src/features/services/components/ItemDetail.jsx` | editar (ya existe, de US-09) |
 | 13 | `test/features/services/pages/ItemDetailContainer.test.jsx` | editar (ya existe, de US-09) |
-| S1 | `src/features/products/components/ItemCount.module.css` | **crear** |
-| S2 | `src/features/products/components/ItemDetail.module.css` | editar (agregar reglas) |
+| S1 | `src/features/services/components/ItemCount.module.css` | **crear** |
+| S2 | `src/features/services/components/ItemDetail.module.css` | editar (agregar reglas) |
 
 Claves de catálogo nuevas (se agregan una por ciclo, justo antes del ciclo que la usa):
 `detail.quantity`, `detail.increase`, `detail.decrease`, `detail.add`, `detail.added`.
@@ -55,7 +55,7 @@ git add docs && git commit -m "docs: add US-11 add to cart from detail story"
 **Dónde:** el array `pending`. Agregá esta ruta **al final** del array:
 
 ```js
-  "src/features/products/components/ItemCount.jsx",
+  "src/features/services/components/ItemCount.jsx",
 ```
 
 **Corré:** `pnpm test:run`. **Resultado esperado:** todo verde.
@@ -86,14 +86,14 @@ git add -A && git commit -m "test: register the quantity counter as pending styl
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemCount.test.jsx` (**crealo**).
+**Archivo:** `test/features/services/components/ItemCount.test.jsx` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```jsx
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { ItemCount } from "../../../../src/features/products/components/ItemCount";
+import { ItemCount } from "../../../../src/features/services/components/ItemCount";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 describe("ItemCount", () => {
@@ -109,12 +109,12 @@ describe("ItemCount", () => {
 **Corré:** `pnpm test:run`. **Rojo esperado:**
 
 ```
-Failed to resolve import "../../../../src/features/products/components/ItemCount"
+Failed to resolve import "../../../../src/features/services/components/ItemCount"
 ```
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemCount.jsx` (**crealo**).
+**Archivo:** `src/features/services/components/ItemCount.jsx` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```jsx
@@ -131,7 +131,7 @@ export function ItemCount({ value }) {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add the quantity counter"
+git add -A && git commit -m "feat(services): add the quantity counter"
 ```
 
 ---
@@ -156,7 +156,7 @@ git add -A && git commit -m "feat(products): add the quantity counter"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemCount.test.jsx`
+**Archivo:** `test/features/services/components/ItemCount.test.jsx`
 **Dónde:** dentro del `describe("ItemCount", ...)`, después del test del ciclo 1.
 
 ```jsx
@@ -177,7 +177,7 @@ Unable to find an accessible element with the role "button" and name "Aumentar c
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemCount.jsx`
+**Archivo:** `src/features/services/components/ItemCount.jsx`
 **Dónde:** reemplazá el archivo entero (recibe `onChange`; ahora hay dos elementos, así que van
 dentro de un `<div>`).
 
@@ -204,7 +204,7 @@ export function ItemCount({ value, onChange }) {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): increase the quantity"
+git add -A && git commit -m "feat(services): increase the quantity"
 ```
 
 ---
@@ -229,7 +229,7 @@ git add -A && git commit -m "feat(products): increase the quantity"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemCount.test.jsx`
+**Archivo:** `test/features/services/components/ItemCount.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 2.
 
 ```jsx
@@ -250,7 +250,7 @@ Unable to find an accessible element with the role "button" and name "Disminuir 
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemCount.jsx`
+**Archivo:** `src/features/services/components/ItemCount.jsx`
 **Dónde:** reemplazá el archivo entero (el botón "−" va **antes** del `<output>`).
 
 ```jsx
@@ -277,7 +277,7 @@ export function ItemCount({ value, onChange }) {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): decrease the quantity"
+git add -A && git commit -m "feat(services): decrease the quantity"
 ```
 
 ---
@@ -286,7 +286,7 @@ git add -A && git commit -m "feat(products): decrease the quantity"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemCount.test.jsx`
+**Archivo:** `test/features/services/components/ItemCount.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 3.
 
 ```jsx
@@ -310,7 +310,7 @@ Received element is not disabled
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemCount.jsx`
+**Archivo:** `src/features/services/components/ItemCount.jsx`
 **Dónde:** en el botón "−" (el primero), agregá `disabled={value <= 1}`.
 
 ```jsx
@@ -330,7 +330,7 @@ se ve afectado).
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): keep the quantity at one or more"
+git add -A && git commit -m "feat(services): keep the quantity at one or more"
 ```
 
 ---
@@ -339,12 +339,12 @@ git add -A && git commit -m "feat(products): keep the quantity at one or more"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx` (ya existe, de US-09).
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx` (ya existe, de US-09).
 **Dónde:** dentro del `describe("ItemDetail", ...)`, después del último test que hay.
 
 ```jsx
   it("starts with a quantity of one", () => {
-    renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
     expect(screen.getByLabelText("Cantidad")).toHaveTextContent("1");
   });
 ```
@@ -357,7 +357,7 @@ Unable to find a label with the text of: Cantidad
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero (import de `useState` y de `ItemCount`; el selector va dentro
 de `div.info`, **después** de la descripción).
 
@@ -369,19 +369,19 @@ import { localized } from "../../../shared/localized";
 import { ItemCount } from "./ItemCount";
 import styles from "./ItemDetail.module.css";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	const [quantity, setQuantity] = useState(1);
 	return (
 		<article className={styles.detail}>
-			<img className={styles.image} src={product.image} alt={title} width="640" height="400" />
+			<img className={styles.image} src={service.image} alt={title} width="640" height="400" />
 			<div className={styles.info}>
 				<h1 className={styles.title}>{title}</h1>
-				<p className={styles.category}>{t(`categories.${product.category}`)}</p>
-				<p className={styles.price}>{formatPrice(product.price, language)}</p>
-				<p className={styles.description}>{localized(product.description, language)}</p>
+				<p className={styles.category}>{t(`categories.${service.category}`)}</p>
+				<p className={styles.price}>{formatPrice(service.price, language)}</p>
+				<p className={styles.description}>{localized(service.description, language)}</p>
 				<ItemCount value={quantity} onChange={setQuantity} />
 			</div>
 		</article>
@@ -394,7 +394,7 @@ export function ItemDetail({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the quantity selector in the detail"
+git add -A && git commit -m "feat(services): show the quantity selector in the detail"
 ```
 
 ---
@@ -405,7 +405,7 @@ Este ciclo **no cambia código productivo**: el cableado del ciclo 5 ya lo hace.
 
 ### 1. Test (pasa de entrada)
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 
 1. **Dónde (imports):** agregá, junto a los demás:
 
@@ -418,7 +418,7 @@ Este ciclo **no cambia código productivo**: el cableado del ciclo 5 ya lo hace.
    ```jsx
      it("increases the quantity from the detail", async () => {
        const user = userEvent.setup();
-       renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+       renderWithProviders(<ItemDetail service={makeService(1)} />);
        await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
        await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
        expect(screen.getByLabelText("Cantidad")).toHaveTextContent("3");
@@ -429,7 +429,7 @@ Este ciclo **no cambia código productivo**: el cableado del ciclo 5 ya lo hace.
 
 ### 2. Mutación
 
-1. En `src/features/products/components/ItemDetail.jsx` cambiá `onChange={setQuantity}` por
+1. En `src/features/services/components/ItemDetail.jsx` cambiá `onChange={setQuantity}` por
    `onChange={() => {}}`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** `Expected element to have text content: 3 Received: 1`.
 3. **Restaurá** `onChange={setQuantity}` y corré de nuevo: verde.
@@ -437,7 +437,7 @@ Este ciclo **no cambia código productivo**: el cableado del ciclo 5 ya lo hace.
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): increase the quantity from the detail"
+git add -A && git commit -m "test(services): increase the quantity from the detail"
 ```
 
 ---
@@ -448,13 +448,13 @@ Este ciclo **no cambia código productivo**.
 
 ### 1. Test (pasa de entrada)
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 6.
 
 ```jsx
   it("decreases the quantity from the detail", async () => {
     const user = userEvent.setup();
-    renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Disminuir cantidad" }));
@@ -471,12 +471,12 @@ Igual que en el ciclo 6 (`onChange={() => {}}` en `ItemDetail.jsx`) → **rojo**
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): decrease the quantity from the detail"
+git add -A && git commit -m "test(services): decrease the quantity from the detail"
 ```
 
 ---
 
-## Ciclo 8 — El botón llama `addToCart(producto, cantidad)`
+## Ciclo 8 — El botón llama `addToCart(servicio, cantidad)`
 
 ### 1. Agregar el texto en los catálogos
 
@@ -498,7 +498,7 @@ git add -A && git commit -m "test(products): decrease the quantity from the deta
 
 Test de **contrato**: un valor de contexto falso (con un espía) **pisa** al del helper.
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 
 1. **Dónde (imports):** sumá `vi` al import de `vitest` y el contexto del carrito:
 
@@ -510,10 +510,10 @@ Test de **contrato**: un valor de contexto falso (con un espía) **pisa** al del
 2. **Dónde (dentro del `describe`):** después del test del ciclo 7.
 
    ```jsx
-     it("calls addToCart with the product and the chosen quantity", async () => {
+     it("calls addToCart with the service and the chosen quantity", async () => {
        const user = userEvent.setup();
        const addToCart = vi.fn();
-       const product = makeProduct(1);
+       const service = makeService(1);
        renderWithProviders(
          <CartContext.Provider
            value={{
@@ -525,12 +525,12 @@ Test de **contrato**: un valor de contexto falso (con un espía) **pisa** al del
              clearCart: vi.fn(),
            }}
          >
-           <ItemDetail product={product} />
+           <ItemDetail service={service} />
          </CartContext.Provider>,
        );
        await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
        await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
-       expect(addToCart).toHaveBeenCalledWith(product, 2);
+       expect(addToCart).toHaveBeenCalledWith(service, 2);
      });
    ```
 
@@ -542,7 +542,7 @@ Unable to find an accessible element with the role "button" and name "Agregar al
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero (import de `useCart`; el botón va **después** de `ItemCount`).
 
 ```jsx
@@ -554,22 +554,22 @@ import { useCart } from "../../cart/context/useCart";
 import { ItemCount } from "./ItemCount";
 import styles from "./ItemDetail.module.css";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const { addToCart } = useCart();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	const [quantity, setQuantity] = useState(1);
 	return (
 		<article className={styles.detail}>
-			<img className={styles.image} src={product.image} alt={title} width="640" height="400" />
+			<img className={styles.image} src={service.image} alt={title} width="640" height="400" />
 			<div className={styles.info}>
 				<h1 className={styles.title}>{title}</h1>
-				<p className={styles.category}>{t(`categories.${product.category}`)}</p>
-				<p className={styles.price}>{formatPrice(product.price, language)}</p>
-				<p className={styles.description}>{localized(product.description, language)}</p>
+				<p className={styles.category}>{t(`categories.${service.category}`)}</p>
+				<p className={styles.price}>{formatPrice(service.price, language)}</p>
+				<p className={styles.description}>{localized(service.description, language)}</p>
 				<ItemCount value={quantity} onChange={setQuantity} />
-				<button type="button" onClick={() => addToCart(product, quantity)}>
+				<button type="button" onClick={() => addToCart(service, quantity)}>
 					{t("detail.add")}
 				</button>
 			</div>
@@ -583,7 +583,7 @@ export function ItemDetail({ product }) {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add the service to the cart from the detail"
+git add -A && git commit -m "feat(services): add the service to the cart from the detail"
 ```
 
 ---
@@ -595,7 +595,7 @@ Este ciclo **no cambia código productivo**: es una prueba de integración con e
 
 ### 1. Test (pasa de entrada)
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 
 1. **Dónde (imports):** agregá el hook del carrito:
 
@@ -623,7 +623,7 @@ Este ciclo **no cambia código productivo**: es una prueba de integración con e
        const user = userEvent.setup();
        renderWithProviders(
          <>
-           <ItemDetail product={makeProduct(1)} />
+           <ItemDetail service={makeService(1)} />
            <CartProbe />
          </>,
        );
@@ -637,7 +637,7 @@ Este ciclo **no cambia código productivo**: es una prueba de integración con e
 
 ### 2. Mutación
 
-1. En `ItemDetail.jsx` cambiá `addToCart(product, quantity)` por `addToCart(product, 1)`.
+1. En `ItemDetail.jsx` cambiá `addToCart(service, quantity)` por `addToCart(service, 1)`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** `Unable to find an element with the text: cart: service-1 x2 (2)`
    (y también falla el test del ciclo 8).
 3. **Restaurá** y corré de nuevo: verde.
@@ -645,7 +645,7 @@ Este ciclo **no cambia código productivo**: es una prueba de integración con e
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): put the service in the cart"
+git add -A && git commit -m "test(services): put the service in the cart"
 ```
 
 ---
@@ -656,7 +656,7 @@ Este ciclo **no cambia código productivo**.
 
 ### 1. Test (pasa de entrada)
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 9.
 
 ```jsx
@@ -664,7 +664,7 @@ Este ciclo **no cambia código productivo**.
     const user = userEvent.setup();
     renderWithProviders(
       <>
-        <ItemDetail product={makeProduct(1)} />
+        <ItemDetail service={makeService(1)} />
         <CartProbe />
       </>,
     );
@@ -682,13 +682,13 @@ Este ciclo **no cambia código productivo**.
 1. En `src/features/cart/cartReducer.js`, en el `case "add"`, cambiá
    `quantity: item.quantity + action.quantity` por `quantity: action.quantity`.
 2. **Corré** `pnpm test:run`. **Rojo esperado:** falla este test **y** el del reducer
-   (`increases the quantity when the product is already in the cart`).
+   (`increases the quantity when the service is already in the cart`).
 3. **Restaurá** y corré de nuevo: verde.
 
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): accumulate repeated additions"
+git add -A && git commit -m "test(services): accumulate repeated additions"
 ```
 
 ---
@@ -713,13 +713,13 @@ git add -A && git commit -m "test(products): accumulate repeated additions"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 10.
 
 ```jsx
   it("confirms that the service was added", async () => {
     const user = userEvent.setup();
-    renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     const messages = screen.getAllByRole("status").map((node) => node.textContent);
     expect(messages).toContain("Agregado al carrito");
@@ -737,7 +737,7 @@ expected [ '1' ] to include 'Agregado al carrito'
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero (estado `added`, un `handleAdd` y el mensaje debajo del botón).
 
 ```jsx
@@ -749,27 +749,27 @@ import { useCart } from "../../cart/context/useCart";
 import { ItemCount } from "./ItemCount";
 import styles from "./ItemDetail.module.css";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const { addToCart } = useCart();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	const [quantity, setQuantity] = useState(1);
 	const [added, setAdded] = useState(false);
 
 	function handleAdd() {
-		addToCart(product, quantity);
+		addToCart(service, quantity);
 		setAdded(true);
 	}
 
 	return (
 		<article className={styles.detail}>
-			<img className={styles.image} src={product.image} alt={title} width="640" height="400" />
+			<img className={styles.image} src={service.image} alt={title} width="640" height="400" />
 			<div className={styles.info}>
 				<h1 className={styles.title}>{title}</h1>
-				<p className={styles.category}>{t(`categories.${product.category}`)}</p>
-				<p className={styles.price}>{formatPrice(product.price, language)}</p>
-				<p className={styles.description}>{localized(product.description, language)}</p>
+				<p className={styles.category}>{t(`categories.${service.category}`)}</p>
+				<p className={styles.price}>{formatPrice(service.price, language)}</p>
+				<p className={styles.description}>{localized(service.description, language)}</p>
 				<ItemCount value={quantity} onChange={setQuantity} />
 				<button type="button" onClick={handleAdd}>
 					{t("detail.add")}
@@ -786,7 +786,7 @@ export function ItemDetail({ product }) {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): confirm that the service was added"
+git add -A && git commit -m "feat(services): confirm that the service was added"
 ```
 
 ---
@@ -795,13 +795,13 @@ git add -A && git commit -m "feat(products): confirm that the service was added"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 11.
 
 ```jsx
   it("resets the quantity to one after adding", async () => {
     const user = userEvent.setup();
-    renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
@@ -818,12 +818,12 @@ Received: 3
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** dentro de `handleAdd`, **después** de `setAdded(true);`.
 
 ```jsx
 	function handleAdd() {
-		addToCart(product, quantity);
+		addToCart(service, quantity);
 		setAdded(true);
 		setQuantity(1);
 	}
@@ -834,7 +834,7 @@ Received: 3
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): reset the quantity after adding"
+git add -A && git commit -m "feat(services): reset the quantity after adding"
 ```
 
 ---
@@ -851,7 +851,7 @@ detalle.
 
 ```jsx
   it("does not offer the add button while the service loads", () => {
-    server.use(productsHandler());
+    server.use(servicesHandler());
     renderDetail("service-1");
     expect(screen.queryByRole("button", { name: "Agregar al carrito" })).not.toBeInTheDocument();
   });
@@ -864,13 +864,13 @@ detalle.
 1. En `src/features/services/pages/ItemDetailContainer.jsx` comentá la línea
    `if (loading) { ... }` (el bloque entero de carga).
 2. **Corré** `pnpm test:run`. **Rojo esperado:** falla este test (el detalle intenta dibujarse con
-   `product = null` y explota: `Cannot read properties of null`).
+   `service = null` y explota: `Cannot read properties of null`).
 3. **Restaurá** el bloque y corré de nuevo: verde.
 
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): hide the add button while loading"
+git add -A && git commit -m "test(services): hide the add button while loading"
 ```
 
 ---
@@ -881,7 +881,7 @@ Este ciclo **no cambia código productivo**: protege los textos en inglés.
 
 ### 1. Test (pasa de entrada)
 
-**Archivo:** `test/features/products/components/ItemDetail.test.jsx`
+**Archivo:** `test/features/services/components/ItemDetail.test.jsx`
 
 1. **Dónde (imports):** agregá, junto a los demás:
 
@@ -895,7 +895,7 @@ Este ciclo **no cambia código productivo**: protege los textos en inglés.
      it("translates the add to cart controls", async () => {
        await i18n.changeLanguage("en");
        const user = userEvent.setup();
-       renderWithProviders(<ItemDetail product={makeProduct(1)} />);
+       renderWithProviders(<ItemDetail service={makeService(1)} />);
        await user.click(screen.getByRole("button", { name: "Increase quantity" }));
        await user.click(screen.getByRole("button", { name: "Decrease quantity" }));
        await user.click(screen.getByRole("button", { name: "Add to cart" }));
@@ -914,7 +914,7 @@ restaurá → verde.
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): translate the add to cart controls"
+git add -A && git commit -m "test(services): translate the add to cart controls"
 ```
 
 ---
@@ -929,14 +929,14 @@ Mismo **ciclo de estilo** que en el [workflow](00-workflow.md#2b-el-css-se-escri
 **Dónde:** el array `pending`. Borrá esta línea:
 
 ```js
-  "src/features/products/components/ItemCount.jsx",
+  "src/features/services/components/ItemCount.jsx",
 ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** el test nombra `ItemCount.jsx` sin módulo.
 
 **2. 🟢 Código.**
 
-**Archivo:** `src/features/products/components/ItemCount.module.css` (**crealo**).
+**Archivo:** `src/features/services/components/ItemCount.module.css` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```css
@@ -972,7 +972,7 @@ Mismo **ciclo de estilo** que en el [workflow](00-workflow.md#2b-el-css-se-escri
 }
 ```
 
-**Archivo:** `src/features/products/components/ItemCount.jsx`
+**Archivo:** `src/features/services/components/ItemCount.jsx`
 **Dónde:** reemplazá el archivo entero (`styles.counter` al `div`, `styles.button` a los dos botones
 y `styles.value` al `<output>`).
 
@@ -1018,7 +1018,7 @@ que testeaste en el ciclo 4.
 **4. Commit**
 
 ```sh
-git add -A && git commit -m "style(products): style the quantity counter"
+git add -A && git commit -m "style(services): style the quantity counter"
 ```
 
 ### Ciclo S2 — La zona de compra del detalle
@@ -1027,7 +1027,7 @@ git add -A && git commit -m "style(products): style the quantity counter"
 pero los tests de comportamiento del botón "Agregar" siguen siendo la red (si tapás el botón con un
 `position` mal puesto, el clic del test no llega).
 
-**Archivo:** `src/features/products/components/ItemDetail.module.css`
+**Archivo:** `src/features/services/components/ItemDetail.module.css`
 **Dónde:** al **final** del archivo, **después** del bloque `@media (min-width: 48rem) { ... }`.
 
 ```css
@@ -1061,7 +1061,7 @@ pero los tests de comportamiento del botón "Agregar" siguen siendo la red (si t
 }
 ```
 
-**Archivo:** `src/features/products/components/ItemDetail.jsx`
+**Archivo:** `src/features/services/components/ItemDetail.jsx`
 **Dónde:** reemplazá el archivo entero (`ItemCount` y el botón van dentro de `div.actions`; `styles.add`
 al botón y `styles.added` al mensaje de confirmación, debajo).
 
@@ -1074,28 +1074,28 @@ import { useCart } from "../../cart/context/useCart";
 import { ItemCount } from "./ItemCount";
 import styles from "./ItemDetail.module.css";
 
-export function ItemDetail({ product }) {
+export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
 	const { addToCart } = useCart();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	const [quantity, setQuantity] = useState(1);
 	const [added, setAdded] = useState(false);
 
 	function handleAdd() {
-		addToCart(product, quantity);
+		addToCart(service, quantity);
 		setAdded(true);
 		setQuantity(1);
 	}
 
 	return (
 		<article className={styles.detail}>
-			<img className={styles.image} src={product.image} alt={title} width="640" height="400" />
+			<img className={styles.image} src={service.image} alt={title} width="640" height="400" />
 			<div className={styles.info}>
 				<h1 className={styles.title}>{title}</h1>
-				<p className={styles.category}>{t(`categories.${product.category}`)}</p>
-				<p className={styles.price}>{formatPrice(product.price, language)}</p>
-				<p className={styles.description}>{localized(product.description, language)}</p>
+				<p className={styles.category}>{t(`categories.${service.category}`)}</p>
+				<p className={styles.price}>{formatPrice(service.price, language)}</p>
+				<p className={styles.description}>{localized(service.description, language)}</p>
 				<div className={styles.actions}>
 					<ItemCount value={quantity} onChange={setQuantity} />
 					<button className={styles.add} type="button" onClick={handleAdd}>
@@ -1121,7 +1121,7 @@ molesta. A 360 px el contador y el botón pasan a dos líneas en lugar de salirs
 **4. Commit**
 
 ```sh
-git add -A && git commit -m "style(products): style the add to cart area"
+git add -A && git commit -m "style(services): style the add to cart area"
 ```
 
 ---
@@ -1149,22 +1149,22 @@ Squash merge: `feat: add services to the cart from the detail page (US-11)`.
 ```
 docs: add US-11 add to cart from detail story
 test: register the quantity counter as pending styles
-feat(products): add the quantity counter
-feat(products): increase the quantity
-feat(products): decrease the quantity
-feat(products): keep the quantity at one or more
-feat(products): show the quantity selector in the detail
-test(products): increase the quantity from the detail
-test(products): decrease the quantity from the detail
-feat(products): add the service to the cart from the detail
-test(products): put the service in the cart
-test(products): accumulate repeated additions
-feat(products): confirm that the service was added
-feat(products): reset the quantity after adding
-test(products): hide the add button while loading
-test(products): translate the add to cart controls
-style(products): style the quantity counter
-style(products): style the add to cart area
+feat(services): add the quantity counter
+feat(services): increase the quantity
+feat(services): decrease the quantity
+feat(services): keep the quantity at one or more
+feat(services): show the quantity selector in the detail
+test(services): increase the quantity from the detail
+test(services): decrease the quantity from the detail
+feat(services): add the service to the cart from the detail
+test(services): put the service in the cart
+test(services): accumulate repeated additions
+feat(services): confirm that the service was added
+feat(services): reset the quantity after adding
+test(services): hide the add button while loading
+test(services): translate the add to cart controls
+style(services): style the quantity counter
+style(services): style the add to cart area
 ```
 
 ## Definition of Done

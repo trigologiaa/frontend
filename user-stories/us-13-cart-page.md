@@ -6,7 +6,7 @@ total, and lets me remove them, **so that** I can review what I am about to hire
 This is a UI story that consumes global state. Its critical point is that the page reads **only
 from `CartContext`** (no fetching, no local copy) and has a meaningful **empty state**.
 
-Requirement: Pre-delivery **Req 4.4** (`/carrito` shows the details of the added products, consuming
+Requirement: Pre-delivery **Req 4.4** (`/carrito` shows the details of the added services, consuming
 the `CartContext` directly).
 
 Depends on: [US-11](us-11-add-to-cart-from-detail.md) (items get into the cart) and

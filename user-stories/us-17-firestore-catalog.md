@@ -1,13 +1,13 @@
 # US-17 — Services come from Firestore (Phase 2, anticipated)
 
 > **Status: anticipated.** Not part of the pre-delivery. It is specified now so the pre-delivery
-> architecture (the `productsApi` seam of US-07) leaves room for it. Re-read and refine it before
+> architecture (the `servicesApi` seam of US-07) leaves room for it. Re-read and refine it before
 > starting.
 
 **As a** visitor, **I want** the catalog and the detail to show the services stored in the
 database, **so that** the owner can change the offer without a new deployment.
 
-Critical point: **only `productsApi` changes.** `useProducts`, `ItemListContainer`, `Item` and
+Critical point: **only `servicesApi` changes.** `useServices`, `ItemListContainer`, `Item` and
 `ItemDetailContainer` keep working and keep their tests. If a component has to change, the seam was
 wrong.
 
@@ -22,7 +22,7 @@ Included:
 
 - A Firebase project, a Firestore `services` collection seeded with the services of
   `productos.json` (a seed script or a documented manual load).
-- `productsApi` reads from Firestore (`getDocs`, `getDoc`) and returns the same shape as before.
+- `servicesApi` reads from Firestore (`getDocs`, `getDoc`) and returns the same shape as before.
 - Firebase configuration through environment variables (`VITE_FIREBASE_*`), never committed.
 - Tests keep using MSW/mocks: no test talks to the real Firebase.
 - Firestore security rules: public read, no public write.
@@ -69,10 +69,10 @@ Feature: Services from Firestore
 
 ## Decisions
 
-- **Keep the service contract** (`getProducts`, `getProductById`) so the swap is one file.
-- **Document id as product id** (class 10); the `id` field in JSON becomes the document id in the
+- **Keep the service contract** (`getServices`, `getServiceById`) so the swap is one file.
+- **Document id as service id** (class 10); the `id` field in JSON becomes the document id in the
   seed.
-- **Test with the same MSW seam if possible** (Firestore REST) or mock the `productsApi` module at
+- **Test with the same MSW seam if possible** (Firestore REST) or mock the `servicesApi` module at
   the boundary — decide in the guide written for this story.
 
 ## Definition of Done

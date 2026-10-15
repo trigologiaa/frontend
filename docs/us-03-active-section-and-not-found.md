@@ -23,7 +23,7 @@ Included:
 Not included:
 
 - Visual design of the active state: basic here, polished in **US-14**.
-- "Product not found" for a valid route with an unknown id (`/servicio/xyz`): it belongs to
+- "Service not found" for a valid route with an unknown id (`/servicio/xyz`): it belongs to
   **US-09**, because it depends on the data.
 
 ## Acceptance scenarios

@@ -20,10 +20,10 @@ test, the minimum code, one commit).
 | ----- | ----- | ---------------------- |
 | [US-02](us-02-layout-and-navigation.md) | Layout and navigation between sections | 1.1, 1.2, 3.1, 3.2 |
 | [US-03](us-03-active-section-and-not-found.md) | Know where I am, and recover from a wrong address | 3 (robustness) |
-| [US-04](us-04-language-detection-and-switch.md) | See the site in my language | (product decision) |
+| [US-04](us-04-language-detection-and-switch.md) | See the site in my language | (service decision) |
 | [US-05](us-05-company-and-team-in-footer.md) | Know who is behind the services | 1.3 |
 | [US-06](us-06-landing-page.md) | Landing page with value proposition | 3.1 (`/`) |
-| [US-07](us-07-product-data-source.md) | Load the services from a data source | 2.1 |
+| [US-07](us-07-service-data-source.md) | Load the services from a data source | 2.1 |
 | [US-08](us-08-browse-service-catalog.md) | Browse the catalog of services | 2.1, 2.2 |
 | [US-09](us-09-service-detail.md) | See the details of one service | 3.1 (`/servicio/:id`) |
 | [US-10](us-10-cart-state.md) | A global cart state | 4.1 |
@@ -63,11 +63,11 @@ src/
 ├── layout/                # Layout, Header, NavBar, Footer
 ├── features/
 │   ├── home/pages/        # Home
-│   ├── products/
+│   ├── services/
 │   │   ├── components/    # Item, ItemList, ItemDetail, ItemCount   (presentational)
 │   │   ├── pages/         # ItemListContainer, ItemDetailContainer  (containers)
-│   │   ├── hooks/         # useProducts, useProduct
-│   │   └── services/      # productsApi
+│   │   ├── hooks/         # useServices, useService
+│   │   └── services/      # servicesApi
 │   ├── cart/
 │   │   ├── components/    # CartWidget, CartItem
 │   │   ├── pages/         # CartPage

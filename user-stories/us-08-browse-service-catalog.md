@@ -11,20 +11,20 @@ Requirement: Pre-delivery **Req 2.1** (`ItemListContainer` loading data with `us
 **Req 2.2** (reusable `Item` receiving data through props) and `cuestiones-a-tener-en-cuenta`
 #3, #6, #7.
 
-Depends on: [US-07](us-07-product-data-source.md) (`useProducts`) and
+Depends on: [US-07](us-07-service-data-source.md) (`useServices`) and
 [US-02](us-02-layout-and-navigation.md) (the `/servicios` route).
 
 ## Scope
 
 Included:
 
-- `ItemListContainer` (page of `/servicios`): uses `useProducts` and decides what to render.
+- `ItemListContainer` (page of `/servicios`): uses `useServices` and decides what to render.
 - `ItemList`: receives an array and renders one `Item` per element.
-- `Item`: presentational, receives **one product through props** and shows image, title,
+- `Item`: presentational, receives **one service through props** and shows image, title,
   category, price and a "View details" link to `/servicio/:id`.
 - "Loading…" message while loading; an error message (with `role="alert"`) on failure.
 - An empty state when the list is empty.
-- Translated copy; product texts are picked with `localized` for the active language.
+- Translated copy; service texts are picked with `localized` for the active language.
 - Price formatting in USD (`Intl.NumberFormat`).
 
 Not included:
@@ -75,7 +75,7 @@ Feature: Browse the catalog of services
     Then I see "Todavía no hay servicios disponibles."
 
   Scenario: An item is a reusable component driven by props
-    Given a product "Code review"
+    Given a service "Code review"
     When an item is rendered for it
     Then I see "Code review" in the item
 
@@ -110,7 +110,7 @@ Feature: Browse the catalog of services
   `ItemList` and `Item` only know props. The state rendering order is: loading → error → empty →
   list.
 - **`Item` gets the language through `useTranslation`/`localized`**, not through its parent, to keep
-  the props simple (`product`). Alternative: the container passes already-localized products;
+  the props simple (`service`). Alternative: the container passes already-localized services;
   both are fine — pick one and keep it.
 - **Currency:** USD, formatted with `Intl.NumberFormat` using the active language. Tests assert the
   visible text, so the format must be deterministic (same ICU in CI and locally).

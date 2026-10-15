@@ -1,6 +1,6 @@
 # Instructivo US-07: fuente de datos de servicios (JavaScript)
 
-Guía para implementar [US-07](../user-stories/us-07-product-data-source.md) con el
+Guía para implementar [US-07](../user-stories/us-07-service-data-source.md) con el
 [flujo](00-workflow.md). Es una story **técnica**: no hay pantalla nueva, hay una *costura*
 (seam): componentes → hook → servicio → `fetch`.
 Formato de los pasos: [Formato de los instructivos](00-workflow.md#formato-de-los-instructivos).
@@ -8,12 +8,12 @@ Formato de los pasos: [Formato de los instructivos](00-workflow.md#formato-de-lo
 ## Qué vas a construir
 
 ```
-componente  ──usa──▶  useProducts()  ──llama──▶  productsApi  ──fetch──▶  /productos.json
+componente  ──usa──▶  useServices()  ──llama──▶  servicesApi  ──fetch──▶  /productos.json
  (US-08)            (estado: loading,            (único que sabe           (archivo en public/)
-                     products, error)             de fetch y URL)
+                     services, error)             de fetch y URL)
 ```
 
-Mañana, para pasar a Firebase (US-17), se reescribe **solo** `productsApi`.
+Mañana, para pasar a Firebase (US-17), se reescribe **solo** `servicesApi`.
 
 > **Concepto — efecto secundario (`useEffect`, clase 5):** pedir datos es algo que pasa *fuera* del
 > dibujado. `useEffect(() => { ... }, [])` corre después del primer render (el `[]` = "una sola
@@ -25,7 +25,7 @@ Mañana, para pasar a Firebase (US-17), se reescribe **solo** `productsApi`.
 > la URL real.
 
 > **Nombres:** el *archivo de datos* se llama `public/productos.json` y la *feature* de datos
-> `src/features/products/` (así lo define la story). La **ruta** del catálogo es `/servicios` y su
+> `src/features/services/` (así lo define la story). La **ruta** del catálogo es `/servicios` y su
 > página vive en `src/features/services/pages/`.
 
 ## Mapa de archivos
@@ -37,13 +37,13 @@ Mañana, para pasar a Firebase (US-17), se reescribe **solo** `productsApi`.
 | 0 | `test/server.js` | **crear** |
 | 0 | `test/handlers.js` | **crear** |
 | 0 | `test/setup.js` | editar |
-| 1–4 | `test/features/products/services/productsApi.test.js` | **crear** en el ciclo 1, editar después |
-| 1–4, 10 | `src/features/products/services/productsApi.js` | **crear** en el ciclo 1, editar después |
+| 1–4 | `test/features/services/services/servicesApi.test.js` | **crear** en el ciclo 1, editar después |
+| 1–4, 10 | `src/features/services/services/servicesApi.js` | **crear** en el ciclo 1, editar después |
 | 5–6 | `test/shared/localized.test.js` | **crear** en el ciclo 5, editar en el 6 |
 | 5–6 | `src/shared/localized.js` | **crear** en el ciclo 5, editar en el 6 |
-| 7–11 | `test/features/products/hooks/useProducts.test.js` | **crear** en el ciclo 7, editar después |
-| 7–11 | `src/features/products/hooks/useProducts.js` | **crear** en el ciclo 7, editar después |
-| 12 | `test/features/products/servicios.test.js` | **crear** |
+| 7–11 | `test/features/services/hooks/useServices.test.js` | **crear** en el ciclo 7, editar después |
+| 7–11 | `src/features/services/hooks/useServices.js` | **crear** en el ciclo 7, editar después |
+| 12 | `test/features/services/servicios.test.js` | **crear** |
 | 12 | `public/productos.json` | **crear** |
 | 12 | `public/images/<id>.svg` (uno por servicio) | **crear** |
 
@@ -51,10 +51,10 @@ Mañana, para pasar a Firebase (US-17), se reescribe **solo** `productsApi`.
 
 ```sh
 git switch main && git pull
-git switch -c us-07-product-data-source
+git switch -c us-07-service-data-source
 pnpm verify
-cp <ruta-a>/javascript/user-stories/us-07-product-data-source.md docs/
-git add docs && git commit -m "docs: add US-07 product data source story"
+cp <ruta-a>/javascript/user-stories/us-07-service-data-source.md docs/
+git add docs && git commit -m "docs: add US-07 service data source story"
 pnpm add -D msw
 ```
 
@@ -92,7 +92,7 @@ export const server = setupServer();
 ```js
 import { HttpResponse, http } from "msw";
 
-export function makeProduct(n = 1) {
+export function makeService(n = 1) {
   return {
     id: `service-${n}`,
     title: { es: `Servicio ${n}`, en: `Service ${n}` },
@@ -103,11 +103,11 @@ export function makeProduct(n = 1) {
   };
 }
 
-export function productsHandler(products = [makeProduct(1), makeProduct(2), makeProduct(3)]) {
-  return http.get("*/productos.json", () => HttpResponse.json(products));
+export function servicesHandler(services = [makeService(1), makeService(2), makeService(3)]) {
+  return http.get("*/productos.json", () => HttpResponse.json(services));
 }
 
-export function failingProductsHandler() {
+export function failingServicesHandler() {
   return http.get("*/productos.json", () => HttpResponse.json({ message: "boom" }, { status: 500 }));
 }
 ```
@@ -155,25 +155,25 @@ git add -A && git commit -m "chore(test): set up msw for network mocking"
 
 ---
 
-## Ciclo 1 — `getProducts` devuelve los servicios del JSON
+## Ciclo 1 — `getServices` devuelve los servicios del JSON
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/services/productsApi.test.js` (**crealo**; las carpetas
-`test/features/products/services/` son nuevas).
+**Archivo:** `test/features/services/services/servicesApi.test.js` (**crealo**; las carpetas
+`test/features/services/services/` son nuevas).
 **Dónde:** el archivo entero.
 
 ```js
 import { describe, expect, it } from "vitest";
-import { getProducts } from "../../../../src/features/products/services/productsApi";
-import { makeProduct, productsHandler } from "../../../handlers";
+import { getServices } from "../../../../src/features/services/services/servicesApi";
+import { makeService, servicesHandler } from "../../../handlers";
 import { server } from "../../../server";
 
-describe("getProducts", () => {
-  it("returns the products served at /productos.json", async () => {
-    server.use(productsHandler([makeProduct(1), makeProduct(2), makeProduct(3)]));
-    const products = await getProducts();
-    expect(products).toHaveLength(3);
+describe("getServices", () => {
+  it("returns the services served at /productos.json", async () => {
+    server.use(servicesHandler([makeService(1), makeService(2), makeService(3)]));
+    const services = await getServices();
+    expect(services).toHaveLength(3);
   });
 });
 ```
@@ -182,17 +182,17 @@ describe("getProducts", () => {
 **Rojo esperado:**
 
 ```
-Failed to resolve import "../../../../src/features/products/services/productsApi"
+Failed to resolve import "../../../../src/features/services/services/servicesApi"
 ```
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/services/productsApi.js` (**crealo**; las carpetas
-`src/features/products/services/` son nuevas).
+**Archivo:** `src/features/services/services/servicesApi.js` (**crealo**; las carpetas
+`src/features/services/services/` son nuevas).
 **Dónde:** el archivo entero.
 
 ```js
-export async function getProducts() {
+export async function getServices() {
 	const response = await fetch(
 		new URL("/productos.json", window.location.origin),
 	);
@@ -209,7 +209,7 @@ export async function getProducts() {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): load the products from the json file"
+git add -A && git commit -m "feat(services): load the services from the json file"
 ```
 
 ---
@@ -218,20 +218,20 @@ git add -A && git commit -m "feat(products): load the products from the json fil
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/services/productsApi.test.js`
+**Archivo:** `test/features/services/services/servicesApi.test.js`
 
-1. **Dónde (import de handlers):** sumá `failingProductsHandler`:
+1. **Dónde (import de handlers):** sumá `failingServicesHandler`:
 
    ```js
-   import { failingProductsHandler, makeProduct, productsHandler } from "../../../handlers";
+   import { failingServicesHandler, makeService, servicesHandler } from "../../../handlers";
    ```
 
-2. **Dónde (dentro de `describe("getProducts", ...)`):** después del test del ciclo 1.
+2. **Dónde (dentro de `describe("getServices", ...)`):** después del test del ciclo 1.
 
    ```js
      it("rejects when the server answers with an error", async () => {
-       server.use(failingProductsHandler());
-       await expect(getProducts()).rejects.toThrow();
+       server.use(failingServicesHandler());
+       await expect(getServices()).rejects.toThrow();
      });
    ```
 
@@ -244,14 +244,14 @@ promise resolved "{ message: 'boom' }" instead of rejecting
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/services/productsApi.js`
+**Archivo:** `src/features/services/services/servicesApi.js`
 **Dónde:** entre la línea del `fetch` y el `return`.
 
 ```js
-export async function getProducts() {
+export async function getServices() {
 	const response = await fetch(new URL("/productos.json", window.location.origin));
 	if (!response.ok) {
-		throw new Error(`Could not load the products (${response.status})`);
+		throw new Error(`Could not load the services (${response.status})`);
 	}
 	return response.json();
 }
@@ -265,32 +265,32 @@ export async function getProducts() {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): reject when the products cannot be loaded"
+git add -A && git commit -m "feat(services): reject when the services cannot be loaded"
 ```
 
 ---
 
-## Ciclo 3 — `getProductById` encuentra un servicio
+## Ciclo 3 — `getServiceById` encuentra un servicio
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/services/productsApi.test.js`
+**Archivo:** `test/features/services/services/servicesApi.test.js`
 
-1. **Dónde (import de `productsApi`):** sumá `getProductById`:
+1. **Dónde (import de `servicesApi`):** sumá `getServiceById`:
 
    ```js
-   import { getProductById, getProducts } from "../../../../src/features/products/services/productsApi";
+   import { getServiceById, getServices } from "../../../../src/features/services/services/servicesApi";
    ```
 
 2. **Dónde (al final del archivo):** un `describe` nuevo, **después** del `});` que cierra
-   `describe("getProducts", ...)`.
+   `describe("getServices", ...)`.
 
    ```js
-   describe("getProductById", () => {
-     it("returns the product with that id", async () => {
-       server.use(productsHandler([makeProduct(1), makeProduct(2)]));
-       const product = await getProductById("service-2");
-       expect(product).toEqual(makeProduct(2));
+   describe("getServiceById", () => {
+     it("returns the service with that id", async () => {
+       server.use(servicesHandler([makeService(1), makeService(2)]));
+       const service = await getServiceById("service-2");
+       expect(service).toEqual(makeService(2));
      });
    });
    ```
@@ -299,18 +299,18 @@ git add -A && git commit -m "feat(products): reject when the products cannot be 
 **Rojo esperado:**
 
 ```
-getProductById is not a function
+getServiceById is not a function
 ```
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/services/productsApi.js`
-**Dónde:** al final del archivo, después de `getProducts`.
+**Archivo:** `src/features/services/services/servicesApi.js`
+**Dónde:** al final del archivo, después de `getServices`.
 
 ```js
-export async function getProductById(id) {
-	const products = await getProducts();
-	return products.find((product) => product.id === id);
+export async function getServiceById(id) {
+	const services = await getServices();
+	return services.find((service) => service.id === id);
 }
 ```
 
@@ -319,7 +319,7 @@ export async function getProductById(id) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): find a product by id"
+git add -A && git commit -m "feat(services): find a service by id"
 ```
 
 ---
@@ -328,13 +328,13 @@ git add -A && git commit -m "feat(products): find a product by id"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/services/productsApi.test.js`
-**Dónde:** dentro de `describe("getProductById", ...)`, **después** del test del ciclo 3.
+**Archivo:** `test/features/services/services/servicesApi.test.js`
+**Dónde:** dentro de `describe("getServiceById", ...)`, **después** del test del ciclo 3.
 
 ```js
-  it("returns null when no product has that id", async () => {
-    server.use(productsHandler([makeProduct(1)]));
-    expect(await getProductById("does-not-exist")).toBeNull();
+  it("returns null when no service has that id", async () => {
+    server.use(servicesHandler([makeService(1)]));
+    expect(await getServiceById("does-not-exist")).toBeNull();
   });
 ```
 
@@ -347,13 +347,13 @@ expected undefined to be null
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/services/productsApi.js`
-**Dónde:** en `getProductById`, agregá `?? null` al final del `return`.
+**Archivo:** `src/features/services/services/servicesApi.js`
+**Dónde:** en `getServiceById`, agregá `?? null` al final del `return`.
 
 ```js
-export async function getProductById(id) {
-	const products = await getProducts();
-	return products.find((product) => product.id === id) ?? null;
+export async function getServiceById(id) {
+	const services = await getServices();
+	return services.find((service) => service.id === id) ?? null;
 }
 ```
 
@@ -364,7 +364,7 @@ export async function getProductById(id) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): return null for an unknown id"
+git add -A && git commit -m "feat(services): return null for an unknown id"
 ```
 
 ---
@@ -461,22 +461,22 @@ git add -A && git commit -m "feat(shared): fall back to Spanish when a language 
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/hooks/useProducts.test.js` (**crealo**; las carpetas
-`test/features/products/hooks/` son nuevas).
+**Archivo:** `test/features/services/hooks/useServices.test.js` (**crealo**; las carpetas
+`test/features/services/hooks/` son nuevas).
 **Dónde:** el archivo entero.
 
 ```js
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { useProducts } from "../../../../src/features/products/hooks/useProducts";
-import { productsHandler } from "../../../handlers";
+import { useServices } from "../../../../src/features/services/hooks/useServices";
+import { servicesHandler } from "../../../handlers";
 import { server } from "../../../server";
 
-describe("useProducts", () => {
-  it("starts loading with no products and no error", () => {
-    server.use(productsHandler());
-    const { result } = renderHook(() => useProducts());
-    expect(result.current).toEqual({ products: [], loading: true, error: null });
+describe("useServices", () => {
+  it("starts loading with no services and no error", () => {
+    server.use(servicesHandler());
+    const { result } = renderHook(() => useServices());
+    expect(result.current).toEqual({ services: [], loading: true, error: null });
   });
 });
 ```
@@ -485,18 +485,18 @@ describe("useProducts", () => {
 **Rojo esperado:**
 
 ```
-Failed to resolve import "../../../../src/features/products/hooks/useProducts"
+Failed to resolve import "../../../../src/features/services/hooks/useServices"
 ```
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/hooks/useProducts.js` (**crealo**; las carpetas
-`src/features/products/hooks/` son nuevas).
+**Archivo:** `src/features/services/hooks/useServices.js` (**crealo**; las carpetas
+`src/features/services/hooks/` son nuevas).
 **Dónde:** el archivo entero. (*Fake it*: valor fijo, todavía sin efecto.)
 
 ```js
-export function useProducts() {
-	return { products: [], loading: true, error: null };
+export function useServices() {
+	return { services: [], loading: true, error: null };
 }
 ```
 
@@ -505,7 +505,7 @@ export function useProducts() {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add the products hook in its loading state"
+git add -A && git commit -m "feat(services): add the services hook in its loading state"
 ```
 
 ---
@@ -514,7 +514,7 @@ git add -A && git commit -m "feat(products): add the products hook in its loadin
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/hooks/useProducts.test.js`
+**Archivo:** `test/features/services/hooks/useServices.test.js`
 
 1. **Dónde (primer import):** sumá `waitFor`:
 
@@ -525,11 +525,11 @@ git add -A && git commit -m "feat(products): add the products hook in its loadin
 2. **Dónde (dentro del `describe`):** después del test del ciclo 7.
 
    ```js
-     it("exposes the products once they are loaded", async () => {
-       server.use(productsHandler());
-       const { result } = renderHook(() => useProducts());
+     it("exposes the services once they are loaded", async () => {
+       server.use(servicesHandler());
+       const { result } = renderHook(() => useServices());
        await waitFor(() => expect(result.current.loading).toBe(false));
-       expect(result.current.products).toHaveLength(3);
+       expect(result.current.services).toHaveLength(3);
        expect(result.current.error).toBeNull();
      });
    ```
@@ -540,26 +540,26 @@ de cargar).
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/hooks/useProducts.js`
+**Archivo:** `src/features/services/hooks/useServices.js`
 **Dónde:** reemplazá el archivo entero.
 
 ```js
 import { useEffect, useState } from "react";
-import { getProducts } from "../services/productsApi";
+import { getServices } from "../services/servicesApi";
 
-export function useProducts() {
-	const [products, setProducts] = useState([]);
+export function useServices() {
+	const [services, setServices] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		getProducts().then((data) => {
-			setProducts(data);
+		getServices().then((data) => {
+			setServices(data);
 			setLoading(false);
 		});
 	}, []);
 
-	return { products, loading, error };
+	return { services, loading, error };
 }
 ```
 
@@ -569,7 +569,7 @@ linter puede avisar; se usa en el ciclo 9.)
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): load the products in the hook"
+git add -A && git commit -m "feat(services): load the services in the hook"
 ```
 
 ---
@@ -578,23 +578,23 @@ git add -A && git commit -m "feat(products): load the products in the hook"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/hooks/useProducts.test.js`
+**Archivo:** `test/features/services/hooks/useServices.test.js`
 
-1. **Dónde (import de handlers):** sumá `failingProductsHandler`:
+1. **Dónde (import de handlers):** sumá `failingServicesHandler`:
 
    ```js
-   import { failingProductsHandler, productsHandler } from "../../../handlers";
+   import { failingServicesHandler, servicesHandler } from "../../../handlers";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 8.
 
    ```js
-     it("exposes an error when the products cannot be loaded", async () => {
-       server.use(failingProductsHandler());
-       const { result } = renderHook(() => useProducts());
+     it("exposes an error when the services cannot be loaded", async () => {
+       server.use(failingServicesHandler());
+       const { result } = renderHook(() => useServices());
        await waitFor(() => expect(result.current.loading).toBe(false));
        expect(result.current.error).toBeInstanceOf(Error);
-       expect(result.current.products).toEqual([]);
+       expect(result.current.services).toEqual([]);
      });
    ```
 
@@ -603,14 +603,14 @@ git add -A && git commit -m "feat(products): load the products in the hook"
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/hooks/useProducts.js`
+**Archivo:** `src/features/services/hooks/useServices.js`
 **Dónde:** dentro del `useEffect`, encadená un `.catch` **después** del `.then(...)`.
 
 ```js
 	useEffect(() => {
-		getProducts()
+		getServices()
 			.then((data) => {
-				setProducts(data);
+				setServices(data);
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -625,7 +625,7 @@ git add -A && git commit -m "feat(products): load the products in the hook"
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): expose loading errors in the hook"
+git add -A && git commit -m "feat(services): expose loading errors in the hook"
 ```
 
 ---
@@ -637,7 +637,7 @@ git add -A && git commit -m "feat(products): expose loading errors in the hook"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/hooks/useProducts.test.js`
+**Archivo:** `test/features/services/hooks/useServices.test.js`
 
 1. **Dónde (imports de `vitest`):** sumá `afterEach` y `vi`:
 
@@ -657,9 +657,9 @@ git add -A && git commit -m "feat(products): expose loading errors in the hook"
 
    ```js
      it("aborts the pending request when the component unmounts", () => {
-       server.use(productsHandler());
+       server.use(servicesHandler());
        const fetchSpy = vi.spyOn(globalThis, "fetch");
-       const { unmount } = renderHook(() => useProducts());
+       const { unmount } = renderHook(() => useServices());
        unmount();
        expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
      });
@@ -671,29 +671,29 @@ git add -A && git commit -m "feat(products): expose loading errors in the hook"
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/services/productsApi.js`
-**Dónde:** `getProducts` recibe la señal y se la pasa a `fetch`. Reemplazá la función completa
-(`getProductById` no cambia):
+**Archivo:** `src/features/services/services/servicesApi.js`
+**Dónde:** `getServices` recibe la señal y se la pasa a `fetch`. Reemplazá la función completa
+(`getServiceById` no cambia):
 
 ```js
-export async function getProducts({ signal } = {}) {
+export async function getServices({ signal } = {}) {
 	const response = await fetch(new URL("/productos.json", window.location.origin), { signal });
 	if (!response.ok) {
-		throw new Error(`Could not load the products (${response.status})`);
+		throw new Error(`Could not load the services (${response.status})`);
 	}
 	return response.json();
 }
 ```
 
-**Archivo:** `src/features/products/hooks/useProducts.js`
+**Archivo:** `src/features/services/hooks/useServices.js`
 **Dónde:** reemplazá el `useEffect` completo.
 
 ```js
 	useEffect(() => {
 		const controller = new AbortController();
-		getProducts({ signal: controller.signal })
+		getServices({ signal: controller.signal })
 			.then((data) => {
-				setProducts(data);
+				setServices(data);
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -709,7 +709,7 @@ export async function getProducts({ signal } = {}) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): abort the request when the hook unmounts"
+git add -A && git commit -m "feat(services): abort the request when the hook unmounts"
 ```
 
 ---
@@ -721,7 +721,7 @@ pedido se cancela. Eso **no** debe aparecer como error.
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/hooks/useProducts.test.js`
+**Archivo:** `test/features/services/hooks/useServices.test.js`
 
 1. **Dónde (imports, arriba de todo):** agregá el import de `StrictMode`:
 
@@ -734,11 +734,11 @@ pedido se cancela. Eso **no** debe aparecer como error.
 
    ```js
      it("does not report a cancelled request as an error in StrictMode", async () => {
-       server.use(productsHandler());
-       const { result } = renderHook(() => useProducts(), { wrapper: StrictMode });
+       server.use(servicesHandler());
+       const { result } = renderHook(() => useServices(), { wrapper: StrictMode });
        await waitFor(() => expect(result.current.loading).toBe(false));
        expect(result.current.error).toBeNull();
-       expect(result.current.products).toHaveLength(3);
+       expect(result.current.services).toHaveLength(3);
      });
    ```
 
@@ -748,25 +748,25 @@ pedido se cancela. Eso **no** debe aparecer como error.
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/hooks/useProducts.js`
+**Archivo:** `src/features/services/hooks/useServices.js`
 **Dónde:** dentro del `.catch`, como **primera línea** (antes de `setError`).
 
 **Archivo completo después de este ciclo:**
 
 ```js
 import { useEffect, useState } from "react";
-import { getProducts } from "../services/productsApi";
+import { getServices } from "../services/servicesApi";
 
-export function useProducts() {
-	const [products, setProducts] = useState([]);
+export function useServices() {
+	const [services, setServices] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const controller = new AbortController();
-		getProducts({ signal: controller.signal })
+		getServices({ signal: controller.signal })
 			.then((data) => {
-				setProducts(data);
+				setServices(data);
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -777,7 +777,7 @@ export function useProducts() {
 		return () => controller.abort();
 	}, []);
 
-	return { products, loading, error };
+	return { services, loading, error };
 }
 ```
 
@@ -791,7 +791,7 @@ Con todo en verde: nada que limpiar.
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "fix(products): ignore aborted requests in the hook"
+git add -A && git commit -m "fix(services): ignore aborted requests in the hook"
 ```
 
 ---
@@ -800,22 +800,22 @@ git add -A && git commit -m "fix(products): ignore aborted requests in the hook"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/servicios.test.js` (**crealo**).
+**Archivo:** `test/features/services/servicios.test.js` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```js
 import { describe, expect, it } from "vitest";
-import products from "../../../public/productos.json";
+import services from "../../../public/productos.json";
 
 describe("public/productos.json", () => {
-  it("has at least six products with unique ids and both languages", () => {
-    const ids = products.map((product) => product.id);
-    expect(products.length).toBeGreaterThanOrEqual(6);
+  it("has at least six services with unique ids and both languages", () => {
+    const ids = services.map((service) => service.id);
+    expect(services.length).toBeGreaterThanOrEqual(6);
     expect(new Set(ids).size).toBe(ids.length);
-    for (const product of products) {
-      expect(product.title.es && product.title.en).toBeTruthy();
-      expect(product.description.es && product.description.en).toBeTruthy();
-      expect(product.price).toBeGreaterThan(0);
+    for (const service of services) {
+      expect(service.title.es && service.title.en).toBeTruthy();
+      expect(service.description.es && service.description.en).toBeTruthy();
+      expect(service.price).toBeGreaterThan(0);
     }
   });
 });
@@ -936,7 +936,7 @@ done
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add the services catalog data"
+git add -A && git commit -m "feat(services): add the services catalog data"
 ```
 
 ---
@@ -946,12 +946,12 @@ git add -A && git commit -m "feat(products): add the services catalog data"
 - [ ] `pnpm dev` y abrí `http://localhost:5173/productos.json`: se ve el JSON.
 - [ ] Después del preview: `…/productos.json` responde también en Vercel.
 - [ ] (Opcional) En DevTools → *Network*, bloqueá la URL y verificá en consola de un test rápido que
-      tu `getProducts` falla. La UI llega en US-08.
+      tu `getServices` falla. La UI llega en US-08.
 
 ## Publicar
 
 ```sh
-git push -u origin us-07-product-data-source
+git push -u origin us-07-service-data-source
 gh pr create --fill --base main && gh pr checks --watch
 ```
 
@@ -960,20 +960,20 @@ Squash merge: `feat: load the services from a data source (US-07)`.
 ## Commits sugeridos
 
 ```
-docs: add US-07 product data source story
+docs: add US-07 service data source story
 chore(test): set up msw for network mocking
-feat(products): load the products from the json file
-feat(products): reject when the products cannot be loaded
-feat(products): find a product by id
-feat(products): return null for an unknown id
+feat(services): load the services from the json file
+feat(services): reject when the services cannot be loaded
+feat(services): find a service by id
+feat(services): return null for an unknown id
 feat(shared): pick a localized text by language
 feat(shared): fall back to Spanish when a language is missing
-feat(products): add the products hook in its loading state
-feat(products): load the products in the hook
-feat(products): expose loading errors in the hook
-feat(products): abort the request when the hook unmounts
-fix(products): ignore aborted requests in the hook
-feat(products): add the services catalog data
+feat(services): add the services hook in its loading state
+feat(services): load the services in the hook
+feat(services): expose loading errors in the hook
+feat(services): abort the request when the hook unmounts
+fix(services): ignore aborted requests in the hook
+feat(services): add the services catalog data
 ```
 
 ## Definition of Done
@@ -988,4 +988,4 @@ feat(products): add the services catalog data
 - `fetch` no rechaza con 404/500: hay que mirar `response.ok`.
 - El *fake it* (devolver un valor fijo) y la triangulación obligan a que cada línea nazca de un test.
 - `useEffect` + cleanup + `AbortController`: sin fugas, y `StrictMode` como aliado.
-- Una "costura" bien puesta (`productsApi`) hace que cambiar de backend sea tocar un archivo.
+- Una "costura" bien puesta (`servicesApi`) hace que cambiar de backend sea tocar un archivo.

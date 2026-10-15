@@ -7,9 +7,9 @@ Formato de los pasos: [Formato de los instructivos](00-workflow.md#formato-de-lo
 ## Qué vas a construir
 
 ```
-ItemListContainer   (contenedor: usa useProducts y decide qué mostrar: cargando / error / vacío / lista)
+ItemListContainer   (contenedor: usa useServices y decide qué mostrar: cargando / error / vacío / lista)
    └─ ItemList      (recibe un array y dibuja un Item por elemento)
-        └─ Item     (presentacional: recibe UN producto por props)
+        └─ Item     (presentacional: recibe UN servicio por props)
 ```
 
 > **Concepto — los cuatro estados de una lista remota:** *cargando*, *error*, *vacío*, *con datos*.
@@ -24,7 +24,7 @@ ItemListContainer   (contenedor: usa useProducts y decide qué mostrar: cargando
 > - El catálogo se ve en **`/servicios`** y el detalle en **`/servicio/:id`** (`src/App.jsx`).
 > - La página `ItemListContainer` **ya existe** (provisoria, desde US-02) en
 >   `src/features/services/pages/ItemListContainer.jsx`: **se edita ahí**, no se crea otra.
-> - Los componentes nuevos `Item` e `ItemList` y el hook de US-07 viven en `src/features/products/`.
+> - Los componentes nuevos `Item` e `ItemList` y el hook de US-07 viven en `src/features/services/`.
 > - El título de la página sigue siendo la clave que ya existe: `nav.services` ("Servicios").
 
 ## Mapa de archivos
@@ -36,15 +36,15 @@ ItemListContainer   (contenedor: usa useProducts y decide qué mostrar: cargando
 | 1–13 | `src/i18n/locales/es.json`, `src/i18n/locales/en.json` | editar (claves `catalog.*`, `categories.*`) |
 | 1–2 | `test/shared/formatPrice.test.js` | **crear** |
 | 1–2 | `src/shared/formatPrice.js` | **crear** |
-| 3–7 | `test/features/products/components/Item.test.jsx` | **crear** |
-| 3–7 | `src/features/products/components/Item.jsx` | **crear** |
-| 8 | `test/features/products/components/ItemList.test.jsx` | **crear** |
-| 8 | `src/features/products/components/ItemList.jsx` | **crear** |
+| 3–7 | `test/features/services/components/Item.test.jsx` | **crear** |
+| 3–7 | `src/features/services/components/Item.jsx` | **crear** |
+| 8 | `test/features/services/components/ItemList.test.jsx` | **crear** |
+| 8 | `src/features/services/components/ItemList.jsx` | **crear** |
 | 9–13 | `test/features/services/pages/ItemListContainer.test.jsx` | **crear** |
 | 9–12 | `src/features/services/pages/ItemListContainer.jsx` | editar (era provisoria) |
 | S1 | `test/styles/tokens.test.js`, `src/styles/tokens.css` | editar |
-| S2 | `src/features/products/components/Item.module.css` | **crear** |
-| S2 | `src/features/products/components/ItemList.module.css` | **crear** |
+| S2 | `src/features/services/components/Item.module.css` | **crear** |
+| S2 | `src/features/services/components/ItemList.module.css` | **crear** |
 | S3 | `src/features/services/pages/ItemListContainer.module.css` | **crear** |
 
 ## Paso 0: Preparar
@@ -68,8 +68,8 @@ const pending = [
   "src/features/services/pages/ItemListContainer.jsx",
   "src/features/services/pages/ItemDetailContainer.jsx",
   "src/features/cart/pages/CartPage.jsx",
-  "src/features/products/components/Item.jsx",
-  "src/features/products/components/ItemList.jsx",
+  "src/features/services/components/Item.jsx",
+  "src/features/services/components/ItemList.jsx",
 ];
 ```
 
@@ -86,7 +86,7 @@ handler hace fallar el test, y `test/App.test.jsx` renderiza esa página sin han
 
    ```jsx
    import { beforeEach } from "vitest";
-   import { productsHandler } from "./handlers";
+   import { servicesHandler } from "./handlers";
    import { server } from "./server";
    ```
 
@@ -97,7 +97,7 @@ handler hace fallar el test, y `test/App.test.jsx` renderiza esa página sin han
 
    ```jsx
      beforeEach(() => {
-       server.use(productsHandler());
+       server.use(servicesHandler());
      });
    ```
 
@@ -213,20 +213,20 @@ git add -A && git commit -m "feat(shared): format prices by language"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/Item.test.jsx` (**crealo**; las carpetas
-`test/features/products/components/` son nuevas).
+**Archivo:** `test/features/services/components/Item.test.jsx` (**crealo**; las carpetas
+`test/features/services/components/` son nuevas).
 **Dónde:** el archivo entero.
 
 ```jsx
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { Item } from "../../../../src/features/products/components/Item";
-import { makeProduct } from "../../../handlers";
+import { Item } from "../../../../src/features/services/components/Item";
+import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 describe("Item", () => {
-  it("shows the title of the product", () => {
-    renderWithProviders(<Item product={makeProduct(1)} />);
+  it("shows the title of the service", () => {
+    renderWithProviders(<Item service={makeService(1)} />);
     expect(screen.getByRole("heading", { name: "Servicio 1" })).toBeInTheDocument();
   });
 });
@@ -236,24 +236,24 @@ describe("Item", () => {
 **Rojo esperado:**
 
 ```
-Failed to resolve import "../../../../src/features/products/components/Item"
+Failed to resolve import "../../../../src/features/services/components/Item"
 ```
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/Item.jsx` (**crealo**; la carpeta
-`src/features/products/components/` es nueva).
+**Archivo:** `src/features/services/components/Item.jsx` (**crealo**; la carpeta
+`src/features/services/components/` es nueva).
 **Dónde:** el archivo entero.
 
 ```jsx
 import { useTranslation } from "react-i18next";
 import { localized } from "../../../shared/localized";
 
-export function Item({ product }) {
+export function Item({ service }) {
 	const { i18n } = useTranslation();
 	return (
 		<article>
-			<h3>{localized(product.title, i18n.resolvedLanguage)}</h3>
+			<h3>{localized(service.title, i18n.resolvedLanguage)}</h3>
 		</article>
 	);
 }
@@ -264,7 +264,7 @@ export function Item({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add the item with its title"
+git add -A && git commit -m "feat(services): add the item with its title"
 ```
 
 ---
@@ -273,12 +273,12 @@ git add -A && git commit -m "feat(products): add the item with its title"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/Item.test.jsx`
+**Archivo:** `test/features/services/components/Item.test.jsx`
 **Dónde:** dentro del `describe("Item", ...)`, después del test del ciclo 3.
 
 ```jsx
   it("shows the image with the title as alternative text", () => {
-    renderWithProviders(<Item product={makeProduct(1)} />);
+    renderWithProviders(<Item service={makeService(1)} />);
     const image = screen.getByRole("img", { name: "Servicio 1" });
     expect(image).toHaveAttribute("src", "/images/service-1.svg");
   });
@@ -293,7 +293,7 @@ Unable to find an accessible element with the role "img" and name "Servicio 1"
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/Item.jsx`
+**Archivo:** `src/features/services/components/Item.jsx`
 **Dónde:** reemplazá el archivo entero (el título se calcula una vez en `title` y se usa en la
 `<img>` y en el `<h3>`).
 
@@ -301,13 +301,13 @@ Unable to find an accessible element with the role "img" and name "Servicio 1"
 import { useTranslation } from "react-i18next";
 import { localized } from "../../../shared/localized";
 
-export function Item({ product }) {
+export function Item({ service }) {
 	const { i18n } = useTranslation();
-	const title = localized(product.title, i18n.resolvedLanguage);
+	const title = localized(service.title, i18n.resolvedLanguage);
 	return (
 		<article>
 			<img
-				src={product.image}
+				src={service.image}
 				alt={title}
 				loading="lazy"
 				width="320"
@@ -326,7 +326,7 @@ export function Item({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the item image"
+git add -A && git commit -m "feat(services): show the item image"
 ```
 
 ---
@@ -335,12 +335,12 @@ git add -A && git commit -m "feat(products): show the item image"
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/Item.test.jsx`
+**Archivo:** `test/features/services/components/Item.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 4.
 
 ```jsx
   it("shows the formatted price", () => {
-    renderWithProviders(<Item product={makeProduct(1)} />);
+    renderWithProviders(<Item service={makeService(1)} />);
     expect(screen.getByText("US$ 100")).toBeInTheDocument();
   });
 ```
@@ -354,7 +354,7 @@ Unable to find an element with the text: US$ 100
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/Item.jsx`
+**Archivo:** `src/features/services/components/Item.jsx`
 **Dónde:** reemplazá el archivo entero (nuevo import de `formatPrice`, variable `language` y un `<p>`).
 
 ```jsx
@@ -362,21 +362,21 @@ import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 
-export function Item({ product }) {
+export function Item({ service }) {
 	const { i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	return (
 		<article>
 			<img
-				src={product.image}
+				src={service.image}
 				alt={title}
 				loading="lazy"
 				width="320"
 				height="200"
 			/>
 			<h3>{title}</h3>
-			<p>{formatPrice(product.price, language)}</p>
+			<p>{formatPrice(service.price, language)}</p>
 		</article>
 	);
 }
@@ -389,7 +389,7 @@ export function Item({ product }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the item price"
+git add -A && git commit -m "feat(services): show the item price"
 ```
 
 ---
@@ -424,7 +424,7 @@ git add -A && git commit -m "feat(products): show the item price"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/Item.test.jsx`
+**Archivo:** `test/features/services/components/Item.test.jsx`
 
 1. **Dónde (imports):** agregá el catálogo en español, junto a los demás imports:
 
@@ -436,7 +436,7 @@ git add -A && git commit -m "feat(products): show the item price"
 
    ```jsx
      it("shows the category", () => {
-       renderWithProviders(<Item product={makeProduct(1)} />);
+       renderWithProviders(<Item service={makeService(1)} />);
        expect(screen.getByText(es.categories.web)).toBeInTheDocument();
      });
    ```
@@ -450,7 +450,7 @@ Unable to find an element with the text: Web
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/Item.jsx`
+**Archivo:** `src/features/services/components/Item.jsx`
 **Dónde:** reemplazá el archivo entero (ahora también usa `t`).
 
 ```jsx
@@ -458,22 +458,22 @@ import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 
-export function Item({ product }) {
+export function Item({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	return (
 		<article>
 			<img
-				src={product.image}
+				src={service.image}
 				alt={title}
 				loading="lazy"
 				width="320"
 				height="200"
 			/>
 			<h3>{title}</h3>
-			<p>{t(`categories.${product.category}`)}</p>
-			<p>{formatPrice(product.price, language)}</p>
+			<p>{t(`categories.${service.category}`)}</p>
+			<p>{formatPrice(service.price, language)}</p>
 		</article>
 	);
 }
@@ -484,7 +484,7 @@ export function Item({ product }) {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show the item category"
+git add -A && git commit -m "feat(services): show the item category"
 ```
 
 ---
@@ -513,12 +513,12 @@ git add -A && git commit -m "feat(products): show the item category"
 
 ### 2. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/Item.test.jsx`
+**Archivo:** `test/features/services/components/Item.test.jsx`
 **Dónde:** dentro del `describe`, después del test del ciclo 6.
 
 ```jsx
-  it("links to the detail page of the product", () => {
-    renderWithProviders(<Item product={makeProduct(1)} />);
+  it("links to the detail page of the service", () => {
+    renderWithProviders(<Item service={makeService(1)} />);
     expect(screen.getByRole("link", { name: /Ver detalle/ })).toHaveAttribute("href", "/servicio/service-1");
   });
 ```
@@ -532,7 +532,7 @@ Unable to find an accessible element with the role "link" and name `/Ver detalle
 
 ### 3. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/Item.jsx`
+**Archivo:** `src/features/services/components/Item.jsx`
 **Dónde:** reemplazá el archivo entero (nuevo import de `Link` y el `<Link>` al final del `article`).
 
 ```jsx
@@ -541,24 +541,24 @@ import { Link } from "react-router-dom";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 
-export function Item({ product }) {
+export function Item({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	return (
 		<article>
 			<img
-				src={product.image}
+				src={service.image}
 				alt={title}
 				loading="lazy"
 				width="320"
 				height="200"
 			/>
 			<h3>{title}</h3>
-			<p>{t(`categories.${product.category}`)}</p>
-			<p>{formatPrice(product.price, language)}</p>
+			<p>{t(`categories.${service.category}`)}</p>
+			<p>{formatPrice(service.price, language)}</p>
 			<Link
-				to={`/servicio/${product.id}`}
+				to={`/servicio/${service.id}`}
 				aria-label={`${t("catalog.viewDetail")}: ${title}`}
 			>
 				{t("catalog.viewDetail")}
@@ -576,28 +576,28 @@ export function Item({ product }) {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): link each item to its detail"
+git add -A && git commit -m "feat(services): link each item to its detail"
 ```
 
 ---
 
-## Ciclo 8 — `ItemList` dibuja un `Item` por producto
+## Ciclo 8 — `ItemList` dibuja un `Item` por servicio
 
 ### 1. 🔴 Escribir el test
 
-**Archivo:** `test/features/products/components/ItemList.test.jsx` (**crealo**).
+**Archivo:** `test/features/services/components/ItemList.test.jsx` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```jsx
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { ItemList } from "../../../../src/features/products/components/ItemList";
-import { makeProduct } from "../../../handlers";
+import { ItemList } from "../../../../src/features/services/components/ItemList";
+import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 describe("ItemList", () => {
-  it("renders one item per product", () => {
-    renderWithProviders(<ItemList products={[makeProduct(1), makeProduct(2), makeProduct(3)]} />);
+  it("renders one item per service", () => {
+    renderWithProviders(<ItemList services={[makeService(1), makeService(2), makeService(3)]} />);
     expect(screen.getAllByRole("listitem")).toHaveLength(3);
   });
 });
@@ -607,23 +607,23 @@ describe("ItemList", () => {
 **Rojo esperado:**
 
 ```
-Failed to resolve import "../../../../src/features/products/components/ItemList"
+Failed to resolve import "../../../../src/features/services/components/ItemList"
 ```
 
 ### 2. 🟢 Hacerlo pasar
 
-**Archivo:** `src/features/products/components/ItemList.jsx` (**crealo**).
+**Archivo:** `src/features/services/components/ItemList.jsx` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```jsx
 import { Item } from "./Item";
 
-export function ItemList({ products }) {
+export function ItemList({ services }) {
 	return (
 		<ul>
-			{products.map((product) => (
-				<li key={product.id}>
-					<Item product={product} />
+			{services.map((service) => (
+				<li key={service.id}>
+					<Item service={service} />
 				</li>
 			))}
 		</ul>
@@ -636,7 +636,7 @@ export function ItemList({ products }) {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): add the item list"
+git add -A && git commit -m "feat(services): add the item list"
 ```
 
 ---
@@ -675,13 +675,13 @@ git add -A && git commit -m "feat(products): add the item list"
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { ItemListContainer } from "../../../../src/features/services/pages/ItemListContainer";
-import { productsHandler } from "../../../handlers";
+import { servicesHandler } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 import { server } from "../../../server";
 
 describe("ItemListContainer", () => {
-  it("shows a loading message while the products load", () => {
-    server.use(productsHandler());
+  it("shows a loading message while the services load", () => {
+    server.use(servicesHandler());
     renderWithProviders(<ItemListContainer />);
     expect(screen.getByRole("status")).toHaveTextContent("Cargando...");
   });
@@ -702,11 +702,11 @@ Unable to find an accessible element with the role "status"
 
 ```jsx
 import { useTranslation } from "react-i18next";
-import { useProducts } from "../../products/hooks/useProducts";
+import { useServices } from "../../services/hooks/useServices";
 
 export function ItemListContainer() {
 	const { t } = useTranslation();
-	const { loading } = useProducts();
+	const { loading } = useServices();
 	return (
 		<>
 			<h1>{t("nav.services")}</h1>
@@ -725,7 +725,7 @@ tienen el handler del Paso 0).
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show a loading message in the catalog"
+git add -A && git commit -m "feat(services): show a loading message in the catalog"
 ```
 
 ---
@@ -736,17 +736,17 @@ git add -A && git commit -m "feat(products): show a loading message in the catal
 
 **Archivo:** `test/features/services/pages/ItemListContainer.test.jsx`
 
-1. **Dónde (import de handlers):** sumá `makeProduct`:
+1. **Dónde (import de handlers):** sumá `makeService`:
 
    ```jsx
-   import { makeProduct, productsHandler } from "../../../handlers";
+   import { makeService, servicesHandler } from "../../../handlers";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 9.
 
    ```jsx
-     it("lists the products and hides the loading message once loaded", async () => {
-       server.use(productsHandler([makeProduct(1), makeProduct(2), makeProduct(3)]));
+     it("lists the services and hides the loading message once loaded", async () => {
+       server.use(servicesHandler([makeService(1), makeService(2), makeService(3)]));
        renderWithProviders(<ItemListContainer />);
        expect(await screen.findAllByRole("listitem")).toHaveLength(3);
        expect(screen.queryByRole("status")).not.toBeInTheDocument();
@@ -766,17 +766,17 @@ git add -A && git commit -m "feat(products): show a loading message in the catal
 
 ```jsx
 import { useTranslation } from "react-i18next";
-import { ItemList } from "../../products/components/ItemList";
-import { useProducts } from "../../products/hooks/useProducts";
+import { ItemList } from "../../services/components/ItemList";
+import { useServices } from "../../services/hooks/useServices";
 
 export function ItemListContainer() {
 	const { t } = useTranslation();
-	const { products, loading } = useProducts();
+	const { services, loading } = useServices();
 	return (
 		<>
 			<h1>{t("nav.services")}</h1>
 			{loading && <p role="status">{t("catalog.loading")}</p>}
-			{!loading && <ItemList products={products} />}
+			{!loading && <ItemList services={services} />}
 		</>
 	);
 }
@@ -787,7 +787,7 @@ export function ItemListContainer() {
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): list the loaded products"
+git add -A && git commit -m "feat(services): list the loaded services"
 ```
 
 ---
@@ -814,17 +814,17 @@ git add -A && git commit -m "feat(products): list the loaded products"
 
 **Archivo:** `test/features/services/pages/ItemListContainer.test.jsx`
 
-1. **Dónde (import de handlers):** sumá `failingProductsHandler`:
+1. **Dónde (import de handlers):** sumá `failingServicesHandler`:
 
    ```jsx
-   import { failingProductsHandler, makeProduct, productsHandler } from "../../../handlers";
+   import { failingServicesHandler, makeService, servicesHandler } from "../../../handlers";
    ```
 
 2. **Dónde (dentro del `describe`):** después del test del ciclo 10.
 
    ```jsx
-     it("shows an alert and no cards when the products cannot be loaded", async () => {
-       server.use(failingProductsHandler());
+     it("shows an alert and no cards when the services cannot be loaded", async () => {
+       server.use(failingServicesHandler());
        renderWithProviders(<ItemListContainer />);
        expect(await screen.findByRole("alert")).toHaveTextContent(
          "No pudimos cargar los servicios. Probá de nuevo más tarde.",
@@ -843,18 +843,18 @@ git add -A && git commit -m "feat(products): list the loaded products"
 
 ```jsx
 import { useTranslation } from "react-i18next";
-import { ItemList } from "../../products/components/ItemList";
-import { useProducts } from "../../products/hooks/useProducts";
+import { ItemList } from "../../services/components/ItemList";
+import { useServices } from "../../services/hooks/useServices";
 
 export function ItemListContainer() {
 	const { t } = useTranslation();
-	const { products, loading, error } = useProducts();
+	const { services, loading, error } = useServices();
 	return (
 		<>
 			<h1>{t("nav.services")}</h1>
 			{loading && <p role="status">{t("catalog.loading")}</p>}
 			{error && <p role="alert">{t("catalog.error")}</p>}
-			{!loading && !error && <ItemList products={products} />}
+			{!loading && !error && <ItemList services={services} />}
 		</>
 	);
 }
@@ -865,7 +865,7 @@ export function ItemListContainer() {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show an alert when loading fails"
+git add -A && git commit -m "feat(services): show an alert when loading fails"
 ```
 
 ---
@@ -894,8 +894,8 @@ git add -A && git commit -m "feat(products): show an alert when loading fails"
 **Dónde:** dentro del `describe`, después del test del ciclo 11.
 
 ```jsx
-  it("shows a message when there are no products", async () => {
-    server.use(productsHandler([]));
+  it("shows a message when there are no services", async () => {
+    server.use(servicesHandler([]));
     renderWithProviders(<ItemListContainer />);
     expect(await screen.findByText("Todavía no hay servicios disponibles.")).toBeInTheDocument();
   });
@@ -907,26 +907,26 @@ git add -A && git commit -m "feat(products): show an alert when loading fails"
 ### 3. 🟢 Hacerlo pasar
 
 **Archivo:** `src/features/services/pages/ItemListContainer.jsx`
-**Dónde:** reemplazá el archivo entero (mensaje de vacío y lista solo si hay productos).
+**Dónde:** reemplazá el archivo entero (mensaje de vacío y lista solo si hay servicios).
 
 ```jsx
 import { useTranslation } from "react-i18next";
-import { ItemList } from "../../products/components/ItemList";
-import { useProducts } from "../../products/hooks/useProducts";
+import { ItemList } from "../../services/components/ItemList";
+import { useServices } from "../../services/hooks/useServices";
 
 export function ItemListContainer() {
 	const { t } = useTranslation();
-	const { products, loading, error } = useProducts();
+	const { services, loading, error } = useServices();
 	return (
 		<>
 			<h1>{t("nav.services")}</h1>
 			{loading && <p role="status">{t("catalog.loading")}</p>}
 			{error && <p role="alert">{t("catalog.error")}</p>}
-			{!loading && !error && products.length === 0 && (
+			{!loading && !error && services.length === 0 && (
 				<p>{t("catalog.empty")}</p>
 			)}
-			{!loading && !error && products.length > 0 && (
-				<ItemList products={products} />
+			{!loading && !error && services.length > 0 && (
+				<ItemList services={services} />
 			)}
 		</>
 	);
@@ -938,7 +938,7 @@ export function ItemListContainer() {
 ### 4. Commit
 
 ```sh
-git add -A && git commit -m "feat(products): show a message when the catalog is empty"
+git add -A && git commit -m "feat(services): show a message when the catalog is empty"
 ```
 
 ### 5. 🔵 Refactor
@@ -951,22 +951,22 @@ cadena de `if`.
 
 ```jsx
 import { useTranslation } from "react-i18next";
-import { ItemList } from "../../products/components/ItemList";
-import { useProducts } from "../../products/hooks/useProducts";
+import { ItemList } from "../../services/components/ItemList";
+import { useServices } from "../../services/hooks/useServices";
 
 export function ItemListContainer() {
 	const { t } = useTranslation();
-	const { products, loading, error } = useProducts();
+	const { services, loading, error } = useServices();
 
 	let body;
 	if (loading) {
 		body = <p role="status">{t("catalog.loading")}</p>;
 	} else if (error) {
 		body = <p role="alert">{t("catalog.error")}</p>;
-	} else if (products.length === 0) {
+	} else if (services.length === 0) {
 		body = <p>{t("catalog.empty")}</p>;
 	} else {
-		body = <ItemList products={products} />;
+		body = <ItemList services={services} />;
 	}
 
 	return (
@@ -981,7 +981,7 @@ export function ItemListContainer() {
 **Corré:** `pnpm test:run`. **Resultado esperado:** todo verde (el comportamiento no cambió).
 
 ```sh
-git add -A && git commit -m "refactor(products): simplify the catalog states"
+git add -A && git commit -m "refactor(services): simplify the catalog states"
 ```
 
 ---
@@ -1006,7 +1006,7 @@ el correcto.
    ```jsx
      it("shows the catalog in English", async () => {
        await i18n.changeLanguage("en");
-       server.use(productsHandler([makeProduct(1)]));
+       server.use(servicesHandler([makeService(1)]));
        renderWithProviders(<ItemListContainer />);
        expect(await screen.findByRole("heading", { name: "Service 1" })).toBeInTheDocument();
        expect(screen.getByRole("link", { name: /View details/ })).toBeInTheDocument();
@@ -1024,7 +1024,7 @@ el correcto.
 ### 3. Commit
 
 ```sh
-git add -A && git commit -m "test(products): translate the catalog"
+git add -A && git commit -m "test(services): translate the catalog"
 ```
 
 ---
@@ -1072,8 +1072,8 @@ git add -A && git commit -m "style: add the danger color tokens"
 **Dónde:** el array `pending`. Borrá estas dos líneas:
 
 ```js
-  "src/features/products/components/Item.jsx",
-  "src/features/products/components/ItemList.jsx",
+  "src/features/services/components/Item.jsx",
+  "src/features/services/components/ItemList.jsx",
 ```
 
 **Corré:** `pnpm test:run`. **Rojo esperado:** la lista de componentes sin módulo nombra `Item.jsx` e
@@ -1081,7 +1081,7 @@ git add -A && git commit -m "style: add the danger color tokens"
 
 **2. 🟢 Código.**
 
-**Archivo:** `src/features/products/components/Item.module.css` (**crealo**).
+**Archivo:** `src/features/services/components/Item.module.css` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```css
@@ -1142,7 +1142,7 @@ git add -A && git commit -m "style: add the danger color tokens"
 }
 ```
 
-**Archivo:** `src/features/products/components/ItemList.module.css` (**crealo**).
+**Archivo:** `src/features/services/components/ItemList.module.css` (**crealo**).
 **Dónde:** el archivo entero.
 
 ```css
@@ -1156,7 +1156,7 @@ git add -A && git commit -m "style: add the danger color tokens"
 }
 ```
 
-**Archivo:** `src/features/products/components/Item.jsx`
+**Archivo:** `src/features/services/components/Item.jsx`
 **Dónde:** reemplazá el archivo entero (import de estilos y `className` en cada elemento; los
 textos y etiquetas no cambian, y título, categoría, precio y link quedan dentro de un `div.body`).
 
@@ -1167,15 +1167,15 @@ import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
 import styles from "./Item.module.css";
 
-export function Item({ product }) {
+export function Item({ service }) {
 	const { t, i18n } = useTranslation();
 	const language = i18n.resolvedLanguage;
-	const title = localized(product.title, language);
+	const title = localized(service.title, language);
 	return (
 		<article className={styles.card}>
 			<img
 				className={styles.image}
-				src={product.image}
+				src={service.image}
 				alt={title}
 				loading="lazy"
 				width="320"
@@ -1183,11 +1183,11 @@ export function Item({ product }) {
 			/>
 			<div className={styles.body}>
 				<h3 className={styles.title}>{title}</h3>
-				<p className={styles.category}>{t(`categories.${product.category}`)}</p>
-				<p className={styles.price}>{formatPrice(product.price, language)}</p>
+				<p className={styles.category}>{t(`categories.${service.category}`)}</p>
+				<p className={styles.price}>{formatPrice(service.price, language)}</p>
 				<Link
 					className={styles.link}
-					to={`/servicio/${product.id}`}
+					to={`/servicio/${service.id}`}
 					aria-label={`${t("catalog.viewDetail")}: ${title}`}
 				>
 					{t("catalog.viewDetail")}
@@ -1198,19 +1198,19 @@ export function Item({ product }) {
 }
 ```
 
-**Archivo:** `src/features/products/components/ItemList.jsx`
+**Archivo:** `src/features/services/components/ItemList.jsx`
 **Dónde:** reemplazá el archivo entero.
 
 ```jsx
 import { Item } from "./Item";
 import styles from "./ItemList.module.css";
 
-export function ItemList({ products }) {
+export function ItemList({ services }) {
 	return (
 		<ul className={styles.list}>
-			{products.map((product) => (
-				<li key={product.id}>
-					<Item product={product} />
+			{services.map((service) => (
+				<li key={service.id}>
+					<Item service={service} />
 				</li>
 			))}
 		</ul>
@@ -1228,7 +1228,7 @@ Probalo con un título largo.
 **4. Commit**
 
 ```sh
-git add -A && git commit -m "style(products): style the item card and the catalog grid"
+git add -A && git commit -m "style(services): style the item card and the catalog grid"
 ```
 
 ### Ciclo S3 — Los cuatro estados de la página
@@ -1283,13 +1283,13 @@ cada estado recibe su clase).
 
 ```jsx
 import { useTranslation } from "react-i18next";
-import { ItemList } from "../../products/components/ItemList";
-import { useProducts } from "../../products/hooks/useProducts";
+import { ItemList } from "../../services/components/ItemList";
+import { useServices } from "../../services/hooks/useServices";
 import styles from "./ItemListContainer.module.css";
 
 export function ItemListContainer() {
 	const { t } = useTranslation();
-	const { products, loading, error } = useProducts();
+	const { services, loading, error } = useServices();
 
 	let body;
 	if (loading) {
@@ -1304,10 +1304,10 @@ export function ItemListContainer() {
 				{t("catalog.error")}
 			</p>
 		);
-	} else if (products.length === 0) {
+	} else if (services.length === 0) {
 		body = <p className={styles.empty}>{t("catalog.empty")}</p>;
 	} else {
-		body = <ItemList products={products} />;
+		body = <ItemList services={services} />;
 	}
 
 	return (
@@ -1328,7 +1328,7 @@ lista. El error se distingue por el texto y el borde, no solo por el color.
 **4. Commit**
 
 ```sh
-git add -A && git commit -m "style(products): style the catalog states"
+git add -A && git commit -m "style(services): style the catalog states"
 ```
 
 ---
@@ -1358,21 +1358,21 @@ docs: add US-08 browse service catalog story
 test: register the catalog components as pending styles
 feat(shared): format prices in dollars
 feat(shared): format prices by language
-feat(products): add the item with its title
-feat(products): show the item image
-feat(products): show the item price
-feat(products): show the item category
-feat(products): link each item to its detail
-feat(products): add the item list
-feat(products): show a loading message in the catalog
-feat(products): list the loaded products
-feat(products): show an alert when loading fails
-feat(products): show a message when the catalog is empty
-refactor(products): simplify the catalog states
-test(products): translate the catalog
+feat(services): add the item with its title
+feat(services): show the item image
+feat(services): show the item price
+feat(services): show the item category
+feat(services): link each item to its detail
+feat(services): add the item list
+feat(services): show a loading message in the catalog
+feat(services): list the loaded services
+feat(services): show an alert when loading fails
+feat(services): show a message when the catalog is empty
+refactor(services): simplify the catalog states
+test(services): translate the catalog
 style: add the danger color tokens
-style(products): style the item card and the catalog grid
-style(products): style the catalog states
+style(services): style the item card and the catalog grid
+style(services): style the catalog states
 ```
 
 ## Definition of Done
@@ -1388,4 +1388,4 @@ style(products): style the catalog states
 - `getBy` vs `queryBy` vs `findBy`.
 - Un refactor con tests en verde: de `&&` encadenados a `if`s tempranos.
 - Una página que antes no pedía datos ahora los pide: los tests viejos que la renderizan necesitan
-  un handler de red (`server.use(productsHandler())`).
+  un handler de red (`server.use(servicesHandler())`).

@@ -6,7 +6,7 @@
 This is an interaction story. Its critical point is that the button **calls `addToCart` of the
 context** (assignment wording) and gives immediate feedback, so the visitor knows the click worked.
 
-Requirement: Pre-delivery **Req 4.2** (from the detail view the user can add products; the action
+Requirement: Pre-delivery **Req 4.2** (from the detail view the user can add services; the action
 calls `addToCart`) and `cuestiones-a-tener-en-cuenta` #4.
 
 Depends on: [US-09](us-09-service-detail.md) (the detail page) and
@@ -19,7 +19,7 @@ Included:
 - `ItemCount` (quantity selector, presentational): decrease / increase buttons and the current
   value, minimum 1, controlled through props (`value`, `onChange`) — or with local `useState`
   inside the detail (see Decisions).
-- An "Add to cart" button in `ItemDetail` that calls `addToCart(product, quantity)` from
+- An "Add to cart" button in `ItemDetail` that calls `addToCart(service, quantity)` from
   `useCart()`.
 - Confirmation feedback after adding ("Added to cart") exposed as a status message.
 - The quantity goes back to 1 after adding.
@@ -60,10 +60,10 @@ Feature: Add a service to the cart
     When I click "Disminuir cantidad"
     Then the quantity still shows 1
 
-  Scenario: Adding calls addToCart with the product and the quantity
+  Scenario: Adding calls addToCart with the service and the quantity
     Given the quantity is 2
     When I click "Agregar al carrito"
-    Then "addToCart" receives that product and the quantity 2
+    Then "addToCart" receives that service and the quantity 2
 
   Scenario: Adding puts the service in the cart
     When I add 2 units of a service
