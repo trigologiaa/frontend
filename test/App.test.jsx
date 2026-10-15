@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { NavBar } from "../src/layout/NavBar.jsx";
 import es from "../src/i18n/locales/es.json";
 import { i18n } from "../src/i18n/index.js";
-import { servicesHandler } from "./handlers";
+import { makeService, servicesHandler } from "./handlers";
 import { server } from "./server";
 
 describe("App routes", () => {
@@ -35,6 +35,14 @@ describe("App routes", () => {
     renderWithProviders(<App />, { route: "/" });
     await user.click(screen.getByRole("link", { name: "Servicios" }));
     expect(screen.getByRole("heading", { level: 1, name: "Servicios" })).toBeInTheDocument();
+  });
+
+  it("goes from the catalog to the detail of a service", async () => {
+    const user = userEvent.setup();
+    server.use(servicesHandler([makeService(1), makeService(2)]));
+    renderWithProviders(<App />, { route: "/servicios" });
+    await user.click(await screen.findByRole("link", { name: /Ver detalle.*Servicio 2/ }));
+    expect(await screen.findByRole("heading", { level: 1, name: "Servicio 2" })).toBeInTheDocument();
   });
 
   it("moves the mark when section is followed", async () => {
