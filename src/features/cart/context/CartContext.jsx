@@ -18,6 +18,7 @@ export function CartProvider({ children }) {
 			addToCart: (service, quantity) =>
 				dispatch({ type: "add", service, quantity }),
 			removeFromCart: (id) => dispatch({ type: "remove", id }),
+			clearCart: () => dispatch({ type: "clear" }),
 		}),
 		[items],
 	);

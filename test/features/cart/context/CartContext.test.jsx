@@ -6,15 +6,27 @@ import { useCart } from "../../../../src/features/cart/context/useCart";
 import { makeService } from "../../../handlers";
 
 function Probe() {
-  const { items, totalQuantity, totalPrice, addToCart, removeFromCart } =
-    useCart();
+  const {
+    items,
+    totalQuantity,
+    totalPrice,
+    addToCart,
+    removeFromCart,
+    clearCart,
+  } = useCart();
   return (
     <>
       <button type="button" onClick={() => addToCart(makeService(1), 2)}>
         add
       </button>
+      <button type="button" onClick={() => addToCart(makeService(2), 1)}>
+        add other
+      </button>
       <button type="button" onClick={() => removeFromCart("service-1")}>
         remove
+      </button>
+      <button type="button" onClick={clearCart}>
+        clear
       </button>
       <p>items: {items.length}</p>
       <p>quantity: {totalQuantity}</p>
@@ -46,6 +58,20 @@ describe("CartProvider", () => {
     );
     await user.click(screen.getByRole("button", { name: "add" }));
     await user.click(screen.getByRole("button", { name: "remove" }));
+    expect(screen.getByText("items: 0")).toBeInTheDocument();
+  });
+
+  it("clears the cart", async () => {
+    const user = userEvent.setup();
+    render(
+      <CartProvider>
+        <Probe />
+      </CartProvider>,
+    );
+    await user.click(screen.getByRole("button", { name: "add" }));
+    await user.click(screen.getByRole("button", { name: "add other" }));
+    expect(screen.getByText("items: 2")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "clear" }));
     expect(screen.getByText("items: 0")).toBeInTheDocument();
   });
 });
