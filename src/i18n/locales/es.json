@@ -34,7 +34,8 @@
 		"notFound": {
 			"title": "No encontramos ese servicio"
 		},
-		"back": "Volver a servicios"
+		"back": "Volver a servicios",
+		"quantity": "Cantidad"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",
