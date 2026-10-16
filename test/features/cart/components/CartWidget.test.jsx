@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { CartWidget } from "../../../../src/features/cart/components/CartWidget";
 import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
 import { makeService } from "../../../handlers";
+import { i18n } from "../../../../src/i18n";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 describe("CartWidget", () => {
@@ -41,5 +42,11 @@ describe("CartWidget", () => {
   ])("names the link with the count when the cart has %s units", (totalQuantity, name) => {
     renderWithProviders(<CartWidget />, { cart: { totalQuantity } });
     expect(screen.getByRole("link", { name })).toBeInTheDocument();
+  });
+
+  it("translates the link name", async () => {
+    await i18n.changeLanguage("en");
+    renderWithProviders(<CartWidget />, { cart: { totalQuantity: 1 } });
+    expect(screen.getByRole("link", { name: "Cart, 1 item" })).toBeInTheDocument();
   });
 });
