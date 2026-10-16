@@ -15,7 +15,7 @@ export function CartItem({ item, onRemove }) {
 				src={item.image}
 				alt={title}
 				width="80"
-				height="60"
+				height="80"
 			/>
 			<div className={styles.info}>
 				<h3 className={styles.title}>{title}</h3>

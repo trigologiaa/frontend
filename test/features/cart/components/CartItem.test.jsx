@@ -43,4 +43,11 @@ describe("CartItem", () => {
     expect(screen.getByText("Subtotal: $700")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Remove Service 1" })).toBeInTheDocument();
   });
+
+  it("reserves a square for the illustration so nothing jumps when it loads", () => {
+    renderWithProviders(<CartItem item={item} onRemove={vi.fn()} />);
+    const image = screen.getByRole("img", { name: "Servicio 1" });
+    expect(image).toHaveAttribute("width", "80");
+    expect(image).toHaveAttribute("height", "80");
+  });
 });

@@ -60,6 +60,15 @@
 		"hint": "Puede que el link esté mal escrito, o que la página ya no exista.",
 		"back": "Volver al inicio"
 	},
+	"theme": {
+		"label": "Tema",
+		"options": {
+			"latte": "Latte (claro)",
+			"frappe": "Frappé (oscuro)",
+			"macchiato": "Macchiato (oscuro)",
+			"mocha": "Mocha (oscuro)"
+		}
+	},
 	"language": {
 		"label": "Idioma"
 	},

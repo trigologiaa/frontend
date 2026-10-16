@@ -1,6 +1,7 @@
 .header {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	gap: var(--space-4);
 	padding: var(--space-3) var(--space-4);
@@ -12,4 +13,10 @@
 	font-weight: 700;
 	color: var(--color-text);
 	text-decoration: none;
+}
+
+.controls {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
 }

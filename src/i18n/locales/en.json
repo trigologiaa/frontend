@@ -60,6 +60,15 @@
 		"hint": "The link may be misspelled, or the page may no longer exist.",
 		"back": "Back to home"
 	},
+	"theme": {
+		"label": "Theme",
+		"options": {
+			"latte": "Latte (light)",
+			"frappe": "Frappé (dark)",
+			"macchiato": "Macchiato (dark)",
+			"mocha": "Mocha (dark)"
+		}
+	},
 	"language": {
 		"label": "Language"
 	},

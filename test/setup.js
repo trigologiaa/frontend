@@ -9,6 +9,7 @@ beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 beforeEach(async () => {
   await i18n.changeLanguage("es");
   localStorage.clear();
+  document.documentElement.removeAttribute("data-theme");
 });
 
 afterEach(() => {

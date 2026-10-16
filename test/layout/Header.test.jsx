@@ -9,4 +9,9 @@ describe("Header", () => {
     const brand = within(screen.getByRole("banner")).getByRole("link", { name: "Trigologiaa Dev" });
     expect(brand).toHaveAttribute("href", "/");
   });
+
+  it("offers the theme selector inside the banner", () => {
+    renderWithProviders(<Header />);
+    expect(within(screen.getByRole("banner")).getByRole("combobox", { name: "Tema" })).toBeInTheDocument();
+  });
 });
