@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
+import { i18n } from "../../src/i18n";
 import { ThemeSwitcher } from "../../src/layout/ThemeSwitcher";
 import { renderWithProviders } from "../renderWithProviders";
 
@@ -27,5 +28,19 @@ describe("ThemeSwitcher", () => {
     expect(screen.getByRole("combobox", { name: "Tema" })).toHaveValue("frappe");
     expect(document.documentElement).toHaveAttribute("data-theme", "frappe");
     expect(localStorage.getItem("theme")).toBe("frappe");
+  });
+
+  it("is named and translated in English", async () => {
+    await i18n.changeLanguage("en");
+    renderWithProviders(<ThemeSwitcher />);
+    expect(screen.getByRole("combobox", { name: "Theme" })).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "Macchiato (dark)" })).toBeInTheDocument();
+  });
+
+  it("can be reached with the keyboard", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ThemeSwitcher />);
+    await user.tab();
+    expect(screen.getByRole("combobox", { name: "Tema" })).toHaveFocus();
   });
 });
