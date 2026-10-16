@@ -5,11 +5,15 @@ import styles from "./ThemeSwitcher.module.css";
 
 export function ThemeSwitcher() {
 	const { t } = useTranslation();
-	const { theme } = useTheme();
+	const { theme, setTheme } = useTheme();
 	return (
 		<label className={styles.field}>
 			<span className={styles.label}>{t("theme.label")}</span>
-			<select className={styles.select} value={theme} onChange={() => {}}>
+			<select
+				className={styles.select}
+				value={theme}
+				onChange={(event) => setTheme(event.target.value)}
+			>
 				{THEMES.map((id) => (
 					<option key={id} value={id}>
 						{t(`theme.options.${id}`)}
