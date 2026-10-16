@@ -24,7 +24,7 @@ export function CartWidget() {
 				<circle cx="17" cy="20" r="1.5" />
 			</svg>
 			<span>{t("nav.cart")}</span>
-			<span>{totalQuantity}</span>
+			{totalQuantity > 0 && <span>{totalQuantity}</span>}
 		</NavItem>
 	);
 }

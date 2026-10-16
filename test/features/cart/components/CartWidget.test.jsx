@@ -13,4 +13,9 @@ describe("CartWidget", () => {
     renderWithProviders(<CartWidget />, { cart: { totalQuantity: 5 } });
     expect(screen.getByText("5")).toBeInTheDocument();
   });
+
+  it("shows no number when the cart is empty", () => {
+    renderWithProviders(<CartWidget />);
+    expect(screen.getByRole("link", { name: /Carrito/ })).toHaveTextContent(/^Carrito$/);
+  });
 });
