@@ -1,13 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../shared/formatPrice";
+import { useLanguage } from "../../../shared/useLanguage";
 import { CartItem } from "../components/CartItem";
 import { useCart } from "../context/useCart";
 
 export function CartPage() {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { items, totalPrice, removeFromCart, clearCart } = useCart();
-	const language = i18n.resolvedLanguage;
+	const language = useLanguage();
 	if (items.length === 0) {
 		return (
 			<>

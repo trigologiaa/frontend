@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
+import { useLanguage } from "../../../shared/useLanguage";
 
 export function CartItem({ item, onRemove }) {
-	const { t, i18n } = useTranslation();
-	const language = i18n.resolvedLanguage;
+	const { t } = useTranslation();
+	const language = useLanguage();
 	const title = localized(item.title, language);
 	return (
 		<article>
