@@ -27,4 +27,13 @@ describe("CartPage", () => {
     renderWithProviders(<CartPage />, { initialCart: [line(1, 2), line(2, 1)] });
     expect(screen.getByText("Total: US$ 400")).toBeInTheDocument();
   });
+
+  it("removes a service and updates the total", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<CartPage />, { initialCart: [line(1), line(2)] });
+    await user.click(screen.getByRole("button", { name: "Quitar Servicio 1" }));
+    expect(screen.queryByRole("heading", { name: "Servicio 1" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Servicio 2" })).toBeInTheDocument();
+    expect(screen.getByText("Total: US$ 200")).toBeInTheDocument();
+  });
 });
