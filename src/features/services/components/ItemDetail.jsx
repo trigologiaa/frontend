@@ -1,12 +1,25 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
+import { useCart } from "../../cart/context/useCart";
+import { ItemCount } from "./ItemCount";
 import styles from "./ItemDetail.module.css";
 
 export function ItemDetail({ service }) {
 	const { t, i18n } = useTranslation();
+	const { addToCart } = useCart();
 	const language = i18n.resolvedLanguage;
 	const title = localized(service.title, language);
+	const [quantity, setQuantity] = useState(1);
+	const [added, setAdded] = useState(false);
+
+	function handleAdd() {
+		addToCart(service, quantity);
+		setAdded(true);
+		setQuantity(1);
+	}
+
 	return (
 		<article className={styles.detail}>
 			<img
@@ -23,6 +36,17 @@ export function ItemDetail({ service }) {
 				<p className={styles.description}>
 					{localized(service.description, language)}
 				</p>
+				<div className={styles.actions}>
+					<ItemCount value={quantity} onChange={setQuantity} />
+					<button className={styles.add} type="button" onClick={handleAdd}>
+						{t("detail.add")}
+					</button>
+				</div>
+				{added && (
+					<p className={styles.added} role="status">
+						{t("detail.added")}
+					</p>
+				)}
 			</div>
 		</article>
 	);

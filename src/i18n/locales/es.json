@@ -34,7 +34,12 @@
 		"notFound": {
 			"title": "No encontramos ese servicio"
 		},
-		"back": "Volver a servicios"
+		"back": "Volver a servicios",
+		"quantity": "Cantidad",
+		"increase": "Aumentar cantidad",
+		"decrease": "Disminuir cantidad",
+		"add": "Agregar al carrito",
+		"added": "Agregado al carrito"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",

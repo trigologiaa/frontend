@@ -45,3 +45,32 @@
 		align-items: start;
 	}
 }
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-4);
+	margin-top: var(--space-2);
+}
+
+.add {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.75rem;
+	padding: 0 var(--space-6);
+	font: inherit;
+	font-weight: 600;
+	color: var(--color-primary-contrast);
+	background: var(--color-primary);
+	border: 0;
+	border-radius: var(--radius);
+	cursor: pointer;
+}
+
+.added {
+	margin: 0;
+	font-weight: 600;
+	color: var(--color-primary);
+}
