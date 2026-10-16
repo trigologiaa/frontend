@@ -30,7 +30,9 @@ Included:
   choice always wins.
 - No flash of the wrong theme on load (a tiny inline script in `index.html` sets the attribute
   before the first paint).
-- The service illustrations in `public/images` use colors of the palette.
+- Each service has its own illustration (`servicio-*.svg`, square badges with their own colors).
+  They are shown whole (`object-fit: contain`, on the surface color) in the catalog and the detail,
+  and as an 80 px square in the cart, instead of being cropped to a wide frame.
 - The team cards show one illustrated avatar each (`avatar-1.svg` to `avatar-3.svg`, round, 96 px,
   with their own colors because they are faces). The single placeholder image and its fallback are
   gone, and the avatar now gets the size and round style that the CSS Module already defined.
@@ -108,9 +110,10 @@ Feature: Catppuccin themes
     When I focus the selector and pick another option
     Then the theme changes
 
-  Scenario: The illustrations match the palette
-    Given the service illustrations
-    Then every color they use belongs to the Catppuccin palette
+  Scenario: Each service shows its own illustration whole
+    Given the services of the catalog
+    Then each one points to a different, existing illustration
+    And the catalog, the detail and the cart show it without cropping
 
   Scenario: Every team card has its own avatar
     Given the team section
