@@ -11,7 +11,7 @@
     },
     "price": 350,
     "category": "web",
-    "image": "/images/landing-page.svg"
+    "image": "/images/servicio-landing-page.svg"
   },
   {
     "id": "react-app",
@@ -25,7 +25,7 @@
     },
     "price": 1200,
     "category": "web",
-    "image": "/images/react-app.svg"
+    "image": "/images/servicio-react-app.svg"
   },
   {
     "id": "rest-api",
@@ -39,7 +39,7 @@
     },
     "price": 900,
     "category": "backend",
-    "image": "/images/rest-api.svg"
+    "image": "/images/servicio-rest-api.svg"
   },
   {
     "id": "database-design",
@@ -53,7 +53,7 @@
     },
     "price": 500,
     "category": "backend",
-    "image": "/images/database-design.svg"
+    "image": "/images/servicio-database-design.svg"
   },
   {
     "id": "code-review",
@@ -67,7 +67,7 @@
     },
     "price": 200,
     "category": "mentoring",
-    "image": "/images/code-review.svg"
+    "image": "/images/servicio-code-review.svg"
   },
   {
     "id": "git-linux-class",
@@ -81,7 +81,7 @@
     },
     "price": 40,
     "category": "mentoring",
-    "image": "/images/git-linux-class.svg"
+    "image": "/images/servicio-git-linux-class.svg"
   },
   {
     "id": "dotfiles-setup",
@@ -95,6 +95,6 @@
     },
     "price": 150,
     "category": "mentoring",
-    "image": "/images/dotfiles-setup.svg"
+    "image": "/images/servicio-dotfiles-neovim.svg"
   }
 ]
