@@ -15,8 +15,16 @@ describe("TeamCard", () => {
     expect(screen.getByRole("img", { name: "Ada" })).toHaveAttribute("src", "/images/ada.jpg");
   });
 
-  it("falls back to the placeholder avatar when there is no photo", () => {
+  it("styles the photo as a fixed-size avatar", () => {
+    render(<TeamCard name="Ada" role="Backend" bio="Builds APIs." photo="/images/ada.jpg" />);
+    const photo = screen.getByRole("img", { name: "Ada" });
+    expect(photo.className).not.toBe("");
+    expect(photo).toHaveAttribute("width", "96");
+    expect(photo).toHaveAttribute("height", "96");
+  });
+
+  it("shows no image when there is no photo", () => {
     render(<TeamCard name="Ada" role="Backend" bio="Builds APIs." />);
-    expect(screen.getByRole("img", { name: "Ada" })).toHaveAttribute("src", "/images/avatar-placeholder.svg");
+    expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
 });
