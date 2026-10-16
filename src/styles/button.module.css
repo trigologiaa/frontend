@@ -1,0 +1,15 @@
+.primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.75rem;
+	font-weight: 600;
+	color: var(--color-primary-contrast);
+	text-decoration: none;
+	background: var(--color-primary);
+	border-radius: var(--radius);
+}
+
+.primary:hover {
+	filter: brightness(1.1);
+}

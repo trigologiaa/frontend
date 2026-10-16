@@ -56,13 +56,6 @@
 }
 
 .browse {
-	display: inline-flex;
-	align-items: center;
-	min-height: 2.75rem;
+	composes: primary from "../../../styles/button.module.css";
 	padding: 0 var(--space-6);
-	font-weight: 600;
-	color: var(--color-primary-contrast);
-	text-decoration: none;
-	background: var(--color-primary);
-	border-radius: var(--radius);
 }
