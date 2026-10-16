@@ -60,4 +60,13 @@ describe("ThemeProvider", () => {
     renderProbe();
     expect(document.documentElement).toHaveAttribute("data-theme", "latte");
   });
+
+  it("changes the theme and the root element", async () => {
+    const user = userEvent.setup();
+    systemPrefers("light");
+    renderProbe();
+    await user.click(screen.getByRole("button", { name: "frappe" }));
+    expect(screen.getByText("theme: frappe")).toBeInTheDocument();
+    expect(document.documentElement).toHaveAttribute("data-theme", "frappe");
+  });
 });

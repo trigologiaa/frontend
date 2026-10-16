@@ -8,13 +8,13 @@ function prefersLight() {
 }
 
 export function ThemeProvider({ children }) {
-	const [theme] = useState(() =>
+	const [theme, setTheme] = useState(() =>
 		resolveInitialTheme({ stored: null, prefersLight: prefersLight() }),
 	);
 	useEffect(() => {
 		document.documentElement.dataset.theme = theme;
 	}, [theme]);
-	const value = useMemo(() => ({ theme }), [theme]);
+	const value = useMemo(() => ({ theme, setTheme }), [theme]);
 	return (
 		<ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 	);
