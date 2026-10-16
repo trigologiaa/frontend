@@ -1,5 +1,11 @@
-import { createContext, useEffect, useMemo, useState } from "react";
-import { resolveInitialTheme } from "./themes";
+import {
+	createContext,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
+import { isTheme, resolveInitialTheme } from "./themes";
 
 export const ThemeContext = createContext(null);
 
@@ -8,13 +14,17 @@ function prefersLight() {
 }
 
 export function ThemeProvider({ children }) {
-	const [theme, setTheme] = useState(() =>
+	const [theme, setCurrentTheme] = useState(() =>
 		resolveInitialTheme({ stored: null, prefersLight: prefersLight() }),
 	);
+	const setTheme = useCallback((next) => {
+		if (isTheme(next)) setCurrentTheme(next);
+	}, []);
+
 	useEffect(() => {
 		document.documentElement.dataset.theme = theme;
 	}, [theme]);
-	const value = useMemo(() => ({ theme, setTheme }), [theme]);
+	const value = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
 	return (
 		<ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 	);

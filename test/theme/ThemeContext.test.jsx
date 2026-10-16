@@ -69,4 +69,13 @@ describe("ThemeProvider", () => {
     expect(screen.getByText("theme: frappe")).toBeInTheDocument();
     expect(document.documentElement).toHaveAttribute("data-theme", "frappe");
   });
+
+  it("ignores a theme that does not exist", async () => {
+    const user = userEvent.setup();
+    systemPrefers("dark");
+    renderProbe();
+    await user.click(screen.getByRole("button", { name: "neon" }));
+    expect(screen.getByText("theme: mocha")).toBeInTheDocument();
+    expect(document.documentElement).toHaveAttribute("data-theme", "mocha");
+  });
 });
