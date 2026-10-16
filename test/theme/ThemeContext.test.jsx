@@ -86,4 +86,18 @@ describe("ThemeProvider", () => {
     await user.click(screen.getByRole("button", { name: "frappe" }));
     expect(localStorage.getItem("theme")).toBe("frappe");
   });
+
+  it("starts with the stored theme, even if the system prefers another one", () => {
+    systemPrefers("light");
+    localStorage.setItem("theme", "macchiato");
+    renderProbe();
+    expect(screen.getByText("theme: macchiato")).toBeInTheDocument();
+  });
+
+  it("ignores a stored theme that does not exist", () => {
+    systemPrefers("dark");
+    localStorage.setItem("theme", "neon");
+    renderProbe();
+    expect(screen.getByText("theme: mocha")).toBeInTheDocument();
+  });
 });

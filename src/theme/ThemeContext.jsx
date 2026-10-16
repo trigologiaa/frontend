@@ -15,7 +15,10 @@ function prefersLight() {
 
 export function ThemeProvider({ children }) {
 	const [theme, setCurrentTheme] = useState(() =>
-		resolveInitialTheme({ stored: null, prefersLight: prefersLight() }),
+		resolveInitialTheme({
+			stored: localStorage.getItem(THEME_STORAGE_KEY),
+			prefersLight: prefersLight(),
+		}),
 	);
 	const setTheme = useCallback((next) => {
 		if (!isTheme(next)) return;
