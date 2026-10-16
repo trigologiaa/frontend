@@ -19,4 +19,10 @@ describe("CartItem", () => {
     renderWithProviders(<CartItem item={item} onRemove={vi.fn()} />);
     expect(screen.getByText(/Cantidad/)).toHaveTextContent("Cantidad: 2");
   });
+
+  it("shows the unit price and the subtotal of the line", () => {
+    renderWithProviders(<CartItem item={item} onRemove={vi.fn()} />);
+    expect(screen.getByText("Precio: US$ 350")).toBeInTheDocument();
+    expect(screen.getByText("Subtotal: US$ 700")).toBeInTheDocument();
+  });
 });

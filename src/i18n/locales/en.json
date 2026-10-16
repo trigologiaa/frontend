@@ -43,6 +43,8 @@
 	},
 	"cart": {
 		"quantity": "Quantity",
+		"unitPrice": "Price",
+		"subtotal": "Subtotal",
 		"widget": {
 			"label_one": "Cart, {{count}} item",
 			"label_other": "Cart, {{count}} items"
