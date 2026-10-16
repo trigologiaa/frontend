@@ -24,3 +24,20 @@
 	--background-image: linear-gradient(270deg, #1b1429, #140f23);
 	--content-width: 70rem;
 }
+
+@media (prefers-color-scheme: light) {
+	:root {
+		color-scheme: light;
+		--color-background: #ffffff;
+		--color-surface: #f4f5f7;
+		--color-text: #1f2328;
+		--color-muted: #57606a;
+		--color-border: #d0d7de;
+		--color-primary: #7b2cbf;
+		--color-primary-contrast: #ffffff;
+		--color-danger: #b42318;
+		--color-danger-surface: #fef3f2;
+		--shadow: 0 1px 3px rgb(0 0 0 / 12%);
+		--background-image: none;
+	}
+}
