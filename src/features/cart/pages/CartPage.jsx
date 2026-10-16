@@ -6,7 +6,7 @@ import { useCart } from "../context/useCart";
 
 export function CartPage() {
 	const { t, i18n } = useTranslation();
-	const { items, totalPrice, removeFromCart } = useCart();
+	const { items, totalPrice, removeFromCart, clearCart } = useCart();
 	const language = i18n.resolvedLanguage;
 	if (items.length === 0) {
 		return (
@@ -30,6 +30,9 @@ export function CartPage() {
 			<p role="status">
 				{t("cart.total")}: {formatPrice(totalPrice, language)}
 			</p>
+			<button type="button" onClick={clearCart}>
+				{t("cart.clear")}
+			</button>
 		</>
 	);
 }

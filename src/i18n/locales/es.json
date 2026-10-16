@@ -49,6 +49,7 @@
 		"empty": "Tu carrito está vacío",
 		"browse": "Ver servicios",
 		"total": "Total",
+		"clear": "Vaciar carrito",
 		"widget": {
 			"label_one": "Carrito, {{count}} artículo",
 			"label_other": "Carrito, {{count}} artículos"

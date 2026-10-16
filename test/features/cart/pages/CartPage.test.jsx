@@ -43,4 +43,11 @@ describe("CartPage", () => {
     await user.click(screen.getByRole("button", { name: "Quitar Servicio 1" }));
     expect(screen.getByText("Tu carrito está vacío")).toBeInTheDocument();
   });
+
+  it("clears the cart", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<CartPage />, { initialCart: [line(1), line(2)] });
+    await user.click(screen.getByRole("button", { name: "Vaciar carrito" }));
+    expect(screen.getByText("Tu carrito está vacío")).toBeInTheDocument();
+  });
 });
