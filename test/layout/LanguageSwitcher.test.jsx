@@ -17,4 +17,15 @@ describe("LanguageSwitcher", () => {
     await user.click(screen.getByRole("button", { name: "EN" }));
     expect(localStorage.getItem("i18nextLng")).toBe("en");
   });
+
+  it("is a named group whose buttons carry the button style", () => {
+    renderWithProviders(<LanguageSwitcher />);
+    const group = screen.getByRole("group", { name: "Idioma" });
+    const buttons = screen.getAllByRole("button");
+    expect(group.className).not.toBe("");
+    for (const button of buttons) {
+      expect(button.className).not.toBe("");
+      expect(button.className).not.toBe(group.className);
+    }
+  });
 });
