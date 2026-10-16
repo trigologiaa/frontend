@@ -45,6 +45,7 @@
 		"quantity": "Cantidad",
 		"unitPrice": "Precio",
 		"subtotal": "Subtotal",
+		"remove": "Quitar",
 		"widget": {
 			"label_one": "Carrito, {{count}} artículo",
 			"label_other": "Carrito, {{count}} artículos"

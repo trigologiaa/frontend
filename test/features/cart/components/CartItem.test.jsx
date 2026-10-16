@@ -25,4 +25,12 @@ describe("CartItem", () => {
     expect(screen.getByText("Precio: US$ 350")).toBeInTheDocument();
     expect(screen.getByText("Subtotal: US$ 700")).toBeInTheDocument();
   });
+
+  it("asks to remove the item with a button named after the service", async () => {
+    const user = userEvent.setup();
+    const onRemove = vi.fn();
+    renderWithProviders(<CartItem item={item} onRemove={onRemove} />);
+    await user.click(screen.getByRole("button", { name: "Quitar Servicio 1" }));
+    expect(onRemove).toHaveBeenCalledWith("service-1");
+  });
 });
