@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { NavItem } from "../../../layout/NavItem";
 import { useCart } from "../context/useCart";
+import styles from "./CartWidget.module.css";
 
 export function CartWidget() {
 	const { t } = useTranslation();
@@ -12,6 +13,7 @@ export function CartWidget() {
 	return (
 		<NavItem to="/carrito" aria-label={label}>
 			<svg
+				className={styles.icon}
 				aria-hidden="true"
 				focusable="false"
 				width="20"
@@ -27,8 +29,10 @@ export function CartWidget() {
 				<circle cx="9" cy="20" r="1.5" />
 				<circle cx="17" cy="20" r="1.5" />
 			</svg>
-			<span>{t("nav.cart")}</span>
-			{totalQuantity > 0 && <span>{totalQuantity}</span>}
+			<span className={styles.label}>{t("nav.cart")}</span>
+			{totalQuantity > 0 && (
+				<span className={styles.count}>{totalQuantity}</span>
+			)}
 		</NavItem>
 	);
 }

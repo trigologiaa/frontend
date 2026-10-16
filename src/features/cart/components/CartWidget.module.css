@@ -1,0 +1,21 @@
+.icon {
+	flex-shrink: 0;
+}
+
+.label {
+	white-space: nowrap;
+}
+
+.count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 1.5rem;
+	height: 1.5rem;
+	padding: 0 var(--space-2);
+	font-size: 0.875rem;
+	font-weight: 700;
+	color: var(--color-primary-contrast);
+	background: var(--color-primary);
+	border-radius: 999px;
+}
