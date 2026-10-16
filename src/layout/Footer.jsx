@@ -7,7 +7,7 @@ export function Footer() {
 	return (
 		<footer className={styles.footer}>
 			<p className={styles.about}>{t("footer.company.about")}</p>
-			<a href="mailto:hello@trigologiaa.dev">{t("footer.contact")}</a>
+			<a href="mailto:augusto.ribero.15@gmail.com">{t("footer.contact")}</a>
 			<TeamSection />
 			<p className={styles.rights}>{t("footer.rights")}</p>
 		</footer>
