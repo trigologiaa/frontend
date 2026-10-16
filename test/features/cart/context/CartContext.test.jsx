@@ -74,4 +74,16 @@ describe("CartProvider", () => {
     await user.click(screen.getByRole("button", { name: "clear" }));
     expect(screen.getByText("items: 0")).toBeInTheDocument();
   });
+
+  it("starts with the initial items when they are provided", () => {
+    const initialItems = [
+      { id: "service-1", title: makeService(1).title, price: 100, image: "", quantity: 2 },
+    ];
+    render(
+      <CartProvider initialItems={initialItems}>
+        <Probe />
+      </CartProvider>,
+    );
+    expect(screen.getByText("quantity: 2")).toBeInTheDocument();
+  });
 });
