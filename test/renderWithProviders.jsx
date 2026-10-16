@@ -3,6 +3,7 @@ import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 import { CartContext, CartProvider } from "../src/features/cart/context/CartContext";
 import { i18n } from "../src/i18n";
+import { ThemeProvider } from "../src/theme/ThemeContext";
 
 const defaultCart = {
   items: [],
@@ -21,9 +22,11 @@ export function renderWithProviders(ui, { route = "/", cart, initialCart } = {})
   );
   return render(
     <I18nextProvider i18n={i18n}>
-      <CartProvider initialItems={initialCart}>
-        <MemoryRouter initialEntries={[route]}>{tree}</MemoryRouter>
-      </CartProvider>
+      <ThemeProvider>
+        <CartProvider initialItems={initialCart}>
+          <MemoryRouter initialEntries={[route]}>{tree}</MemoryRouter>
+        </CartProvider>
+      </ThemeProvider>
     </I18nextProvider>
   );
 }
