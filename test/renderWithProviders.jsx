@@ -13,7 +13,7 @@ const defaultCart = {
   clearCart: () => {},
 };
 
-export function renderWithProviders(ui, { route = "/", cart } = {}) {
+export function renderWithProviders(ui, { route = "/", cart, initialCart } = {}) {
   const tree = cart ? (
     <CartContext.Provider value={{ ...defaultCart, ...cart }}>{ui}</CartContext.Provider>
   ) : (
@@ -21,7 +21,7 @@ export function renderWithProviders(ui, { route = "/", cart } = {}) {
   );
   return render(
     <I18nextProvider i18n={i18n}>
-      <CartProvider>
+      <CartProvider initialItems={initialCart}>
         <MemoryRouter initialEntries={[route]}>{tree}</MemoryRouter>
       </CartProvider>
     </I18nextProvider>

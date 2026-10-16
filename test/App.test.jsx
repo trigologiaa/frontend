@@ -100,4 +100,14 @@ describe("App routes", () => {
     await user.click(await screen.findByRole("button", { name: "Agregar al carrito" }));
     expect(screen.getByRole("link", { name: "Carrito, 3 artículos" })).toBeInTheDocument();
   });
+
+  it("shows in the cart page what was added from the detail", async () => {
+    const user = userEvent.setup();
+    server.use(servicesHandler([makeService(1)]));
+    renderWithProviders(<App />, { route: "/servicio/service-1" });
+    await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    await user.click(screen.getByRole("link", { name: "Carrito, 2 artículos" }));
+    expect(screen.getByText(/Cantidad/)).toHaveTextContent("Cantidad: 2");
+  });
 });

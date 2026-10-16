@@ -2,11 +2,12 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
+import { useLanguage } from "../../../shared/useLanguage";
 import styles from "./Item.module.css";
 
 export function Item({ service }) {
-	const { t, i18n } = useTranslation();
-	const language = i18n.resolvedLanguage;
+	const { t } = useTranslation();
+	const language = useLanguage();
 	const title = localized(service.title, language);
 	return (
 		<article className={styles.card}>

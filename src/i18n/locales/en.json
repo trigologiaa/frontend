@@ -42,6 +42,14 @@
 		"added": "Added to cart"
 	},
 	"cart": {
+		"quantity": "Quantity",
+		"unitPrice": "Price",
+		"subtotal": "Subtotal",
+		"remove": "Remove",
+		"empty": "Your cart is empty",
+		"browse": "See services",
+		"total": "Total",
+		"clear": "Clear cart",
 		"widget": {
 			"label_one": "Cart, {{count}} item",
 			"label_other": "Cart, {{count}} items"

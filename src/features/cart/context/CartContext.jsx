@@ -7,8 +7,8 @@ import {
 
 export const CartContext = createContext(null);
 
-export function CartProvider({ children }) {
-	const [items, dispatch] = useReducer(cartReducer, []);
+export function CartProvider({ children, initialItems = [] }) {
+	const [items, dispatch] = useReducer(cartReducer, initialItems);
 
 	const value = useMemo(
 		() => ({
