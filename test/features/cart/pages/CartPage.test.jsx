@@ -16,4 +16,10 @@ describe("CartPage", () => {
     expect(screen.getByText("Tu carrito está vacío")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Ver servicios" })).toHaveAttribute("href", "/servicios");
   });
+
+  it("lists each service in the cart", () => {
+    renderWithProviders(<CartPage />, { initialCart: [line(1), line(2)] });
+    expect(screen.getByRole("heading", { name: "Servicio 1" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Servicio 2" })).toBeInTheDocument();
+  });
 });

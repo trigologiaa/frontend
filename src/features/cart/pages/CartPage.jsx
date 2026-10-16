@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { CartItem } from "../components/CartItem";
 import { useCart } from "../context/useCart";
 
 export function CartPage() {
 	const { t } = useTranslation();
-	const { items } = useCart();
+	const { items, removeFromCart } = useCart();
 	if (items.length === 0) {
 		return (
 			<>
@@ -14,5 +15,16 @@ export function CartPage() {
 			</>
 		);
 	}
-	return <h1>{t("nav.cart")}</h1>;
+	return (
+		<>
+			<h1>{t("nav.cart")}</h1>
+			<ul>
+				{items.map((item) => (
+					<li key={item.id}>
+						<CartItem item={item} onRemove={removeFromCart} />
+					</li>
+				))}
+			</ul>
+		</>
+	);
 }
