@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { CartItem } from "../../../../src/features/cart/components/CartItem";
+import { i18n } from "../../../../src/i18n";
 import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
@@ -32,5 +33,14 @@ describe("CartItem", () => {
     renderWithProviders(<CartItem item={item} onRemove={onRemove} />);
     await user.click(screen.getByRole("button", { name: "Quitar Servicio 1" }));
     expect(onRemove).toHaveBeenCalledWith("service-1");
+  });
+
+  it("translates the cart item", async () => {
+    await i18n.changeLanguage("en");
+    renderWithProviders(<CartItem item={item} onRemove={vi.fn()} />);
+    expect(screen.getByText("Quantity: 2")).toBeInTheDocument();
+    expect(screen.getByText("Price: $350")).toBeInTheDocument();
+    expect(screen.getByText("Subtotal: $700")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Remove Service 1" })).toBeInTheDocument();
   });
 });
