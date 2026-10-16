@@ -14,4 +14,9 @@ describe("CartItem", () => {
     expect(screen.getByRole("heading", { name: "Servicio 1" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Servicio 1" })).toHaveAttribute("src", "/images/service-1.svg");
   });
+
+  it("shows the quantity", () => {
+    renderWithProviders(<CartItem item={item} onRemove={vi.fn()} />);
+    expect(screen.getByText(/Cantidad/)).toHaveTextContent("Cantidad: 2");
+  });
 });
