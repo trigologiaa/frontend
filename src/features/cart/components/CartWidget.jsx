@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { NavItem } from "../../../layout/NavItem";
+import { useCart } from "../context/useCart";
 
 export function CartWidget() {
 	const { t } = useTranslation();
+	const { totalQuantity } = useCart();
 	return (
 		<NavItem to="/carrito">
 			<svg
@@ -22,6 +24,7 @@ export function CartWidget() {
 				<circle cx="17" cy="20" r="1.5" />
 			</svg>
 			<span>{t("nav.cart")}</span>
+			<span>{totalQuantity}</span>
 		</NavItem>
 	);
 }
