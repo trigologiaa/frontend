@@ -36,4 +36,11 @@ describe("CartPage", () => {
     expect(screen.getByRole("heading", { name: "Servicio 2" })).toBeInTheDocument();
     expect(screen.getByText("Total: US$ 200")).toBeInTheDocument();
   });
+
+  it("shows the empty state after removing the last service", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<CartPage />, { initialCart: [line(1)] });
+    await user.click(screen.getByRole("button", { name: "Quitar Servicio 1" }));
+    expect(screen.getByText("Tu carrito está vacío")).toBeInTheDocument();
+  });
 });
