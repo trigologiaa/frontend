@@ -54,4 +54,10 @@ describe("ThemeProvider", () => {
     renderProbe();
     expect(screen.getByText("theme: mocha")).toBeInTheDocument();
   });
+
+  it("applies the theme to the root element", () => {
+    systemPrefers("light");
+    renderProbe();
+    expect(document.documentElement).toHaveAttribute("data-theme", "latte");
+  });
 });
