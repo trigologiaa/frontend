@@ -88,4 +88,16 @@ describe("App routes", () => {
     await user.click(screen.getByRole("link", { name: es.home.cta }));
     expect(screen.getByRole("heading", { level: 1, name: es.nav.services })).toBeInTheDocument();
   });
+
+  it("keeps the cart across pages", async () => {
+    const user = userEvent.setup();
+    server.use(servicesHandler([makeService(1), makeService(2)]));
+    renderWithProviders(<App />, { route: "/servicio/service-1" });
+    await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    await user.click(screen.getByRole("link", { name: "Servicios" }));
+    await user.click(await screen.findByRole("link", { name: /Ver detalle.*Servicio 2/ }));
+    await user.click(await screen.findByRole("button", { name: "Agregar al carrito" }));
+    expect(screen.getByRole("link", { name: "Carrito, 3 artículos" })).toBeInTheDocument();
+  });
 });
