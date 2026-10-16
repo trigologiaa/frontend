@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { CartPage } from "../../../../src/features/cart/pages/CartPage";
+import { i18n } from "../../../../src/i18n";
 import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
@@ -49,5 +50,19 @@ describe("CartPage", () => {
     renderWithProviders(<CartPage />, { initialCart: [line(1), line(2)] });
     await user.click(screen.getByRole("button", { name: "Vaciar carrito" }));
     expect(screen.getByText("Tu carrito está vacío")).toBeInTheDocument();
+  });
+
+  it("translates the empty cart", async () => {
+    await i18n.changeLanguage("en");
+    renderWithProviders(<CartPage />);
+    expect(screen.getByText("Your cart is empty")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "See services" })).toBeInTheDocument();
+  });
+
+  it("translates the cart with services", async () => {
+    await i18n.changeLanguage("en");
+    renderWithProviders(<CartPage />, { initialCart: [line(1)] });
+    expect(screen.getByText("Total: $100")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Clear cart" })).toBeInTheDocument();
   });
 });
