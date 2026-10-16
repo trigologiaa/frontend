@@ -60,6 +60,9 @@
 		"hint": "Puede que el link esté mal escrito, o que la página ya no exista.",
 		"back": "Volver al inicio"
 	},
+	"theme": {
+		"label": "Tema"
+	},
 	"language": {
 		"label": "Idioma"
 	},

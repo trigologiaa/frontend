@@ -60,6 +60,9 @@
 		"hint": "The link may be misspelled, or the page may no longer exist.",
 		"back": "Back to home"
 	},
+	"theme": {
+		"label": "Theme"
+	},
 	"language": {
 		"label": "Language"
 	},
