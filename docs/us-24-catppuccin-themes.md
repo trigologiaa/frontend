@@ -30,8 +30,10 @@ Included:
   choice always wins.
 - No flash of the wrong theme on load (a tiny inline script in `index.html` sets the attribute
   before the first paint).
-- The service illustrations and the team avatar in `public/images` use colors of the palette (the
-  avatar was black and almost invisible on the dark flavors).
+- The service illustrations in `public/images` use colors of the palette.
+- The team cards show one illustrated avatar each (`avatar-1.svg` to `avatar-3.svg`, round, 96 px,
+  with their own colors because they are faces). The single placeholder image and its fallback are
+  gone, and the avatar now gets the size and round style that the CSS Module already defined.
 - The language switcher gets the styles it was missing (its wrapper had the button class and the
   buttons had none) and becomes a named `fieldset`, so the two controls of the header look alike.
 - Automated checks: palettes are complete and official, contrast AA in every flavor, theme logic,
@@ -109,6 +111,10 @@ Feature: Catppuccin themes
   Scenario: The illustrations match the palette
     Given the service illustrations
     Then every color they use belongs to the Catppuccin palette
+
+  Scenario: Every team card has its own avatar
+    Given the team section
+    Then each card shows a different, existing avatar image
 ```
 
 ### Content
