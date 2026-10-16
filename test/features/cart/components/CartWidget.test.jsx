@@ -1,6 +1,9 @@
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { CartWidget } from "../../../../src/features/cart/components/CartWidget";
+import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
+import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 describe("CartWidget", () => {
@@ -17,5 +20,18 @@ describe("CartWidget", () => {
   it("shows no number when the cart is empty", () => {
     renderWithProviders(<CartWidget />);
     expect(screen.getByRole("link", { name: /Carrito/ })).toHaveTextContent(/^Carrito$/);
+  });
+
+  it("updates when a service is added, without reloading", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(
+      <>
+        <CartWidget />
+        <ItemDetail service={makeService(1)} />
+      </>,
+    );
+    await user.click(screen.getByRole("button", { name: "Aumentar cantidad" }));
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    expect(screen.getByRole("link", { name: /Carrito/ })).toHaveTextContent("2");
   });
 });
