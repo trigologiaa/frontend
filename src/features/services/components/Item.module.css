@@ -12,7 +12,9 @@
 .image {
 	width: 100%;
 	aspect-ratio: 16 / 10;
-	object-fit: cover;
+	padding: var(--space-4);
+	object-fit: contain;
+	background: var(--color-surface);
 }
 
 .body {
