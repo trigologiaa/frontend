@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export function Header() {
 	return (
@@ -8,7 +9,10 @@ export function Header() {
 			<Link to="/" className={styles.brand}>
 				Trigologiaa Dev
 			</Link>
-			<LanguageSwitcher />
+			<div className={styles.controls}>
+				<ThemeSwitcher />
+				<LanguageSwitcher />
+			</div>
 		</header>
 	);
 }
