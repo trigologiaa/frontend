@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { CartWidget } from "../features/cart/components/CartWidget";
 import styles from "./NavBar.module.css";
 import { NavItem } from "./NavItem";
 
@@ -10,7 +11,7 @@ export function NavBar() {
 			<NavItem to="/servicios" activeFor={["/servicio/:id"]}>
 				{t("nav.services")}
 			</NavItem>
-			<NavItem to="/carrito">{t("nav.cart")}</NavItem>
+			<CartWidget />
 		</nav>
 	);
 }
