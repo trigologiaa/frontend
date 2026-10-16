@@ -61,7 +61,13 @@
 		"back": "Back to home"
 	},
 	"theme": {
-		"label": "Theme"
+		"label": "Theme",
+		"options": {
+			"latte": "Latte (light)",
+			"frappe": "Frappé (dark)",
+			"macchiato": "Macchiato (dark)",
+			"mocha": "Mocha (dark)"
+		}
 	},
 	"language": {
 		"label": "Language"

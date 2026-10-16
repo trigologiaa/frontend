@@ -9,4 +9,14 @@ describe("ThemeSwitcher", () => {
     renderWithProviders(<ThemeSwitcher />);
     expect(screen.getByRole("combobox", { name: "Tema" })).toHaveValue("mocha");
   });
+
+  it("offers the four flavors in order", () => {
+    renderWithProviders(<ThemeSwitcher />);
+    expect(screen.getAllByRole("option").map((option) => option.textContent)).toEqual([
+      "Latte (claro)",
+      "Frappé (oscuro)",
+      "Macchiato (oscuro)",
+      "Mocha (oscuro)",
+    ]);
+  });
 });
