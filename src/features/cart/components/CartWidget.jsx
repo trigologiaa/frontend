@@ -5,8 +5,12 @@ import { useCart } from "../context/useCart";
 export function CartWidget() {
 	const { t } = useTranslation();
 	const { totalQuantity } = useCart();
+	const label =
+		totalQuantity > 0
+			? t("cart.widget.label", { count: totalQuantity })
+			: t("nav.cart");
 	return (
-		<NavItem to="/carrito">
+		<NavItem to="/carrito" aria-label={label}>
 			<svg
 				aria-hidden="true"
 				focusable="false"

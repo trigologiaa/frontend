@@ -41,6 +41,12 @@
 		"add": "Add to cart",
 		"added": "Added to cart"
 	},
+	"cart": {
+		"widget": {
+			"label_one": "Cart, {{count}} item",
+			"label_other": "Cart, {{count}} items"
+		}
+	},
 	"notFound": {
 		"title": "404 - We couldn't find that page",
 		"hint": "The link may be misspelled, or the page may no longer exist.",

@@ -34,4 +34,12 @@ describe("CartWidget", () => {
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
     expect(screen.getByRole("link", { name: /Carrito/ })).toHaveTextContent("2");
   });
+
+  it.each([
+    [1, "Carrito, 1 artículo"],
+    [3, "Carrito, 3 artículos"],
+  ])("names the link with the count when the cart has %s units", (totalQuantity, name) => {
+    renderWithProviders(<CartWidget />, { cart: { totalQuantity } });
+    expect(screen.getByRole("link", { name })).toBeInTheDocument();
+  });
 });
