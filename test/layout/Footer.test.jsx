@@ -21,7 +21,7 @@ describe("Footer", () => {
     renderWithProviders(<Footer />);
     const footer = within(screen.getByRole("contentinfo"));
     expect(footer.getByText(es.footer.company.about)).toBeInTheDocument();
-    expect(footer.getByRole("link", { name: es.footer.contact })).toHaveAttribute("href", "mailto:hello@trigologiaa.dev");
+    expect(footer.getByRole("link", { name: es.footer.contact })).toHaveAttribute("href", "mailto:augusto.ribero.15@gmail.com");
   });
 
   it("shows the company description in English", async () => {
