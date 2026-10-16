@@ -46,6 +46,8 @@
 		"unitPrice": "Precio",
 		"subtotal": "Subtotal",
 		"remove": "Quitar",
+		"empty": "Tu carrito está vacío",
+		"browse": "Ver servicios",
 		"widget": {
 			"label_one": "Carrito, {{count}} artículo",
 			"label_other": "Carrito, {{count}} artículos"

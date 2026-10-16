@@ -46,6 +46,8 @@
 		"unitPrice": "Price",
 		"subtotal": "Subtotal",
 		"remove": "Remove",
+		"empty": "Your cart is empty",
+		"browse": "See services",
 		"widget": {
 			"label_one": "Cart, {{count}} item",
 			"label_other": "Cart, {{count}} items"
