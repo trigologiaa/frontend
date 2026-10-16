@@ -5,7 +5,7 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import { isTheme, resolveInitialTheme } from "./themes";
+import { isTheme, resolveInitialTheme, THEME_STORAGE_KEY } from "./themes";
 
 export const ThemeContext = createContext(null);
 
@@ -18,7 +18,9 @@ export function ThemeProvider({ children }) {
 		resolveInitialTheme({ stored: null, prefersLight: prefersLight() }),
 	);
 	const setTheme = useCallback((next) => {
-		if (isTheme(next)) setCurrentTheme(next);
+		if (!isTheme(next)) return;
+		setCurrentTheme(next);
+		localStorage.setItem(THEME_STORAGE_KEY, next);
 	}, []);
 
 	useEffect(() => {

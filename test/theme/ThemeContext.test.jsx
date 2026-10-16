@@ -78,4 +78,12 @@ describe("ThemeProvider", () => {
     expect(screen.getByText("theme: mocha")).toBeInTheDocument();
     expect(document.documentElement).toHaveAttribute("data-theme", "mocha");
   });
+
+  it("remembers the chosen theme", async () => {
+    const user = userEvent.setup();
+    systemPrefers("light");
+    renderProbe();
+    await user.click(screen.getByRole("button", { name: "frappe" }));
+    expect(localStorage.getItem("theme")).toBe("frappe");
+  });
 });
