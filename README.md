@@ -18,7 +18,8 @@ Pre-entrega del curso de React de Talento Tech.
   (`CartWidget`) y se revisa en `/carrito`.
 - Rutas con `react-router-dom` y página 404.
 - Español e inglés (detecta el idioma del navegador y permite cambiarlo).
-- Tema oscuro por defecto y tema claro según el sistema; diseño responsive.
+- Cuatro temas [Catppuccin](https://catppuccin.com) (Latte, Frappé, Macchiato y Mocha) con selector en el header;
+  el primer tema sale de la preferencia del sistema y la elección se recuerda. Diseño responsive.
 - Tests unitarios y de componente (Vitest, Testing Library, MSW) y un test end-to-end (Playwright).
 
 ## Cómo correrlo
@@ -48,7 +49,9 @@ Node: ver `.nvmrc`. Para el E2E la primera vez hace falta `pnpm exec playwright 
 - **Context API + `useReducer`**: las transiciones del carrito (`add`, `remove`, `clear`) son un reducer puro
   que se prueba sin React; el Context solo lo reparte.
 - **i18next**: textos en `src/i18n/locales`, con plurales (`_one` / `_other`).
-- **CSS Modules + tokens CSS**: un módulo por componente y toda decisión de diseño en variables (`tokens.css`).
+- **CSS Modules + tokens CSS**: un módulo por componente y toda decisión de diseño en variables. `themes.css` tiene las
+  cuatro paletas Catppuccin y `tokens.css` los tokens semánticos (definidos una sola vez); el tema se elige con
+  `data-theme` en `<html>`. Un test verifica el contraste AA de texto en los cuatro sabores.
 - **Vitest + Testing Library + MSW**: tests de comportamiento; MSW simula `servicios.json`.
 - **Playwright + playwright-bdd**: un E2E del flujo principal escrito como `.feature` (Gherkin).
 - **Biome, Knip, Husky, commitlint**: formato y lint, código sin uso, hooks y Conventional Commits.
@@ -66,9 +69,10 @@ src/
 │   │                pages/ (ItemListContainer, ItemDetailContainer), services/ (servicesApi)
 │   └── team/        team.js y components/ (TeamCard, TeamList, TeamSection)
 ├── i18n/            configuración de i18next y catálogos es/en
-├── layout/          Layout, Header, NavBar, NavItem, LanguageSwitcher, Footer
+├── layout/          Layout, Header, NavBar, NavItem, LanguageSwitcher, ThemeSwitcher, Footer
+├── theme/           themes.js (reglas), ThemeContext (ThemeProvider) y useTheme
 ├── shared/          formatPrice, localized, useAsync, useLanguage, useDocumentTitle
-└── styles/          tokens.css, global.css y button.module.css
+└── styles/          themes.css (paletas), tokens.css, global.css y button.module.css
 test/                tests de Vitest (espejo de src/)
 e2e/                 features (Gherkin) y steps de Playwright
 docs/                historias de usuario
@@ -100,7 +104,7 @@ public/              servicios.json e imágenes
 | 4.4 `/carrito` muestra el detalle desde `CartContext`  | US-13        | `CartPage.test`, `CartItem.test`                                    | `/carrito`                                   |
 | 5 Publicado online + link al repositorio               | US-01, US-16 | pipeline de CI, `placeholders.test` y revisión manual               | este README                                  |
 
-Calidad transversal: diseño y tema claro (US-14, `tokens.test`, `components.test`, `modules.test`),
+Calidad transversal: diseño y temas (US-14 y US-24: `tokens.test`, `themes.test`, `themeContrast.test`, `components.test`, `modules.test`),
 flujo principal end-to-end (US-15, `e2e/features/*.feature`) y sin textos provisorios (US-16, `placeholders.test`).
 
 ## Limitaciones conocidas de esta fase

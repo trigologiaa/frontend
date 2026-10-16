@@ -30,7 +30,10 @@ Included:
   choice always wins.
 - No flash of the wrong theme on load (a tiny inline script in `index.html` sets the attribute
   before the first paint).
-- The service illustrations in `public/images` use colors of the palette.
+- The service illustrations and the team avatar in `public/images` use colors of the palette (the
+  avatar was black and almost invisible on the dark flavors).
+- The language switcher gets the styles it was missing (its wrapper had the button class and the
+  buttons had none) and becomes a named `fieldset`, so the two controls of the header look alike.
 - Automated checks: palettes are complete and official, contrast AA in every flavor, theme logic,
   provider and switcher behavior, one end-to-end scenario in a real browser.
 
@@ -95,7 +98,7 @@ Feature: Catppuccin themes
   Scenario: The palettes are the official ones
     Then each flavor defines the 26 Catppuccin colors with their official values
 
-  Scenario: The selector is labeled and follows the language
+  Scenario: The selector is named and follows the language
     Given the language is English
     Then the selector is named "Theme" and its options are in English
 
@@ -121,7 +124,7 @@ Feature: Catppuccin themes
 ## Non-functional requirements
 
 - **Accessibility:** normal text contrast ≥ 4.5:1 in the four flavors (automated, see Decisions);
-  the selector has a visible label and a 44 px touch target; focus stays visible in every flavor.
+  the selector has an accessible name (a visually hidden label, to keep the header compact on phones) and a 44 px touch target; focus stays visible in every flavor.
 - **Performance:** no extra request, no runtime theming library; the theme is plain CSS variables and
   one attribute. No layout shift when a theme is applied.
 - **Robustness:** reading or writing `localStorage` can throw (private mode, blocked data): the site
