@@ -11,8 +11,10 @@ const svgs = import.meta.glob("../../public/images/*.svg", {
 
 const palette = new Set(Object.values(parseFlavors(themes).mocha.colors));
 
-describe("service illustrations", () => {
-  it.each(services.map((service) => service.image))(
+const AVATAR = "/images/avatar-placeholder.svg";
+
+describe("illustrations", () => {
+  it.each([...services.map((service) => service.image), AVATAR])(
     "uses only Catppuccin colors in %s",
     (image) => {
       const svg = svgs[`../../public${image}`];
