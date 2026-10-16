@@ -22,4 +22,9 @@ describe("CartPage", () => {
     expect(screen.getByRole("heading", { name: "Servicio 1" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Servicio 2" })).toBeInTheDocument();
   });
+
+  it("shows the total of the cart", () => {
+    renderWithProviders(<CartPage />, { initialCart: [line(1, 2), line(2, 1)] });
+    expect(screen.getByText("Total: US$ 400")).toBeInTheDocument();
+  });
 });

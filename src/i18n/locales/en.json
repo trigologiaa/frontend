@@ -48,6 +48,7 @@
 		"remove": "Remove",
 		"empty": "Your cart is empty",
 		"browse": "See services",
+		"total": "Total",
 		"widget": {
 			"label_one": "Cart, {{count}} item",
 			"label_other": "Cart, {{count}} items"
