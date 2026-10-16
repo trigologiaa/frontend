@@ -4,17 +4,20 @@ export const team = [
 		name: "Agustín Gómez",
 		roleKey: "team.person1.role",
 		bioKey: "team.person1.bio",
+		photo: "/images/avatar-1.svg",
 	},
 	{
 		id: "person-2",
 		name: "Emiliano Pérez",
 		roleKey: "team.person2.role",
 		bioKey: "team.person2.bio",
+		photo: "/images/avatar-2.svg",
 	},
 	{
 		id: "person-3",
 		name: "Gastón Ribero",
 		roleKey: "team.person3.role",
 		bioKey: "team.person3.bio",
+		photo: "/images/avatar-3.svg",
 	},
 ];

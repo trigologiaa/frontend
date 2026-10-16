@@ -10,4 +10,10 @@ describe("TeamSection", () => {
     expect(screen.getByRole("heading", { name: es.footer.team.title })).toBeInTheDocument();
     expect(screen.getByText(es.team.person1.role)).toBeInTheDocument();
   });
+
+  it("shows one avatar on each card", () => {
+    renderWithProviders(<TeamSection />);
+    const sources = screen.getAllByRole("img").map((image) => image.getAttribute("src"));
+    expect(sources).toEqual(["/images/avatar-1.svg", "/images/avatar-2.svg", "/images/avatar-3.svg"]);
+  });
 });
