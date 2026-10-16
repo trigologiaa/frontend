@@ -19,3 +19,7 @@
 	text-decoration: underline;
 	text-underline-offset: 0.35em;
 }
+
+.link[aria-current="page"]:hover {
+	background: transparent;
+}
