@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ThemeProvider } from "../../src/theme/ThemeContext";
 import { useTheme } from "../../src/theme/useTheme";
 
@@ -36,6 +36,7 @@ function systemPrefers(scheme) {
 describe("ThemeProvider", () => {
   afterEach(() => {
     window.matchMedia = undefined;
+    vi.restoreAllMocks();
   });
 
   it("starts with Latte when the system prefers light", () => {
@@ -99,5 +100,26 @@ describe("ThemeProvider", () => {
     localStorage.setItem("theme", "neon");
     renderProbe();
     expect(screen.getByText("theme: mocha")).toBeInTheDocument();
+  });
+
+  it("works when the browser blocks reading the storage", () => {
+    systemPrefers("light");
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new Error("blocked");
+    });
+    renderProbe();
+    expect(screen.getByText("theme: latte")).toBeInTheDocument();
+  });
+
+  it("still applies a theme when the browser blocks writing the storage", async () => {
+    const user = userEvent.setup();
+    systemPrefers("light");
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+      throw new Error("blocked");
+    });
+    renderProbe();
+    await user.click(screen.getByRole("button", { name: "frappe" }));
+    expect(screen.getByText("theme: frappe")).toBeInTheDocument();
+    expect(document.documentElement).toHaveAttribute("data-theme", "frappe");
   });
 });

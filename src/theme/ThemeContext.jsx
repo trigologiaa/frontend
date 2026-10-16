@@ -13,17 +13,33 @@ function prefersLight() {
 	return window.matchMedia?.("(prefers-color-scheme: light)").matches ?? false;
 }
 
+function readStoredTheme() {
+	try {
+		return localStorage.getItem(THEME_STORAGE_KEY);
+	} catch {
+		return null;
+	}
+}
+
+function storeTheme(theme) {
+	try {
+		localStorage.setItem(THEME_STORAGE_KEY, theme);
+	} catch {
+		// The theme still applies for this visit when the storage is blocked.
+	}
+}
+
 export function ThemeProvider({ children }) {
 	const [theme, setCurrentTheme] = useState(() =>
 		resolveInitialTheme({
-			stored: localStorage.getItem(THEME_STORAGE_KEY),
+			stored: readStoredTheme(),
 			prefersLight: prefersLight(),
 		}),
 	);
 	const setTheme = useCallback((next) => {
 		if (!isTheme(next)) return;
 		setCurrentTheme(next);
-		localStorage.setItem(THEME_STORAGE_KEY, next);
+		storeTheme(next);
 	}, []);
 
 	useEffect(() => {
