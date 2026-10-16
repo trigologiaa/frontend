@@ -41,15 +41,7 @@
 }
 
 .link {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 2.75rem;
+	composes: primary from "../../../styles/button.module.css";
 	margin-top: auto;
 	padding: 0 var(--space-4);
-	font-weight: 600;
-	color: var(--color-primary-contrast);
-	text-decoration: none;
-	background: var(--color-primary);
-	border-radius: var(--radius);
 }

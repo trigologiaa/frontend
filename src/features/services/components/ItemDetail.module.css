@@ -55,17 +55,11 @@
 }
 
 .add {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 2.75rem;
+	composes: primary from "../../../styles/button.module.css";
 	padding: 0 var(--space-6);
 	font: inherit;
 	font-weight: 600;
-	color: var(--color-primary-contrast);
-	background: var(--color-primary);
 	border: 0;
-	border-radius: var(--radius);
 	cursor: pointer;
 }
 

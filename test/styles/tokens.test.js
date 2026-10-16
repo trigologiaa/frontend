@@ -14,4 +14,12 @@ describe("design tokens", () => {
   ])("defines %s", (name) => {
     expect(tokens).toContain(`${name}:`);
   });
+
+  it("redefines the palette for the light color scheme", () => {
+    expect(tokens).toMatch(/@media \(prefers-color-scheme: light\)/);
+  });
+
+  it("respects reduced motion", () => {
+    expect(tokens).toMatch(/@media \(prefers-reduced-motion: reduce\)/);
+  });
 });
