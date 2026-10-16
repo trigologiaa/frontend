@@ -26,4 +26,14 @@ describe("NavBar", () => {
     expect(screen.getByRole("link", { name: "Inicio" })).not.toHaveAttribute("aria-current");
     expect(screen.getByRole("link", { name: "Carrito" })).not.toHaveAttribute("aria-current");
   });
+
+  it("shows the cart widget with the quantity", () => {
+    renderWithProviders(<NavBar />, { cart: { totalQuantity: 2 } });
+    expect(screen.getByRole("link", { name: "Carrito, 2 artículos" })).toHaveAttribute("href", "/carrito");
+  });
+
+  it("keeps the cart marked on the cart page", () => {
+    renderWithProviders(<NavBar />, { route: "/carrito" });
+    expect(screen.getByRole("link", { name: "Carrito" })).toHaveAttribute("aria-current", "page");
+  });
 });
