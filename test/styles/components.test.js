@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 const pending = [
-  "src/features/cart/pages/CartPage.jsx",
 ];
 
 const components = Object.keys(
