@@ -95,5 +95,13 @@
 			"role": "Service owner",
 			"bio": "Define las prioridades del servicio."
 		}
+	},
+	"errors": {
+		"mismatch": "Las contraseñas no coinciden",
+		"emailInUse": "Ese correo ya está registrado.",
+		"weakPassword": "La contraseña debe tener al menos 6 caracteres",
+		"invalidEmail": "Ese correo no es válido",
+		"network": "No pudimos conectarnos. Revisá tu conexión.",
+		"generic": "No pudimos completar el registro. Probá de nuevo."
 	}
 }

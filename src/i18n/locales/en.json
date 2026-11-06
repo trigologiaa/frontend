@@ -95,5 +95,13 @@
 			"role": "Service owner",
 			"bio": "Sets the service priorities."
 		}
+	},
+	"errors": {
+		"mismatch": "Passwords do not match",
+		"emailInUse": "That email is already registered.",
+		"weakPassword": "The password needs at least 6 characters",
+		"invalidEmail": "That email is not valid",
+		"network": "We could not connect. Check your connection.",
+		"generic": "We could not complete the sign up. Try again."
 	}
 }
