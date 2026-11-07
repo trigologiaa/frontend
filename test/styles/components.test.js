@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-const pending = ["src/features/auth/pages/RegisterPage.jsx"];
+const pending = [];
 
 const components = Object.keys(
   import.meta.glob([

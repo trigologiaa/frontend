@@ -30,6 +30,16 @@ describe("App routes", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Carrito" })).toBeInTheDocument();
   });
 
+  it("shows the sign-in page at '/login'", () => {
+    renderWithProviders(<App />, { route: "/login" });
+    expect(screen.getByRole("heading", { level: 1, name: "Iniciar sesión" })).toBeInTheDocument();
+  });
+
+  it("shows the registration page at '/registro'", () => {
+    renderWithProviders(<App />, { route: "/registro" });
+    expect(screen.getByRole("heading", { level: 1, name: "Crear cuenta" })).toBeInTheDocument();
+  });
+
   it("changes the page when a navigation link is followed", async () => {
     const user = userEvent.setup();
     renderWithProviders(<App />, { route: "/" });

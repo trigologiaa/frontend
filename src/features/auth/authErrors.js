@@ -3,6 +3,9 @@ const keys = {
 	"auth/weak-password": "auth.errors.weakPassword",
 	"auth/invalid-email": "auth.errors.invalidEmail",
 	"auth/network-request-failed": "auth.errors.network",
+	"auth/invalid-credential": "auth.errors.invalidCredentials",
+	"auth/wrong-password": "auth.errors.invalidCredentials",
+	"auth/user-not-found": "auth.errors.invalidCredentials",
 };
 
 export function authErrorKey(code) {

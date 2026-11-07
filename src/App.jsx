@@ -1,6 +1,8 @@
 import "./styles/tokens.css";
 import "./styles/global.css";
 import { Route, Routes } from "react-router-dom";
+import { LoginPage } from "./features/auth/pages/LoginPage";
+import { RegisterPage } from "./features/auth/pages/RegisterPage";
 import { CartPage } from "./features/cart/pages/CartPage";
 import { Home } from "./features/home/pages/Home";
 import { NotFound } from "./features/not-found/pages/NotFound";
@@ -19,6 +21,8 @@ export function App() {
 				<Route path="/servicios" element={<ItemListContainer />} />
 				<Route path="/servicio/:id" element={<ItemDetailContainer />} />
 				<Route path="/carrito" element={<CartPage />} />
+				<Route path="/login" element={<LoginPage />} />
+				<Route path="/registro" element={<RegisterPage />} />
 			</Route>
 		</Routes>
 	);
