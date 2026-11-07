@@ -26,7 +26,10 @@
 		"home": "Home",
 		"services": "Services",
 		"cart": "Cart",
-		"label": "Main navigation"
+		"label": "Main navigation",
+		"login": "Sign in",
+		"register": "Create account",
+		"logout": "Sign out"
 	},
 	"detail": {
 		"loading": "Loading...",
@@ -94,6 +97,30 @@
 		"person3": {
 			"role": "Service owner",
 			"bio": "Sets the service priorities."
+		}
+	},
+	"auth": {
+		"email": "Email",
+		"password": "Password",
+		"login": {
+			"title": "Sign in",
+			"submit": "Sign in",
+			"noAccount": "Don’t have an account?"
+		},
+		"register": {
+			"title": "Create account",
+			"confirm": "Repeat password",
+			"submit": "Sign up",
+			"haveAccount": "Already have an account?"
+		},
+		"errors": {
+			"mismatch": "Passwords do not match",
+			"emailInUse": "That email is already registered",
+			"weakPassword": "The password needs at least 6 characters",
+			"invalidEmail": "That email is not valid",
+			"network": "We could not connect. Check your connection.",
+			"generic": "We could not complete the sign up. Try again.",
+			"invalidCredentials": "Wrong email or password"
 		}
 	}
 }

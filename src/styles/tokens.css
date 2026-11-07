@@ -31,7 +31,9 @@
 
 @media (prefers-reduced-motion: reduce) {
 	* {
+		/* biome-ignore lint/complexity/noImportantStyles: reduced-motion must override any animation */
 		animation: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: reduced-motion must override any animation */
 		transition: none !important;
 	}
 }

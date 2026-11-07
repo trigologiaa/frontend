@@ -1,0 +1,31 @@
+.page {
+	composes: page from "../auth.module.css";
+}
+
+.title {
+	composes: title from "../auth.module.css";
+}
+
+.form {
+	composes: form from "../auth.module.css";
+}
+
+.field {
+	composes: field from "../auth.module.css";
+}
+
+.input {
+	composes: input from "../auth.module.css";
+}
+
+.error {
+	composes: error from "../auth.module.css";
+}
+
+.submit {
+	composes: submit from "../auth.module.css";
+}
+
+.alternative {
+	composes: alternative from "../auth.module.css";
+}

@@ -26,7 +26,10 @@
 		"home": "Inicio",
 		"services": "Servicios",
 		"cart": "Carrito",
-		"label": "Navegación principal"
+		"label": "Navegación principal",
+		"login": "Iniciar sesión",
+		"register": "Crear cuenta",
+		"logout": "Cerrar sesión"
 	},
 	"detail": {
 		"loading": "Cargando...",
@@ -94,6 +97,30 @@
 		"person3": {
 			"role": "Service owner",
 			"bio": "Define las prioridades del servicio."
+		}
+	},
+	"auth": {
+		"email": "Correo electrónico",
+		"password": "Contraseña",
+		"login": {
+			"title": "Iniciar sesión",
+			"submit": "Entrar",
+			"noAccount": "¿No tenés cuenta?"
+		},
+		"register": {
+			"title": "Crear cuenta",
+			"confirm": "Repetir contraseña",
+			"submit": "Registrarme",
+			"haveAccount": "¿Ya tenés cuenta?"
+		},
+		"errors": {
+			"mismatch": "Las contraseñas no coinciden",
+			"emailInUse": "Ese correo ya está registrado",
+			"weakPassword": "La contraseña debe tener al menos 6 caracteres",
+			"invalidEmail": "Ese correo no es válido",
+			"network": "No pudimos conectarnos. Revisá tu conexión.",
+			"generic": "No pudimos completar el registro. Probá de nuevo.",
+			"invalidCredentials": "Correo o contraseña incorrectos"
 		}
 	}
 }

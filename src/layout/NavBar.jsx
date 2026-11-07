@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { AuthNav } from "../features/auth/components/AuthNav";
 import { CartWidget } from "../features/cart/components/CartWidget";
 import styles from "./NavBar.module.css";
 import { NavItem } from "./NavItem";
@@ -12,6 +13,7 @@ export function NavBar() {
 				{t("nav.services")}
 			</NavItem>
 			<CartWidget />
+			<AuthNav />
 		</nav>
 	);
 }

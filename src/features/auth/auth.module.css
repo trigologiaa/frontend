@@ -1,0 +1,62 @@
+.page {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	max-width: 28rem;
+	margin: 0 auto;
+}
+
+.title {
+	margin: 0;
+	font-size: var(--font-size-xl);
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+}
+
+.input {
+	min-height: 2.75rem;
+	padding: 0 var(--space-3);
+	font: inherit;
+	color: var(--color-text);
+	background: var(--color-background);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.error {
+	margin: 0;
+	padding: var(--space-3);
+	color: var(--color-danger);
+	background: var(--color-danger-surface);
+	border: 1px solid var(--color-danger);
+	border-radius: var(--radius);
+}
+
+.submit {
+	composes: primary from "../../styles/button.module.css";
+	padding: 0 var(--space-6);
+	font: inherit;
+	font-weight: 600;
+	border: 0;
+	cursor: pointer;
+}
+
+.submit:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.alternative {
+	margin: 0;
+	color: var(--color-muted);
+}
