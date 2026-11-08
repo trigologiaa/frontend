@@ -1,0 +1,16 @@
+.page {
+	display: grid;
+	gap: var(--space-3);
+	justify-items: start;
+	max-width: 36rem;
+	margin: 0 auto;
+	padding: var(--space-6) 0;
+}
+
+.title {
+	font-size: 1.75rem;
+}
+
+.hint {
+	color: var(--color-muted);
+}

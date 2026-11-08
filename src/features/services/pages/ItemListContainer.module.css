@@ -24,4 +24,12 @@
 	background: var(--color-danger-surface);
 	border: 1px solid var(--color-danger);
 	border-radius: var(--radius);
+	display: grid;
+	gap: var(--space-3);
+	justify-items: start;
+}
+
+.count {
+	color: var(--color-muted);
+	font-size: 0.875rem;
 }

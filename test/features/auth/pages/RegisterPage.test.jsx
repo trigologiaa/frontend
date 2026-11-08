@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { App } from "../../../../src/App";
@@ -6,7 +6,7 @@ import { RegisterPage } from "../../../../src/features/auth/pages/RegisterPage";
 import { renderWithProviders } from "../../../renderWithProviders";
 
 async function fillAndSubmit(user, { password = "secret1", confirm = password } = {}) {
-  await user.type(screen.getByLabelText("Correo electrónico"), "ana@example.com");
+  await user.type(await screen.findByLabelText("Correo electrónico"), "ana@example.com");
   await user.type(screen.getByLabelText("Contraseña"), password);
   await user.type(screen.getByLabelText("Repetir contraseña"), confirm);
   await user.click(screen.getByRole("button", { name: "Registrarme" }));
@@ -24,9 +24,9 @@ describe("RegisterPage", () => {
     );
   });
 
-  it("sets the document title", () => {
+  it("sets the document title", async () => {
     renderWithProviders(<RegisterPage />, { route: "/registro" });
-    expect(document.title).toBe("Crear cuenta");
+    await waitFor(() => expect(document.title).toBe("Crear cuenta | Trigologiaa Dev"));
   });
 
   it("sends the email and password to signUp and goes home", async () => {

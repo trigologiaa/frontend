@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import es from "../../../../src/i18n/locales/es.json";
 import { renderWithProviders } from "../../../renderWithProviders";
@@ -34,8 +34,12 @@ describe("Home", () => {
     expect(screen.getByRole("link", { name: "See services" })).toBeInTheDocument();
   });
 
-  it("sets the browser title to the brand name", () => {
+  it("sets the browser title and description", async () => {
     renderWithProviders(<Home />);
-    expect(document.title).toBe("Trigologiaa Dev");
+    await waitFor(() => expect(document.title).toBe("Inicio | Trigologiaa Dev"));
+    expect(document.querySelector('meta[name="description"]')).toHaveAttribute(
+      "content",
+      expect.stringMatching(/\S/),
+    );
   });
 });

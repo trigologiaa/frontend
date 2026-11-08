@@ -1,4 +1,11 @@
 {
+	"common": {
+		"loading": "Loading...",
+		"retry": "Retry",
+		"chunkError": "We could not load this page. There may be a new version of the site.",
+		"reload": "Reload",
+		"home": "Back to home"
+	},
 	"home": {
 		"title": "Custom software, no fuss",
 		"pitch": "Websites, APIs and technical mentoring...",
@@ -18,9 +25,13 @@
 	},
 	"catalog": {
 		"viewDetail": "View details",
-		"loading": "Loading...",
 		"error": "We couldn't load the services. Please try again later.",
-		"empty": "There are no services available yet."
+		"empty": "There are no services available yet.",
+		"search": "Search services",
+		"clear": "Clear search",
+		"noResults": "No services found for “{{term}}”",
+		"count_one": "{{count}} service",
+		"count_other": "{{count}} services"
 	},
 	"nav": {
 		"home": "Home",
@@ -29,10 +40,11 @@
 		"label": "Main navigation",
 		"login": "Sign in",
 		"register": "Create account",
-		"logout": "Sign out"
+		"logout": "Sign out",
+		"admin": "Management",
+		"profile": "My profile"
 	},
 	"detail": {
-		"loading": "Loading...",
 		"error": "We couldn't load the service. Please try again later.",
 		"notFound": {
 			"title": "We couldn't find that service"
@@ -56,7 +68,8 @@
 		"widget": {
 			"label_one": "Cart, {{count}} item",
 			"label_other": "Cart, {{count}} items"
-		}
+		},
+		"checkout": "Checkout"
 	},
 	"notFound": {
 		"title": "404 - We couldn't find that page",
@@ -121,6 +134,128 @@
 			"network": "We could not connect. Check your connection.",
 			"generic": "We could not complete the sign up. Try again.",
 			"invalidCredentials": "Wrong email or password"
+		},
+		"forbidden": {
+			"title": "You do not have permission to view this page",
+			"hint": "Your account has no access to this section.",
+			"back": "Back to home"
+		}
+	},
+	"admin": {
+		"title": "Management",
+		"form": {
+			"createTitle": "New service",
+			"editTitle": "Edit service",
+			"titleEs": "Title (Spanish)",
+			"titleEn": "Title (English)",
+			"descriptionEs": "Description (Spanish)",
+			"descriptionEn": "Description (English)",
+			"price": "Price (USD)",
+			"category": "Category",
+			"image": "Image URL",
+			"create": "Create service",
+			"save": "Save changes",
+			"cancel": "Cancel"
+		},
+		"list": {
+			"title": "Catalog services",
+			"edit": "Edit",
+			"delete": "Delete"
+		},
+		"delete": {
+			"title": "Delete service",
+			"message": "Delete “{{title}}”? This cannot be undone.",
+			"confirm": "Delete",
+			"cancel": "Cancel"
+		},
+		"errors": {
+			"save": "We could not save the service. Try again.",
+			"delete": "We could not delete the service. Try again.",
+			"required": "This field is required",
+			"price": "Enter a price greater than 0",
+			"category": "Choose a category",
+			"image": "Enter a URL starting with https:// or a site path"
+		}
+	},
+	"profile": {
+		"title": "My profile",
+		"greeting": "Welcome back, {{email}}!",
+		"role": {
+			"admin": "Administrator account",
+			"user": "User account"
+		}
+	},
+	"pagination": {
+		"label": "Pagination",
+		"previous": "Previous",
+		"next": "Next",
+		"page": "Page {{page}}"
+	},
+	"seo": {
+		"home": {
+			"title": "Home",
+			"description": "Custom software development services: websites, APIs and technical mentoring."
+		},
+		"services": {
+			"title": "Services",
+			"description": "Catalog of web, backend and mentoring services with clear prices."
+		},
+		"service": {
+			"title": "Service"
+		},
+		"serviceNotFound": {
+			"title": "Service not found"
+		},
+		"cart": {
+			"title": "Cart",
+			"description": "Review the services you picked before hiring them."
+		},
+		"login": {
+			"title": "Sign in",
+			"description": "Sign in to your account to see your profile."
+		},
+		"register": {
+			"title": "Create account",
+			"description": "Sign up with your email to get your own account."
+		},
+		"profile": {
+			"title": "My profile",
+			"description": "Your account details and sign out."
+		},
+		"admin": {
+			"title": "Management",
+			"description": "Panel to manage the service catalog."
+		},
+		"checkout": {
+			"title": "Checkout",
+			"description": "Fill in your details to record your purchase."
+		},
+		"notFound": {
+			"title": "Page not found",
+			"description": "The page you are looking for does not exist."
+		}
+	},
+	"toast": {
+		"signedIn": "Signed in",
+		"signedOut": "Signed out",
+		"saved": "Service saved",
+		"deleted": "Service deleted",
+		"error": "Something went wrong. Try again.",
+		"close": "Close"
+	},
+	"checkout": {
+		"title": "Checkout",
+		"name": "Name",
+		"email": "Email",
+		"phone": "Phone",
+		"submit": "Confirm purchase",
+		"confirmed": "Your order number is {{id}}",
+		"back": "Back to home",
+		"errors": {
+			"name": "Enter your name",
+			"email": "Enter a valid email",
+			"phone": "Enter a valid phone number",
+			"save": "We could not register your purchase. Your cart is intact; try again."
 		}
 	}
 }

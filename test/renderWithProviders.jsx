@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 import { AuthContext } from "../src/features/auth/context/AuthContext";
@@ -34,7 +35,9 @@ export function renderWithProviders(ui, { route = "/", cart, initialCart, auth }
       <ThemeProvider>
         <AuthContext.Provider value={{ ...defaultAuth, ...auth }}>
           <CartProvider initialItems={initialCart}>
-            <MemoryRouter initialEntries={[route]}>{withCart}</MemoryRouter>
+            <HelmetProvider>
+              <MemoryRouter initialEntries={[route]}>{withCart}</MemoryRouter>
+            </HelmetProvider>
           </CartProvider>
         </AuthContext.Provider>
       </ThemeProvider>

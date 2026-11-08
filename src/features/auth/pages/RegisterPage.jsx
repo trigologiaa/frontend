@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useDocumentTitle } from "../../../shared/useDocumentTitle";
+import { Seo } from "../../../shared/Seo";
+import { Button } from "../../../shared/ui/Button";
 import { authErrorKey } from "../authErrors";
 import { useAuth } from "../context/useAuth";
 import styles from "./RegisterPage.module.css";
@@ -17,7 +18,6 @@ export function RegisterPage() {
 	const [confirm, setConfirm] = useState("");
 	const [errorKey, setErrorKey] = useState(null);
 	const [submitting, setSubmitting] = useState(false);
-	useDocumentTitle(t("auth.register.title"));
 
 	if (user) return <Navigate to="/" replace />;
 
@@ -42,6 +42,10 @@ export function RegisterPage() {
 	const describedBy = errorKey ? ERROR_ID : undefined;
 	return (
 		<section className={styles.page}>
+			<Seo
+				title={t("seo.register.title")}
+				description={t("seo.register.description")}
+			/>
 			<h1 className={styles.title}>{t("auth.register.title")}</h1>
 			<form className={styles.form} onSubmit={handleSubmit}>
 				<div className={styles.field}>
@@ -94,9 +98,9 @@ export function RegisterPage() {
 						)}
 					</p>
 				)}
-				<button className={styles.submit} type="submit" disabled={submitting}>
+				<Button type="submit" size="lg" disabled={submitting}>
 					{t("auth.register.submit")}
-				</button>
+				</Button>
 			</form>
 			<p className={styles.alternative}>
 				{t("auth.register.haveAccount")}{" "}

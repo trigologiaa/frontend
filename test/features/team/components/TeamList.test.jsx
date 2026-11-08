@@ -9,4 +9,12 @@ describe("TeamList", () => {
     render(<TeamList people={[person(1), person(2), person(3), person(4)]} />);
     expect(screen.getAllByRole("listitem")).toHaveLength(4);
   });
+
+  it("lays the cards out in a responsive grid", () => {
+    render(<TeamList people={[person(1), person(2), person(3)]} />);
+    expect(screen.getByRole("list")).toHaveClass("row");
+    for (const item of screen.getAllByRole("listitem")) {
+      expect(item).toHaveClass("col-12", "col-md-4");
+    }
+  });
 });

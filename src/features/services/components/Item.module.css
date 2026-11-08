@@ -43,7 +43,5 @@
 }
 
 .link {
-	composes: primary from "../../../styles/button.module.css";
 	margin-top: auto;
-	padding: 0 var(--space-4);
 }

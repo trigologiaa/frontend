@@ -22,10 +22,6 @@
 	composes: error from "../auth.module.css";
 }
 
-.submit {
-	composes: submit from "../auth.module.css";
-}
-
 .alternative {
 	composes: alternative from "../auth.module.css";
 }

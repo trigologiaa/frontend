@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
+import { FaXmark } from "react-icons/fa6";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
+import { Button } from "../../../shared/ui/Button";
 import { useLanguage } from "../../../shared/useLanguage";
 import styles from "./CartItem.module.css";
 
@@ -30,14 +32,15 @@ export function CartItem({ item, onRemove }) {
 					{formatPrice(item.price * item.quantity, language)}
 				</p>
 			</div>
-			<button
+			<Button
 				className={styles.remove}
-				type="button"
+				variant="secondary"
+				icon={FaXmark}
 				aria-label={`${t("cart.remove")} ${title}`}
 				onClick={() => onRemove(item.id)}
 			>
 				{t("cart.remove")}
-			</button>
+			</Button>
 		</article>
 	);
 }

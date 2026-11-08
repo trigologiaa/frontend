@@ -6,12 +6,11 @@ import userEvent from "@testing-library/user-event";
 import { NavBar } from "../src/layout/NavBar.jsx";
 import es from "../src/i18n/locales/es.json";
 import { i18n } from "../src/i18n/index.js";
-import { makeService, servicesHandler } from "./handlers";
-import { server } from "./server";
+import { makeService, seedServices } from "./handlers";
 
 describe("App routes", () => {
   beforeEach(() => {
-    server.use(servicesHandler());
+    seedServices();
   });
 
   it("shows the home page inside the layuot at '/'", () => {
@@ -30,14 +29,55 @@ describe("App routes", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Carrito" })).toBeInTheDocument();
   });
 
-  it("shows the sign-in page at '/login'", () => {
+  it("shows the sign-in page at '/login'", async () => {
     renderWithProviders(<App />, { route: "/login" });
-    expect(screen.getByRole("heading", { level: 1, name: "Iniciar sesión" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Iniciar sesión" })).toBeInTheDocument();
   });
 
-  it("shows the registration page at '/registro'", () => {
+  it("shows the registration page at '/registro'", async () => {
     renderWithProviders(<App />, { route: "/registro" });
-    expect(screen.getByRole("heading", { level: 1, name: "Crear cuenta" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Crear cuenta" })).toBeInTheDocument();
+  });
+
+  it("sends an anonymous visitor from '/admin' to '/login'", async () => {
+    renderWithProviders(<App />, { route: "/admin" });
+    expect(await screen.findByRole("heading", { level: 1, name: "Iniciar sesión" })).toBeInTheDocument();
+  });
+
+  it("shows the management page at '/admin' to an admin", async () => {
+    renderWithProviders(<App />, {
+      route: "/admin",
+      auth: { user: { uid: "1", email: "ana@example.com", role: "admin" } },
+    });
+    expect(await screen.findByRole("heading", { level: 1, name: "Gestión" })).toBeInTheDocument();
+  });
+
+  it("shows the forbidden page at /admin to a regular user", async () => {
+    renderWithProviders(<App />, {
+      route: "/admin",
+      auth: { user: { uid: "2", email: "leo@example.com", role: "user" } },
+    });
+    expect(
+      await screen.findByRole("heading", { name: "No tenés permiso para ver esta página" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the profile to any signed in user", async () => {
+    renderWithProviders(<App />, {
+      route: "/perfil",
+      auth: { user: { uid: "2", email: "leo@example.com", role: "user" } },
+    });
+    expect(await screen.findByRole("heading", { name: "Mi perfil" })).toBeInTheDocument();
+  });
+
+  it("sends an anonymous visitor from /perfil to sign in", async () => {
+    renderWithProviders(<App />, { route: "/perfil" });
+    expect(await screen.findByRole("heading", { name: "Iniciar sesión" })).toBeInTheDocument();
+  });
+
+  it("still shows a lazy page once it has loaded", async () => {
+    renderWithProviders(<App />, { route: "/login" });
+    expect(await screen.findByRole("heading", { name: "Iniciar sesión" })).toBeInTheDocument();
   });
 
   it("changes the page when a navigation link is followed", async () => {
@@ -49,7 +89,7 @@ describe("App routes", () => {
 
   it("goes from the catalog to the detail of a service", async () => {
     const user = userEvent.setup();
-    server.use(servicesHandler([makeService(1), makeService(2)]));
+    seedServices([makeService(1), makeService(2)]);
     renderWithProviders(<App />, { route: "/servicios" });
     await user.click(await screen.findByRole("link", { name: /Ver detalle.*Servicio 2/ }));
     expect(await screen.findByRole("heading", { level: 1, name: "Servicio 2" })).toBeInTheDocument();
@@ -101,7 +141,7 @@ describe("App routes", () => {
 
   it("keeps the cart across pages", async () => {
     const user = userEvent.setup();
-    server.use(servicesHandler([makeService(1), makeService(2)]));
+    seedServices([makeService(1), makeService(2)]);
     renderWithProviders(<App />, { route: "/servicio/service-1" });
     await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
@@ -113,7 +153,7 @@ describe("App routes", () => {
 
   it("shows in the cart page what was added from the detail", async () => {
     const user = userEvent.setup();
-    server.use(servicesHandler([makeService(1)]));
+    seedServices([makeService(1)]);
     renderWithProviders(<App />, { route: "/servicio/service-1" });
     await user.click(await screen.findByRole("button", { name: "Aumentar cantidad" }));
     await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));

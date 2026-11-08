@@ -1,4 +1,9 @@
-import { HttpResponse, http } from "msw";
+import {
+  failFirestore,
+  failWrites,
+  readCollection,
+  setCollection,
+} from "./fakeFirestore";
 
 export function makeService(n = 1) {
   return {
@@ -17,14 +22,28 @@ export function makeService(n = 1) {
   };
 }
 
-export function servicesHandler(
+export function seedServices(
   services = [makeService(1), makeService(2), makeService(3)],
 ) {
-  return http.get("*/servicios.json", () => HttpResponse.json(services));
+  setCollection("services", services);
 }
 
-export function failingServicesHandler() {
-  return http.get("*/servicios.json", () =>
-    HttpResponse.json({ message: "boom" }, { status: 500 }),
-  );
+export function failServices() {
+  failFirestore();
+}
+
+export function failServiceWrites() {
+  failWrites();
+}
+
+export function storedServices() {
+  return readCollection("services");
+}
+
+export function failOrderWrites() {
+  failWrites();
+}
+
+export function storedOrders() {
+  return readCollection("orders");
 }

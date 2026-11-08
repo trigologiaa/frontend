@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
+import { Button } from "../../../shared/ui/Button";
 import { useLanguage } from "../../../shared/useLanguage";
 import styles from "./Item.module.css";
 
@@ -23,13 +24,14 @@ export function Item({ service }) {
 				<h3 className={styles.title}>{title}</h3>
 				<p className={styles.category}>{t(`categories.${service.category}`)}</p>
 				<p className={styles.price}>{formatPrice(service.price, language)}</p>
-				<Link
+				<Button
+					as={Link}
 					className={styles.link}
 					to={`/servicio/${service.id}`}
 					aria-label={`${t("catalog.viewDetail")}: ${title}`}
 				>
 					{t("catalog.viewDetail")}
-				</Link>
+				</Button>
 			</div>
 		</article>
 	);

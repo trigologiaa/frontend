@@ -13,3 +13,13 @@ Then("there is no horizontal scrolling", async ({ page }) => {
   );
   expect(overflows).toBe(false);
 });
+
+Then("the first row of the catalog has {int} cards", async ({ page }, columns) => {
+  const cards = page.getByRole("main").getByRole("listitem");
+  await cards.first().waitFor();
+  const tops = await cards.evaluateAll((items) =>
+    items.map((item) => Math.round(item.getBoundingClientRect().top)),
+  );
+  const inFirstRow = tops.filter((top) => top === tops[0]).length;
+  expect(inFirstRow).toBe(columns);
+});

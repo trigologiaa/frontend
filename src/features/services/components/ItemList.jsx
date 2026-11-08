@@ -1,14 +1,15 @@
+import { Col, Row } from "react-bootstrap";
 import { Item } from "./Item";
 import styles from "./ItemList.module.css";
 
 export function ItemList({ services }) {
 	return (
-		<ul className={styles.list}>
+		<Row as="ul" className={`g-4 ${styles.list}`}>
 			{services.map((service) => (
-				<li key={service.id}>
+				<Col as="li" key={service.id} xs={12} md={6} lg={4}>
 					<Item service={service} />
-				</li>
+				</Col>
 			))}
-		</ul>
+		</Row>
 	);
 }

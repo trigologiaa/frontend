@@ -2,6 +2,8 @@
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+	/* biome-ignore lint/suspicious/noDuplicateProperties: 100vh is the fallback for browsers without dvh */
+	min-height: 100dvh;
 }
 
 .main {

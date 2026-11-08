@@ -42,20 +42,6 @@
 	border-radius: var(--radius);
 }
 
-.submit {
-	composes: primary from "../../styles/button.module.css";
-	padding: 0 var(--space-6);
-	font: inherit;
-	font-weight: 600;
-	border: 0;
-	cursor: pointer;
-}
-
-.submit:disabled {
-	opacity: 0.6;
-	cursor: not-allowed;
-}
-
 .alternative {
 	margin: 0;
 	color: var(--color-muted);

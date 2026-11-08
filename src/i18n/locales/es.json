@@ -1,4 +1,11 @@
 {
+	"common": {
+		"loading": "Cargando...",
+		"retry": "Reintentar",
+		"chunkError": "No pudimos cargar esta página. Puede que haya una versión nueva del sitio.",
+		"reload": "Recargar",
+		"home": "Volver al inicio"
+	},
 	"home": {
 		"title": "Software a tu medida, sin vueltas",
 		"pitch": "Sitios web, APIs y mentoría técnica...",
@@ -18,9 +25,13 @@
 	},
 	"catalog": {
 		"viewDetail": "Ver detalle",
-		"loading": "Cargando...",
 		"error": "No pudimos cargar los servicios. Probá de nuevo más tarde.",
-		"empty": "Todavía no hay servicios disponibles."
+		"empty": "Todavía no hay servicios disponibles.",
+		"search": "Buscar servicios",
+		"clear": "Limpiar búsqueda",
+		"noResults": "No encontramos servicios para «{{term}}»",
+		"count_one": "{{count}} servicio",
+		"count_other": "{{count}} servicios"
 	},
 	"nav": {
 		"home": "Inicio",
@@ -29,10 +40,11 @@
 		"label": "Navegación principal",
 		"login": "Iniciar sesión",
 		"register": "Crear cuenta",
-		"logout": "Cerrar sesión"
+		"logout": "Cerrar sesión",
+		"admin": "Gestión",
+		"profile": "Mi perfil"
 	},
 	"detail": {
-		"loading": "Cargando...",
 		"error": "No pudimos cargar el servicio. Probá de nuevo más tarde.",
 		"notFound": {
 			"title": "No encontramos ese servicio"
@@ -56,7 +68,8 @@
 		"widget": {
 			"label_one": "Carrito, {{count}} artículo",
 			"label_other": "Carrito, {{count}} artículos"
-		}
+		},
+		"checkout": "Finalizar compra"
 	},
 	"notFound": {
 		"title": "404 - No encontramos esa página",
@@ -121,6 +134,128 @@
 			"network": "No pudimos conectarnos. Revisá tu conexión.",
 			"generic": "No pudimos completar el registro. Probá de nuevo.",
 			"invalidCredentials": "Correo o contraseña incorrectos"
+		},
+		"forbidden": {
+			"title": "No tenés permiso para ver esta página",
+			"hint": "Tu cuenta no tiene acceso a esta sección.",
+			"back": "Volver al inicio"
+		}
+	},
+	"admin": {
+		"title": "Gestión",
+		"form": {
+			"createTitle": "Nuevo servicio",
+			"editTitle": "Editar servicio",
+			"titleEs": "Título (español)",
+			"titleEn": "Título (inglés)",
+			"descriptionEs": "Descripción (español)",
+			"descriptionEn": "Descripción (inglés)",
+			"price": "Precio (USD)",
+			"category": "Categoría",
+			"image": "URL de la imagen",
+			"create": "Crear servicio",
+			"save": "Guardar cambios",
+			"cancel": "Cancelar"
+		},
+		"list": {
+			"title": "Servicios del catálogo",
+			"edit": "Editar",
+			"delete": "Eliminar"
+		},
+		"delete": {
+			"title": "Eliminar servicio",
+			"message": "¿Eliminar «{{title}}»? Esta acción no se puede deshacer.",
+			"confirm": "Eliminar",
+			"cancel": "Cancelar"
+		},
+		"errors": {
+			"save": "No pudimos guardar el servicio. Probá de nuevo.",
+			"delete": "No pudimos eliminar el servicio. Probá de nuevo.",
+			"required": "Este campo es obligatorio",
+			"price": "Ingresá un precio mayor que 0",
+			"category": "Elegí una categoría",
+			"image": "Ingresá una URL que empiece con https:// o una ruta del sitio"
+		}
+	},
+	"profile": {
+		"title": "Mi perfil",
+		"greeting": "¡Hola de nuevo, {{email}}!",
+		"role": {
+			"admin": "Cuenta de administrador",
+			"user": "Cuenta de usuario"
+		}
+	},
+	"pagination": {
+		"label": "Paginación",
+		"previous": "Anterior",
+		"next": "Siguiente",
+		"page": "Página {{page}}"
+	},
+	"seo": {
+		"home": {
+			"title": "Inicio",
+			"description": "Servicios de desarrollo de software a medida: sitios web, APIs y mentoría técnica."
+		},
+		"services": {
+			"title": "Servicios",
+			"description": "Catálogo de servicios de desarrollo web, backend y mentoría con precios claros."
+		},
+		"service": {
+			"title": "Servicio"
+		},
+		"serviceNotFound": {
+			"title": "Servicio no encontrado"
+		},
+		"cart": {
+			"title": "Carrito",
+			"description": "Revisá los servicios que elegiste antes de contratarlos."
+		},
+		"login": {
+			"title": "Iniciar sesión",
+			"description": "Ingresá a tu cuenta para ver tu perfil."
+		},
+		"register": {
+			"title": "Crear cuenta",
+			"description": "Registrate con tu correo para tener tu propia cuenta."
+		},
+		"profile": {
+			"title": "Mi perfil",
+			"description": "Tus datos de cuenta y cierre de sesión."
+		},
+		"admin": {
+			"title": "Gestión",
+			"description": "Panel para administrar el catálogo de servicios."
+		},
+		"checkout": {
+			"title": "Finalizar compra",
+			"description": "Completá tus datos para registrar tu compra."
+		},
+		"notFound": {
+			"title": "Página no encontrada",
+			"description": "La página que buscás no existe."
+		}
+	},
+	"toast": {
+		"signedIn": "Sesión iniciada",
+		"signedOut": "Sesión cerrada",
+		"saved": "Servicio guardado",
+		"deleted": "Servicio eliminado",
+		"error": "Algo salió mal. Probá de nuevo.",
+		"close": "Cerrar"
+	},
+	"checkout": {
+		"title": "Finalizar compra",
+		"name": "Nombre",
+		"email": "Correo electrónico",
+		"phone": "Teléfono",
+		"submit": "Confirmar compra",
+		"confirmed": "Tu número de orden es {{id}}",
+		"back": "Volver al inicio",
+		"errors": {
+			"name": "Ingresá tu nombre",
+			"email": "Ingresá un correo válido",
+			"phone": "Ingresá un teléfono válido",
+			"save": "No pudimos registrar tu compra. Tu carrito sigue intacto; probá de nuevo."
 		}
 	}
 }

@@ -1,6 +1,9 @@
 import { useTranslation } from "react-i18next";
+import { FaTrashCan } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../shared/formatPrice";
+import { Seo } from "../../../shared/Seo";
+import { Button } from "../../../shared/ui/Button";
 import { useLanguage } from "../../../shared/useLanguage";
 import { CartItem } from "../components/CartItem";
 import { useCart } from "../context/useCart";
@@ -13,16 +16,24 @@ export function CartPage() {
 	if (items.length === 0) {
 		return (
 			<section className={styles.empty}>
+				<Seo
+					title={t("seo.cart.title")}
+					description={t("seo.cart.description")}
+				/>
 				<h1 className={styles.title}>{t("nav.cart")}</h1>
 				<p>{t("cart.empty")}</p>
-				<Link className={styles.browse} to="/servicios">
+				<Button as={Link} to="/servicios" size="lg">
 					{t("cart.browse")}
-				</Link>
+				</Button>
 			</section>
 		);
 	}
 	return (
 		<section className={styles.page}>
+			<Seo
+				title={t("seo.cart.title")}
+				description={t("seo.cart.description")}
+			/>
 			<h1 className={styles.title}>{t("nav.cart")}</h1>
 			<ul className={styles.list}>
 				{items.map((item) => (
@@ -35,9 +46,12 @@ export function CartPage() {
 				<p className={styles.total} role="status">
 					{t("cart.total")}: {formatPrice(totalPrice, language)}
 				</p>
-				<button className={styles.clear} type="button" onClick={clearCart}>
+				<Button variant="danger" icon={FaTrashCan} onClick={clearCart}>
 					{t("cart.clear")}
-				</button>
+				</Button>
+				<Button as={Link} to="/checkout" size="lg">
+					{t("cart.checkout")}
+				</Button>
 			</div>
 		</section>
 	);

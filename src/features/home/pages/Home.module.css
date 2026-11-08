@@ -19,11 +19,6 @@
 	color: var(--color-muted);
 }
 
-.cta {
-	composes: primary from "../../../styles/button.module.css";
-	padding: 0 var(--space-6);
-}
-
 .highlights {
 	display: flex;
 	flex-direction: column;

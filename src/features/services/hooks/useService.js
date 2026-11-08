@@ -6,6 +6,7 @@ export function useService(id) {
 		data: service,
 		loading,
 		error,
+		reload,
 	} = useAsync((options) => getServiceById(id, options), [id], null);
-	return { service, loading, error };
+	return { service, loading, error, reload };
 }

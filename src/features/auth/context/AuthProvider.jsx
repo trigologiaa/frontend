@@ -8,8 +8,14 @@ export function AuthProvider({ children, api = authApi }) {
 
 	useEffect(
 		() =>
-			api.onAuthChange((nextUser) => {
-				setUser(nextUser);
+			api.onAuthChange(async (firebaseUser) => {
+				if (!firebaseUser) {
+					setUser(null);
+					setLoading(false);
+					return;
+				}
+				const role = await api.getRole(firebaseUser.uid);
+				setUser({ ...firebaseUser, role });
 				setLoading(false);
 			}),
 		[api],

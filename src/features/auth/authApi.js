@@ -1,35 +1,15 @@
-import { initializeApp } from "firebase/app";
 import {
 	createUserWithEmailAndPassword,
 	signOut as firebaseSignOut,
-	getAuth,
 	onAuthStateChanged,
 	signInWithEmailAndPassword,
 } from "firebase/auth";
-
-let auth;
-
-// Without a configured API key the site keeps working as anonymous: reading never throws.
-function getFirebaseAuth() {
-	const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
-	if (!apiKey) return null;
-	auth ??= getAuth(
-		initializeApp({
-			apiKey,
-			authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-			projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-			appId: import.meta.env.VITE_FIREBASE_APP_ID,
-		}),
-	);
-	return auth;
-}
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase/config";
 
 function requireAuth() {
-	const instance = getFirebaseAuth();
-	if (!instance) {
-		return Promise.reject({ code: "auth/configuration-not-found" });
-	}
-	return Promise.resolve(instance);
+	if (!auth) return Promise.reject({ code: "auth/configuration-not-found" });
+	return Promise.resolve(auth);
 }
 
 function toUser(firebaseUser) {
@@ -62,11 +42,20 @@ export const authApi = {
 		await firebaseSignOut(instance);
 	},
 	onAuthChange(callback) {
-		const instance = getFirebaseAuth();
-		if (!instance) {
+		if (!auth) {
 			callback(null);
 			return () => {};
 		}
-		return onAuthStateChanged(instance, (user) => callback(toUser(user)));
+		return onAuthStateChanged(auth, (user) => callback(toUser(user)));
+	},
+	async getRole(uid) {
+		try {
+			const snapshot = await getDoc(doc(db, "usuarios", uid));
+			return snapshot.exists() && snapshot.data().rol === "admin"
+				? "admin"
+				: "user";
+		} catch {
+			return "user";
+		}
 	},
 };

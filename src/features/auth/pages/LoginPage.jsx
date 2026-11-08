@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useDocumentTitle } from "../../../shared/useDocumentTitle";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { notify } from "../../../shared/notify";
+import { Seo } from "../../../shared/Seo";
+import { Button } from "../../../shared/ui/Button";
 import { authErrorKey } from "../authErrors";
 import { useAuth } from "../context/useAuth";
 import styles from "./LoginPage.module.css";
@@ -12,13 +14,13 @@ export function LoginPage() {
 	const { t } = useTranslation();
 	const { user, signIn } = useAuth();
 	const navigate = useNavigate();
+	const returnTo = useLocation().state?.returnTo ?? "/";
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorKey, setErrorKey] = useState(null);
 	const [submitting, setSubmitting] = useState(false);
-	useDocumentTitle(t("auth.login.title"));
 
-	if (user) return <Navigate to="/" replace />;
+	if (user) return <Navigate to={returnTo} replace />;
 
 	async function handleSubmit(event) {
 		event.preventDefault();
@@ -26,7 +28,8 @@ export function LoginPage() {
 		setSubmitting(true);
 		try {
 			await signIn(email, password);
-			navigate("/");
+			notify.success("toast.signedIn");
+			navigate(returnTo, { replace: true });
 		} catch (error) {
 			setErrorKey(authErrorKey(error?.code));
 		} finally {
@@ -37,6 +40,10 @@ export function LoginPage() {
 	const describedBy = errorKey ? ERROR_ID : undefined;
 	return (
 		<section className={styles.page}>
+			<Seo
+				title={t("seo.login.title")}
+				description={t("seo.login.description")}
+			/>
 			<h1 className={styles.title}>{t("auth.login.title")}</h1>
 			<form className={styles.form} onSubmit={handleSubmit}>
 				<div className={styles.field}>
@@ -70,9 +77,9 @@ export function LoginPage() {
 						{t(errorKey)}
 					</p>
 				)}
-				<button className={styles.submit} type="submit" disabled={submitting}>
+				<Button type="submit" size="lg" disabled={submitting}>
 					{t("auth.login.submit")}
-				</button>
+				</Button>
 			</form>
 			<p className={styles.alternative}>
 				{t("auth.login.noAccount")}{" "}

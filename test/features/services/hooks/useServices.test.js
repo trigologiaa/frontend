@@ -1,9 +1,11 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { useServices } from "../../../../src/features/services/hooks/useServices";
-import { servicesHandler, failingServicesHandler } from "../../../handlers";
-import { server } from "../../../server";
+import { failServices, makeService, seedServices } from "../../../handlers";
 import { StrictMode } from "react";
+import { getServices } from "../../../../src/features/services/services/servicesApi";
+
+vi.mock("../../../../src/features/services/services/servicesApi", { spy: true });
 
 describe("useServices", () => {
   afterEach(() => {
@@ -11,17 +13,18 @@ describe("useServices", () => {
   });
 
   it("starts loading with no services and no error", () => {
-    server.use(servicesHandler());
+    seedServices();
     const { result } = renderHook(() => useServices());
     expect(result.current).toEqual({
       services: [],
       loading: true,
       error: null,
+      reload: expect.any(Function),
     });
   });
 
   it("exposes the services once they are loaded", async () => {
-    server.use(servicesHandler());
+    seedServices();
     const { result } = renderHook(() => useServices());
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.services).toHaveLength(3);
@@ -29,7 +32,7 @@ describe("useServices", () => {
   });
 
   it("exposes an error when the services cannot be loaded", async () => {
-    server.use(failingServicesHandler());
+    failServices();
     const { result } = renderHook(() => useServices());
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeInstanceOf(Error);
@@ -37,18 +40,28 @@ describe("useServices", () => {
   });
 
   it("aborts the pending request when the component unmounts", () => {
-    server.use(servicesHandler());
-    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    seedServices();
     const { unmount } = renderHook(() => useServices());
     unmount();
-    expect(fetchSpy.mock.calls[0][1]?.signal?.aborted).toBe(true);
+    expect(vi.mocked(getServices).mock.calls[0][0].signal.aborted).toBe(true);
   });
 
   it("does not report cancelled request as an error in StrictMode", async () => {
-    server.use(servicesHandler());
+    seedServices();
     const { result } = renderHook(() => useServices(), { wrapper: StrictMode });
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeNull();
     expect(result.current.services).toHaveLength(3);
+  });
+
+  it("loads the services again when the reload key changes", async () => {
+    seedServices([makeService(1)]);
+    const { result, rerender } = renderHook(({ key }) => useServices(key), {
+      initialProps: { key: 0 },
+    });
+    await waitFor(() => expect(result.current.services).toHaveLength(1));
+    seedServices([makeService(1), makeService(2)]);
+    rerender({ key: 1 });
+    await waitFor(() => expect(result.current.services).toHaveLength(2));
   });
 });

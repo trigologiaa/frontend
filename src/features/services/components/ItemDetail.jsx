@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaCartPlus } from "react-icons/fa6";
 import { formatPrice } from "../../../shared/formatPrice";
 import { localized } from "../../../shared/localized";
+import { notify } from "../../../shared/notify";
+import { Button } from "../../../shared/ui/Button";
 import { useLanguage } from "../../../shared/useLanguage";
 import { useCart } from "../../cart/context/useCart";
 import { ItemCount } from "./ItemCount";
@@ -18,6 +21,7 @@ export function ItemDetail({ service }) {
 	function handleAdd() {
 		addToCart(service, quantity);
 		setAdded(true);
+		notify.success("detail.added");
 		setQuantity(1);
 	}
 
@@ -39,9 +43,9 @@ export function ItemDetail({ service }) {
 				</p>
 				<div className={styles.actions}>
 					<ItemCount value={quantity} onChange={setQuantity} />
-					<button className={styles.add} type="button" onClick={handleAdd}>
+					<Button size="lg" icon={FaCartPlus} onClick={handleAdd}>
 						{t("detail.add")}
-					</button>
+					</Button>
 				</div>
 				{added && (
 					<p className={styles.added} role="status">

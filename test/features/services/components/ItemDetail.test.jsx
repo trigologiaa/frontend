@@ -6,8 +6,13 @@ import { useCart } from "../../../../src/features/cart/context/useCart";
 import { i18n } from "../../../../src/i18n";
 import { ItemDetail } from "../../../../src/features/services/components/ItemDetail";
 import es from "../../../../src/i18n/locales/es.json";
+import { notify } from "../../../../src/shared/notify";
 import { makeService } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
+
+vi.mock("../../../../src/shared/notify", () => ({
+  notify: { success: vi.fn(), error: vi.fn() },
+}));
 
 function CartProbe() {
   const { items, totalQuantity } = useCart();
@@ -138,5 +143,12 @@ describe("ItemDetail", () => {
     await user.click(screen.getByRole("button", { name: "Add to cart" }));
     const messages = screen.getAllByRole("status").map((node) => node.textContent);
     expect(messages).toContain("Added to cart");
+  });
+
+  it("shows a notice when the service is added to the cart", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ItemDetail service={makeService(1)} />);
+    await user.click(screen.getByRole("button", { name: "Agregar al carrito" }));
+    expect(notify.success).toHaveBeenCalledWith("detail.added");
   });
 });

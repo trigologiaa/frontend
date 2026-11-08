@@ -3,8 +3,9 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { CartPage } from "../../../../src/features/cart/pages/CartPage";
 import { i18n } from "../../../../src/i18n";
-import { makeService } from "../../../handlers";
+import { makeService, seedServices } from "../../../handlers";
 import { renderWithProviders } from "../../../renderWithProviders";
+import { declarationsFor } from "../../../styles/styledRules";
 
 function line(n, quantity = 1) {
   const { id, title, image } = makeService(n);
@@ -64,5 +65,31 @@ describe("CartPage", () => {
     renderWithProviders(<CartPage />, { initialCart: [line(1)] });
     expect(screen.getByText("Total: $100")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Clear cart" })).toBeInTheDocument();
+  });
+
+  it("still shows a line whose service no longer exists in the catalog", () => {
+    seedServices([]);
+    renderWithProviders(<CartPage />, { initialCart: [line(1)] });
+    expect(screen.getByRole("heading", { name: "Servicio 1" })).toBeInTheDocument();
+  });
+
+  it("styles the clear button as a danger action", () => {
+    renderWithProviders(<CartPage />, { initialCart: [line(1)] });
+    const rules = declarationsFor(screen.getByRole("button", { name: "Vaciar carrito" }));
+    expect(rules).toContain("background:var(--color-danger-surface)");
+  });
+
+  it("shows an icon in the clear button without changing its name", () => {
+    renderWithProviders(<CartPage />, { initialCart: [line(1)] });
+    const button = screen.getByRole("button", { name: "Vaciar carrito" });
+    expect(button.querySelector('svg[aria-hidden="true"]')).toBeInTheDocument();
+  });
+
+  it("offers the checkout only when there are services in the cart", () => {
+    const { unmount } = renderWithProviders(<CartPage />);
+    expect(screen.queryByRole("link", { name: "Finalizar compra" })).not.toBeInTheDocument();
+    unmount();
+    renderWithProviders(<CartPage />, { initialCart: [line(1)] });
+    expect(screen.getByRole("link", { name: "Finalizar compra" })).toHaveAttribute("href", "/checkout");
   });
 });

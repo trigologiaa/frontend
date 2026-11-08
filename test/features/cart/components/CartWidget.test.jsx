@@ -49,4 +49,12 @@ describe("CartWidget", () => {
     renderWithProviders(<CartWidget />, { cart: { totalQuantity: 1 } });
     expect(screen.getByRole("link", { name: "Cart, 1 item" })).toBeInTheDocument();
   });
+
+  it("draws one decorative icon without changing the link name", () => {
+    renderWithProviders(<CartWidget />, { cart: { totalQuantity: 3 } });
+    const link = screen.getByRole("link", { name: "Carrito, 3 artículos" });
+    const icons = link.querySelectorAll("svg");
+    expect(icons).toHaveLength(1);
+    expect(icons[0]).toHaveAttribute("aria-hidden", "true");
+  });
 });

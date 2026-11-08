@@ -4,6 +4,7 @@ import { App } from "./App";
 import "./styles/themes.css";
 import "./styles/tokens.css";
 import "./styles/global.css";
+import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./features/auth/context/AuthProvider";
@@ -17,9 +18,11 @@ createRoot(document.getElementById("root")).render(
 			<ThemeProvider>
 				<AuthProvider>
 					<CartProvider>
-						<BrowserRouter>
-							<App />
-						</BrowserRouter>
+						<HelmetProvider>
+							<BrowserRouter>
+								<App />
+							</BrowserRouter>
+						</HelmetProvider>
 					</CartProvider>
 				</AuthProvider>
 			</ThemeProvider>

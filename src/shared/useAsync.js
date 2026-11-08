@@ -4,7 +4,9 @@ export function useAsync(fetcher, deps, initialData) {
 	const [data, setData] = useState(initialData);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [attempt, setAttempt] = useState(0);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: the caller decides the dependencies
 	useEffect(() => {
 		const controller = new AbortController();
 		fetcher({ signal: controller.signal })
@@ -18,8 +20,13 @@ export function useAsync(fetcher, deps, initialData) {
 				setLoading(false);
 			});
 		return () => controller.abort();
-		// biome-ignore lint/correctness/useExhaustiveDependencies: the caller decides the dependencies
-	}, deps);
+	}, [...deps, attempt]);
 
-	return { data, loading, error };
+	function reload() {
+		setError(null);
+		setLoading(true);
+		setAttempt((count) => count + 1);
+	}
+
+	return { data, loading, error, reload };
 }

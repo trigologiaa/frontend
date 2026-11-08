@@ -7,3 +7,14 @@ Feature: Responsive layout
     Given a viewport of 360 by 640 pixels
     When I visit "/"
     Then there is no horizontal scrolling
+
+  Scenario Outline: The catalog adapts its columns to the screen
+    Given a viewport of <width> by 800 pixels
+    When I visit "/servicios"
+    Then the first row of the catalog has <columns> cards
+
+    Examples:
+      | width | columns |
+      | 360   | 1       |
+      | 800   | 2       |
+      | 1280  | 3       |
